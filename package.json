@@ -37,5 +37,9 @@
     "biome-fix": "npm run biome-check --write",
     "typecheck": "tsc",
     "prepare": "husky"
+  },
+  "dependencies": {
+    "@fnando/cpf": "^1.0.2",
+    "zod": "^4.1.12"
   }
 }

@@ -1,11 +1,12 @@
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
 
-export type ErrorCode = "invalidInput" | "databaseError";
+export type ErrorCode = "invalidInput" | "databaseError" | "resourceNotFound";
 
 export class AppError extends Error {
   static readonly errorToStatus: Record<ErrorCode, StatusCodes> = {
     invalidInput: StatusCodes.UNPROCESSABLE_ENTITY,
     databaseError: StatusCodes.INTERNAL_SERVER_ERROR,
+    resourceNotFound: StatusCodes.NOT_FOUND,
   };
 
   readonly code: ErrorCode;

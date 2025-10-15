@@ -1,0 +1,14 @@
+{
+  "name": "case-tecnico-arkmeds",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "author": "Mike Valeriano <mkvlrn@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mkvlrn/case-tecnico-arkmeds"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}

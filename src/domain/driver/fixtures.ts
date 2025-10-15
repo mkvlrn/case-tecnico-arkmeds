@@ -1,5 +1,6 @@
 import type { CreateDriverSchema } from "@/adapters/api/driver/create-driver.schema";
 import type { Driver } from "@/domain/driver/driver.entity";
+import type { PaginationResult } from "@/domain/utils/pagination-result";
 
 export const validDriverInput = {
   name: "Test Driver",
@@ -15,3 +16,10 @@ export const validDriverOutput = {
   id: "test-id",
   ...validDriverInput,
 } satisfies Driver;
+
+export const validDriverPaginationResult = {
+  total: 1,
+  totalPages: 1,
+  page: 1,
+  items: [validDriverOutput],
+} satisfies PaginationResult<Driver>;

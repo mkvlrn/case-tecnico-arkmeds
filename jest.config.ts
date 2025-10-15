@@ -3,11 +3,12 @@ import { createDefaultEsmPreset } from "ts-jest";
 
 export default {
   ...createDefaultEsmPreset(),
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: ["src/**/*.ts"],
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   passWithNoTests: true,
+  verbose: true,
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
   },

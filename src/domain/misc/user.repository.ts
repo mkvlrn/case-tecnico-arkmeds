@@ -6,6 +6,6 @@ export interface UserRepository<T, S = never> {
   getAll(page: number): AsyncResult<T[], AppError>;
   getById(id: string): AsyncResult<T, AppError>;
   update(id: string, input: S): AsyncResult<T, AppError>;
-  delete(id: string): AsyncResult<void, AppError>;
+  delete(id: string): AsyncResult<true, AppError>;
   count(): AsyncResult<number, AppError>;
 }

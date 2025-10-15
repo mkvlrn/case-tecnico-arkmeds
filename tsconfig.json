@@ -4,8 +4,8 @@
     "noEmit": true,
 
     // some typescript QOL
-    "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true,
+    // "allowImportingTsExtensions": true,
+    // "rewriteRelativeImportExtensions": false,
 
     // very strict
     "allowJs": false,
@@ -22,8 +22,8 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "lib": ["ESNext"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "moduleDetection": "force",
     "target": "esnext",
 

@@ -7,6 +7,10 @@
     "declaration": false
   },
 
+  "tsc-alias": {
+    "resolveFullPaths": true
+  },
+
   "include": ["./src", "./*.d.ts"],
   "exclude": ["node_modules", "./src/**/*.test.ts", "./src/**/*.spec.ts"]
 }

@@ -1,4 +1,4 @@
-import type { User } from "@/domain/misc/user.entity";
+import type { User } from "@/domain/user/user.entity";
 
 export interface Driver extends User {
   vehicle: string;

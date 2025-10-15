@@ -8,4 +8,7 @@ export default {
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   passWithNoTests: true,
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
 } satisfies Config;

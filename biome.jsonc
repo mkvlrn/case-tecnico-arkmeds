@@ -51,6 +51,18 @@
   },
   "overrides": [
     {
+      // using bundler module resolution, no need for extensions on imports from path alias
+      "includes": ["**/*.ts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "useImportExtensions": "off"
+          }
+        }
+      }
+    },
+
+    {
       // because of typescript's noPropertyAccessFromIndexSignature
       "includes": ["**/*"],
       "linter": {

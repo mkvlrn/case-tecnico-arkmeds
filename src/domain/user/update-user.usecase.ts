@@ -1,5 +1,9 @@
-import type { CreateDriverSchema } from "@/adapters/api/driver/create-driver.schema";
+import type {
+  CreateDriverSchema,
+  CreatePassengerSchema,
+} from "@/adapters/api/user/create-user.schema";
 import type { Driver } from "@/domain/user/driver.entity";
+import type { Passenger } from "@/domain/user/passenger.entity";
 import type { UserRepository } from "@/domain/user/user.repository";
 import type { AppError } from "@/domain/utils/app-error";
 import { type AsyncResult, R } from "@/domain/utils/result";
@@ -22,3 +26,5 @@ export class UpdateUserUseCase<T, S> {
 }
 
 export class UpdateDriverUseCase extends UpdateUserUseCase<Driver, CreateDriverSchema> {}
+
+export class UpdatePassengerUseCase extends UpdateUserUseCase<Passenger, CreatePassengerSchema> {}

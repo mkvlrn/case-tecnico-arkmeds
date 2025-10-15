@@ -1,4 +1,5 @@
 import type { Driver } from "@/domain/user/driver.entity";
+import type { Passenger } from "@/domain/user/passenger.entity";
 import type { UserRepository } from "@/domain/user/user.repository";
 import type { AppError } from "@/domain/utils/app-error";
 import type { PaginationResult } from "@/domain/utils/pagination-result";
@@ -32,3 +33,5 @@ export class GetAllUsersUseCase<T> {
 }
 
 export class GetAllDriversUseCase extends GetAllUsersUseCase<Driver> {}
+
+export class GetAllPassengersUseCase extends GetAllUsersUseCase<Passenger> {}

@@ -8,7 +8,6 @@ const CreateUserSchema = z.strictObject({
   gender: z.enum(["male", "female", "other", "undisclosed"]),
   address: z.string().min(10).max(255),
   phone: z.string().min(10).max(255),
-  vehicle: z.string().min(10).max(255),
 });
 
 export const CreateDriverSchema = z.strictObject({

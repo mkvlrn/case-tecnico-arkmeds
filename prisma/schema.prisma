@@ -17,7 +17,7 @@ enum Gender {
 }
 
 model Driver {
-  id      String @id
+  id      String @id @default(cuid())
   name    String
   cpf     String
   age     Int
@@ -28,7 +28,7 @@ model Driver {
 }
 
 model Passenger {
-  id                    String  @id
+  id                    String  @id @default(cuid())
   name                  String
   cpf                   String
   age                   Int

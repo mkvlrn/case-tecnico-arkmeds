@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@fnando/cpf": "^1.0.2",
+    "http-status-codes": "^2.3.0",
     "zod": "^4.1.12"
   }
 }

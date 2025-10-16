@@ -76,7 +76,7 @@ export class DriverPrismaRepo implements DriverRepository {
     try {
       const driver = await this.prisma.driver.update({
         where: { id },
-        data: input,
+        data: { ...input, dateOfBirth: new Date(input.dateOfBirth) },
       });
       return R.ok({ ...driver, dateOfBirth: driver.dateOfBirth.toISOString().slice(0, 10) });
     } catch (error) {

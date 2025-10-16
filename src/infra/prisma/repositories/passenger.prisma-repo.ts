@@ -15,7 +15,9 @@ export class PassengerPrismaRepo implements PassengerRepository {
 
   async create(input: CreatePassengerSchema): AsyncResult<Passenger, AppError> {
     try {
-      const passenger = await this.prisma.passenger.create({ data: input });
+      const passenger = await this.prisma.passenger.create({
+        data: { ...input, dateOfBirth: new Date(input.dateOfBirth) },
+      });
       return R.ok({ ...passenger, dateOfBirth: passenger.dateOfBirth.toISOString().slice(0, 10) });
     } catch (error) {
       return this.returnError(error);
@@ -73,7 +75,7 @@ export class PassengerPrismaRepo implements PassengerRepository {
     try {
       const passenger = await this.prisma.passenger.update({
         where: { id },
-        data: input,
+        data: { ...input, dateOfBirth: new Date(input.dateOfBirth) },
       });
       return R.ok({ ...passenger, dateOfBirth: passenger.dateOfBirth.toISOString().slice(0, 10) });
     } catch (error) {

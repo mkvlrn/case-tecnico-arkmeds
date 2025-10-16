@@ -17,6 +17,7 @@ beforeEach(() => {
 
 test("should return a valid updated passenger", async () => {
   repo.getById.mockResolvedValue(R.ok(validPassengerOutput));
+  repo.getByCpf.mockResolvedValue(R.ok(null));
   repo.update.mockResolvedValue(R.ok(validPassengerOutput));
 
   const result = await usecase.execute("test-id", validPassengerInput);
@@ -35,9 +36,35 @@ test("should return an error if repository fails to check for existing passenger
   expect(result.error).toStrictEqual(expectedError);
 });
 
+test("should return an error if updated cpf already exists", async () => {
+  const expectedError = new AppError(
+    "resourceConflict",
+    `passenger with cpf ${validPassengerInput.cpf} already exists`,
+  );
+  repo.getById.mockResolvedValue(R.ok(validPassengerOutput));
+  repo.getByCpf.mockResolvedValue(R.ok(validPassengerOutput));
+
+  const result = await usecase.execute("test-id", validPassengerInput);
+
+  assert(result.isError);
+  expect(result.error).toStrictEqual(expectedError);
+});
+
+test("should return an error if cpf conflict check throws", async () => {
+  const expectedError = new AppError("databaseError", "database exploded");
+  repo.getById.mockResolvedValue(R.ok(validPassengerOutput));
+  repo.getByCpf.mockResolvedValue(R.error(expectedError));
+
+  const result = await usecase.execute("test-id", validPassengerInput);
+
+  assert(result.isError);
+  expect(result.error).toStrictEqual(expectedError);
+});
+
 test("should return an error if repository fails to create passenger", async () => {
   const expectedError = new AppError("databaseError", "database exploded");
   repo.getById.mockResolvedValue(R.ok(validPassengerOutput));
+  repo.getByCpf.mockResolvedValue(R.ok(null));
   repo.update.mockResolvedValue(R.error(expectedError));
 
   const result = await usecase.execute("test-id", validPassengerInput);

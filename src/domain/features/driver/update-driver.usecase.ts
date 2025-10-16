@@ -2,7 +2,7 @@ import type { CreateDriverSchema } from "@/adapters/api/validation-schemas/drive
 import type { Driver } from "@/domain/features/driver/driver.model";
 import type { DriverRepository } from "@/domain/features/driver/driver.repository";
 
-import type { AppError } from "@/domain/utils/app-error";
+import { AppError } from "@/domain/utils/app-error";
 import { type AsyncResult, R } from "@/domain/utils/result";
 
 export class UpdateDriverUseCase {
@@ -16,6 +16,16 @@ export class UpdateDriverUseCase {
     const existing = await this.driverRepository.getById(id);
     if (existing.isError) {
       return R.error(existing.error);
+    }
+
+    const conflict = await this.driverRepository.getByCpf(input.cpf);
+    if (conflict.isError) {
+      return R.error(conflict.error);
+    }
+    if (conflict.isOk && conflict.value !== null) {
+      return R.error(
+        new AppError("resourceConflict", `driver with cpf ${input.cpf} already exists`),
+      );
     }
 
     return await this.driverRepository.update(id, input);

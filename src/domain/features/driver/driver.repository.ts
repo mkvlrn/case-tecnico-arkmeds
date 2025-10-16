@@ -7,6 +7,7 @@ export interface DriverRepository {
   create(input: CreateDriverSchema): AsyncResult<Driver, AppError>;
   getAll(page: number): AsyncResult<Driver[], AppError>;
   getById(id: string): AsyncResult<Driver | null, AppError>;
+  getByCpf(cpf: string): AsyncResult<Driver | null, AppError>;
   update(id: string, input: CreateDriverSchema): AsyncResult<Driver, AppError>;
   delete(id: string): AsyncResult<true, AppError>;
   count(): AsyncResult<number, AppError>;

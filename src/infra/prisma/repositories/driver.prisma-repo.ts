@@ -57,6 +57,21 @@ export class DriverPrismaRepo implements DriverRepository {
     }
   }
 
+  async getByCpf(cpf: string): AsyncResult<Driver | null, AppError> {
+    try {
+      const driver = await this.prisma.driver.findUnique({
+        where: { cpf },
+      });
+      return R.ok(
+        driver !== null
+          ? { ...driver, dateOfBirth: driver.dateOfBirth.toISOString().slice(0, 10) }
+          : null,
+      );
+    } catch (error) {
+      return this.returnError(error);
+    }
+  }
+
   async update(id: string, input: CreateDriverSchema): AsyncResult<Driver, AppError> {
     try {
       const driver = await this.prisma.driver.update({

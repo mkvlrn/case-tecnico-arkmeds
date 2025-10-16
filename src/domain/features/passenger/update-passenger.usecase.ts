@@ -2,7 +2,7 @@ import type { CreatePassengerSchema } from "@/adapters/api/validation-schemas/pa
 import type { Passenger } from "@/domain/features/passenger/passenger.model";
 import type { PassengerRepository } from "@/domain/features/passenger/passenger.repository";
 
-import type { AppError } from "@/domain/utils/app-error";
+import { AppError } from "@/domain/utils/app-error";
 import { type AsyncResult, R } from "@/domain/utils/result";
 
 export class UpdatePassengerUseCase {
@@ -16,6 +16,16 @@ export class UpdatePassengerUseCase {
     const existing = await this.passengerRepository.getById(id);
     if (existing.isError) {
       return R.error(existing.error);
+    }
+
+    const conflict = await this.passengerRepository.getByCpf(input.cpf);
+    if (conflict.isError) {
+      return R.error(conflict.error);
+    }
+    if (conflict.isOk && conflict.value !== null) {
+      return R.error(
+        new AppError("resourceConflict", `passenger with cpf ${input.cpf} already exists`),
+      );
     }
 
     return await this.passengerRepository.update(id, input);

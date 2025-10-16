@@ -54,6 +54,21 @@ export class PassengerPrismaRepo implements PassengerRepository {
     }
   }
 
+  async getByCpf(cpf: string): AsyncResult<Passenger | null, AppError> {
+    try {
+      const passenger = await this.prisma.passenger.findUnique({
+        where: { cpf },
+      });
+      return R.ok(
+        passenger !== null
+          ? { ...passenger, dateOfBirth: passenger.dateOfBirth.toISOString().slice(0, 10) }
+          : null,
+      );
+    } catch (error) {
+      return this.returnError(error);
+    }
+  }
+
   async update(id: string, input: CreatePassengerSchema): AsyncResult<Passenger, AppError> {
     try {
       const passenger = await this.prisma.passenger.update({

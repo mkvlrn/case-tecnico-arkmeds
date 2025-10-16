@@ -100,6 +100,40 @@ describe("getById", () => {
   });
 });
 
+describe("getByCpf", () => {
+  test("should return a driver by a given cpf", async () => {
+    prisma.driver.findUnique.mockResolvedValue({
+      ...validDriverOutput,
+      dateOfBirth: new Date(validDriverOutput.dateOfBirth),
+    });
+
+    const result = await repo.getByCpf("test-cpf");
+
+    assert(result.isOk);
+    expect(result.value).toStrictEqual(validDriverOutput);
+  });
+
+  test("should return null normally", async () => {
+    prisma.driver.findUnique.mockResolvedValue(null);
+
+    const result = await repo.getByCpf("test-cpf");
+
+    assert(result.isOk);
+    expect(result.value).toBeNull();
+  });
+
+  test("should return error if prisma throws", async () => {
+    prisma.driver.findUnique.mockRejectedValue(new Error("test error"));
+
+    const result = await repo.getByCpf("test-cpf");
+
+    assert(result.isError);
+    expect(result.error).toBeInstanceOf(AppError);
+    expect(result.error.message).toBe("test error");
+    expect(result.error.code).toBe("databaseError");
+  });
+});
+
 describe("update", () => {
   test("should update and return a valid driver", async () => {
     prisma.driver.update.mockResolvedValue({

@@ -100,6 +100,40 @@ describe("getById", () => {
   });
 });
 
+describe("getByCpf", () => {
+  test("should return a passenger by a given id", async () => {
+    prisma.passenger.findUnique.mockResolvedValue({
+      ...validPassengerOutput,
+      dateOfBirth: new Date(validPassengerOutput.dateOfBirth),
+    });
+
+    const result = await repo.getByCpf("test-cpf");
+
+    assert(result.isOk);
+    expect(result.value).toStrictEqual(validPassengerOutput);
+  });
+
+  test("should return null normally", async () => {
+    prisma.passenger.findUnique.mockResolvedValue(null);
+
+    const result = await repo.getByCpf("test-cpf");
+
+    assert(result.isOk);
+    expect(result.value).toBeNull();
+  });
+
+  test("should return error if prisma throws", async () => {
+    prisma.passenger.findUnique.mockRejectedValue(new Error("test error"));
+
+    const result = await repo.getByCpf("test-cpf");
+
+    assert(result.isError);
+    expect(result.error).toBeInstanceOf(AppError);
+    expect(result.error.message).toBe("test error");
+    expect(result.error.code).toBe("databaseError");
+  });
+});
+
 describe("update", () => {
   test("should update and return a valid passenger", async () => {
     prisma.passenger.update.mockResolvedValue({

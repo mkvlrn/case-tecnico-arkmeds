@@ -1,33 +1,33 @@
 import assert from "node:assert/strict";
 import { beforeEach, expect, test } from "@jest/globals";
 import { type MockProxy, mock } from "jest-mock-extended";
-import { validDriverOutput } from "@/domain/__fixtures";
-import type { DriverRepository } from "@/domain/features/driver/driver.repository";
-import { GetDriverByIdUseCase } from "@/domain/features/driver/get-driver-by-id.usecase";
+import { validPassengerOutput } from "@/domain/__fixtures";
+import { GetPassengerByIdUseCase } from "@/domain/features/passenger/get-passenger-by-id.usecase";
+import type { PassengerRepository } from "@/domain/features/passenger/passenger.repository";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";
 
-let repo: MockProxy<DriverRepository>;
-let usecase: GetDriverByIdUseCase;
+let repo: MockProxy<PassengerRepository>;
+let usecase: GetPassengerByIdUseCase;
 
 beforeEach(() => {
-  repo = mock<DriverRepository>();
-  usecase = new GetDriverByIdUseCase(repo);
+  repo = mock<PassengerRepository>();
+  usecase = new GetPassengerByIdUseCase(repo);
 });
 
-test("should return a valid driver", async () => {
-  repo.getById.mockResolvedValue(R.ok(validDriverOutput));
+test("should return a valid passenger", async () => {
+  repo.getById.mockResolvedValue(R.ok(validPassengerOutput));
 
   const result = await usecase.execute("test-id");
 
   assert(result.isOk);
-  expect(result.value).toStrictEqual(validDriverOutput);
+  expect(result.value).toStrictEqual(validPassengerOutput);
 });
 
-test("should return an error if driver is not found", async () => {
+test("should return an error if passenger is not found", async () => {
   const expectedError = new AppError(
     "resourceNotFound",
-    "driver with id non-existent-id not found",
+    "passenger with id non-existent-id not found",
   );
   repo.getById.mockResolvedValue(R.ok(null));
 
@@ -37,7 +37,7 @@ test("should return an error if driver is not found", async () => {
   expect(result.error).toStrictEqual(expectedError);
 });
 
-test("should return an error if repository fails to get driver", async () => {
+test("should return an error if repository fails to get passenger", async () => {
   const expectedError = new AppError("databaseError", "database exploded");
   repo.getById.mockResolvedValue(R.error(expectedError));
 

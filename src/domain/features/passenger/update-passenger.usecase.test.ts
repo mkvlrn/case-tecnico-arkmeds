@@ -1,0 +1,47 @@
+import assert from "node:assert/strict";
+import { beforeEach, expect, test } from "@jest/globals";
+import { type MockProxy, mock } from "jest-mock-extended";
+import { validPassengerInput, validPassengerOutput } from "@/domain/__fixtures";
+import type { PassengerRepository } from "@/domain/features/passenger/passenger.repository";
+import { UpdatePassengerUseCase } from "@/domain/features/passenger/update-passenger.usecase";
+import { AppError } from "@/domain/utils/app-error";
+import { R } from "@/domain/utils/result";
+
+let repo: MockProxy<PassengerRepository>;
+let usecase: UpdatePassengerUseCase;
+
+beforeEach(() => {
+  repo = mock<PassengerRepository>();
+  usecase = new UpdatePassengerUseCase(repo);
+});
+
+test("should return a valid updated passenger", async () => {
+  repo.getById.mockResolvedValue(R.ok(validPassengerOutput));
+  repo.update.mockResolvedValue(R.ok(validPassengerOutput));
+
+  const result = await usecase.execute("test-id", validPassengerInput);
+
+  assert(result.isOk);
+  expect(result.value).toStrictEqual(validPassengerOutput);
+});
+
+test("should return an error if repository fails to check for existing passenger", async () => {
+  const expectedError = new AppError("databaseError", "database exploded");
+  repo.getById.mockResolvedValue(R.error(expectedError));
+
+  const result = await usecase.execute("test-id", validPassengerInput);
+
+  assert(result.isError);
+  expect(result.error).toStrictEqual(expectedError);
+});
+
+test("should return an error if repository fails to create passenger", async () => {
+  const expectedError = new AppError("databaseError", "database exploded");
+  repo.getById.mockResolvedValue(R.ok(validPassengerOutput));
+  repo.update.mockResolvedValue(R.error(expectedError));
+
+  const result = await usecase.execute("test-id", validPassengerInput);
+
+  assert(result.isError);
+  expect(result.error).toStrictEqual(expectedError);
+});

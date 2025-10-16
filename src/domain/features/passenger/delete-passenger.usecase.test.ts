@@ -1,22 +1,22 @@
 import assert from "node:assert/strict";
 import { beforeEach, expect, test } from "@jest/globals";
 import { type MockProxy, mock } from "jest-mock-extended";
-import { validDriverOutput } from "@/domain/__fixtures";
-import { DeleteDriverUseCase } from "@/domain/features/driver/delete-driver.usecase";
-import type { DriverRepository } from "@/domain/features/driver/driver.repository";
+import { validPassengerOutput } from "@/domain/__fixtures";
+import { DeletePassengerUseCase } from "@/domain/features/passenger/delete-passenger.usecase";
+import type { PassengerRepository } from "@/domain/features/passenger/passenger.repository";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";
 
-let repo: MockProxy<DriverRepository>;
-let usecase: DeleteDriverUseCase;
+let repo: MockProxy<PassengerRepository>;
+let usecase: DeletePassengerUseCase;
 
 beforeEach(() => {
-  repo = mock<DriverRepository>();
-  usecase = new DeleteDriverUseCase(repo);
+  repo = mock<PassengerRepository>();
+  usecase = new DeletePassengerUseCase(repo);
 });
 
-test("should delete a driver successfully", async () => {
-  repo.getById.mockResolvedValue(R.ok(validDriverOutput));
+test("should delete a passenger successfully", async () => {
+  repo.getById.mockResolvedValue(R.ok(validPassengerOutput));
   repo.delete.mockResolvedValue(R.ok(true));
 
   const result = await usecase.execute("test-id");
@@ -25,10 +25,10 @@ test("should delete a driver successfully", async () => {
   expect(result.value).toBeTruthy();
 });
 
-test("should return an error if driver is not found", async () => {
+test("should return an error if passenger is not found", async () => {
   const expectedError = new AppError(
     "resourceNotFound",
-    "driver with id non-existent-id not found",
+    "passenger with id non-existent-id not found",
   );
   repo.getById.mockResolvedValue(R.error(expectedError));
 
@@ -38,9 +38,9 @@ test("should return an error if driver is not found", async () => {
   expect(result.error).toStrictEqual(expectedError);
 });
 
-test("should return an error if repository fails to delete driver", async () => {
+test("should return an error if repository fails to delete passenger", async () => {
   const expectedError = new AppError("databaseError", "database exploded");
-  repo.getById.mockResolvedValue(R.ok(validDriverOutput));
+  repo.getById.mockResolvedValue(R.ok(validPassengerOutput));
   repo.delete.mockResolvedValue(R.error(expectedError));
 
   const result = await usecase.execute("test-id");

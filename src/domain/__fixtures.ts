@@ -2,7 +2,6 @@ import type { CreateDriverSchema } from "@/adapters/api/validation-schemas/drive
 import type { CreatePassengerSchema } from "@/adapters/api/validation-schemas/passenger.schema";
 import type { Driver } from "@/domain/features/driver/driver.model";
 import type { Passenger } from "@/domain/features/passenger/passenger.model";
-import { PaginationResult } from "@/domain/utils/pagination-result";
 
 export const validDriverInput = {
   name: "Test Driver",
@@ -18,8 +17,6 @@ export const validDriverOutput = {
   id: "test-id",
   ...validDriverInput,
 } satisfies Driver;
-
-export const validPaginatedDriverOutput = new PaginationResult<Driver>(1, 1, [validDriverOutput]);
 
 export const validPassengerInput = {
   name: "Test Driver",

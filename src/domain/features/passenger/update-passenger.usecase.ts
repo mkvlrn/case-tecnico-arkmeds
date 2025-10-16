@@ -25,7 +25,7 @@ export class UpdatePassengerUseCase {
     if (conflict.isError) {
       return R.error(conflict.error);
     }
-    if (conflict.value !== null && conflict.value.id === id) {
+    if (conflict.value !== null && conflict.value.cpf === input.cpf) {
       return R.error(
         new AppError("resourceConflict", `passenger with cpf ${input.cpf} already exists`),
       );

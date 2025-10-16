@@ -17,12 +17,15 @@ export class UpdatePassengerUseCase {
     if (existing.isError) {
       return R.error(existing.error);
     }
+    if (existing.value === null) {
+      return R.error(new AppError("resourceNotFound", `passenger with id ${id} not found`));
+    }
 
     const conflict = await this.passengerRepository.getByCpf(input.cpf);
     if (conflict.isError) {
       return R.error(conflict.error);
     }
-    if (conflict.isOk && conflict.value !== null) {
+    if (conflict.value !== null && conflict.value.id === id) {
       return R.error(
         new AppError("resourceConflict", `passenger with cpf ${input.cpf} already exists`),
       );

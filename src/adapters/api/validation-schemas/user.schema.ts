@@ -25,3 +25,4 @@ export const CreateUserSchema = z.strictObject({
     // biome-ignore lint/style/noNonNullAssertion: it's guaranteed to be a string if validated
     .transform((phone) => phoneValidation(phone).phoneNumber!),
 });
+export type CreateUserSchema = z.infer<typeof CreateUserSchema>;

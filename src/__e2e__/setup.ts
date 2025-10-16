@@ -30,6 +30,19 @@ export async function seed(prisma: PrismaClient) {
       vehicle: `Test Vehicle ${index + 1}`,
     })),
   });
+
+  await prisma.passenger.createMany({
+    data: cuidCpfGender.map(([cuid, cpf, gender], index) => ({
+      id: cuid,
+      name: `Test Passenger ${index + 1}`,
+      cpf,
+      gender,
+      address: `Test Address ${index + 1 + 10}`,
+      phone: `+55219999999${(index + 1).toString().padStart(2, "0")}`,
+      dateOfBirth: new Date(`1999-01-${(index + 1).toString().padStart(2, "0")}`),
+      prefersNoConversation: true,
+    })),
+  });
 }
 
 export function init(url: string) {

@@ -76,9 +76,8 @@
     },
 
     {
-      // test files, config files, and some scripts
-      // should be able to import from node
-      "includes": ["**/*.config.ts", "**/*.test.ts", "**/*.spec.ts"],
+      // importing from node is fine everywhere
+      "includes": ["**/*"],
       "linter": {
         "rules": {
           "correctness": {

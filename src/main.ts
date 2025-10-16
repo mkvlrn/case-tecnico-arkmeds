@@ -1,4 +1,3 @@
-// biome-ignore lint/correctness/noNodejsModules: for shutdown only
 import process from "node:process";
 import { ENV } from "varlock/env";
 import { getServer } from "@/adapters/api/server";

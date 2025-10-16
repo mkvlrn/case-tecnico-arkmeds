@@ -1,0 +1,137 @@
+import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
+import { StatusCodes } from "http-status-codes";
+import supertest, { type Agent } from "supertest";
+import { createDriver } from "@/__e2e__/fixtures/create-driver.fixtures";
+import { deleteDriver } from "@/__e2e__/fixtures/delete-driver.fixtures";
+import { getAllDrivers } from "@/__e2e__/fixtures/get-all-drivers.fixtures";
+import { getDriverById } from "@/__e2e__/fixtures/get-driver-by-id.fixtures";
+import { updateDriver } from "@/__e2e__/fixtures/update-driver.fixtures";
+
+import { init, seed } from "@/__e2e__/setup";
+import { getServer } from "@/adapters/api/server";
+import { PrismaClient } from "@/generated/prisma/client";
+
+const TEST_HOOK_TIMEOUT = 30_000;
+
+let db: StartedPostgreSqlContainer;
+let prisma: PrismaClient;
+let server: Agent;
+
+beforeAll(async () => {
+  db = await new PostgreSqlContainer("postgres:alpine").start();
+  const prismaPg = new PrismaPg({ connectionString: db.getConnectionUri() });
+  prisma = new PrismaClient({ adapter: prismaPg });
+  init(db.getConnectionUri());
+  await seed(prisma);
+  server = supertest(getServer(prisma));
+}, TEST_HOOK_TIMEOUT);
+
+afterAll(async () => {
+  await prisma.$disconnect();
+  await db.stop();
+});
+
+describe("POST /drivers", () => {
+  test("should create a driver", async () => {
+    const response = await server
+      .post("/drivers")
+      .set("Content-Type", "application/json")
+      .send(JSON.stringify(createDriver.success.input));
+
+    expect(response.status).toBe(StatusCodes.CREATED);
+    expect(response.body).toStrictEqual(createDriver.success.output);
+  });
+
+  test.each(createDriver.fail)("should fail on $spec", async ({ input, error, statusCode }) => {
+    const response = await server
+      .post("/drivers")
+      .set("Content-Type", "application/json")
+      .send(JSON.stringify(input));
+
+    expect(response.status).toStrictEqual(statusCode);
+    expect(response.body).toStrictEqual(error);
+  });
+});
+
+describe("GET /drivers", () => {
+  test.each(getAllDrivers.success)("should get all drivers - $spec", async ({ query, output }) => {
+    const response = await server.get("/drivers").query(query);
+
+    expect(response.status).toBe(StatusCodes.OK);
+    expect(response.body).toMatchObject(output);
+  });
+
+  test.each(getAllDrivers.fail)("should fail on $spec", async ({ query, error, statusCode }) => {
+    const response = await server.get("/drivers").query(query);
+
+    expect(response.status).toStrictEqual(statusCode);
+    expect(response.body).toStrictEqual(error);
+  });
+});
+
+describe("GET /drivers/:id", () => {
+  test("should get an existing driver", async () => {
+    const response = await server
+      .get("/drivers/okmclejrj1xegofrbc164ie0")
+      .set("Content-Type", "application/json");
+
+    expect(response.status).toBe(StatusCodes.OK);
+    expect(response.body).toStrictEqual(getDriverById.success.output);
+  });
+
+  test("should receive 404 when driver does not exist", async () => {
+    const response = await server
+      .get("/drivers/very-wrong-id")
+      .set("Content-Type", "application/json");
+
+    expect(response.status).toBe(StatusCodes.NOT_FOUND);
+    expect(response.body).toStrictEqual(getDriverById.fail.error);
+  });
+});
+
+describe("PUT /drivers/:id", () => {
+  test("should update an existing driver", async () => {
+    const response = await server
+      .put(`/drivers/${updateDriver.success.id}`)
+      .set("Content-Type", "application/json")
+      .send(JSON.stringify(updateDriver.success.input));
+
+    expect(response.status).toBe(StatusCodes.OK);
+    expect(response.body).toStrictEqual(updateDriver.success.output);
+  });
+
+  test.each(updateDriver.fail)(
+    "should fail on $spec",
+    async ({ spec, id, input, error, statusCode }) => {
+      const response = await server
+        .put(`/drivers/${id}`)
+        .set("Content-Type", "application/json")
+        .send(JSON.stringify(input));
+
+      expect(response.status).toStrictEqual(statusCode);
+      expect(response.body).toStrictEqual(error);
+    },
+  );
+});
+
+describe("DELETE /drivers/:id", () => {
+  test("should delete an existing driver", async () => {
+    const response = await server
+      .delete(`/drivers/${deleteDriver.success.id}`)
+      .set("Content-Type", "application/json");
+
+    expect(response.status).toBe(StatusCodes.NO_CONTENT);
+    expect(response.body).toStrictEqual({});
+  });
+
+  test("should receive 404 when driver does not exist", async () => {
+    const response = await server
+      .delete("/drivers/very-wrong-id")
+      .set("Content-Type", "application/json");
+
+    expect(response.status).toBe(StatusCodes.NOT_FOUND);
+    expect(response.body).toStrictEqual(deleteDriver.fail.error);
+  });
+});

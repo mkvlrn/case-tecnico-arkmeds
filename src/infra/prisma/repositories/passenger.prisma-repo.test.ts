@@ -79,6 +79,15 @@ describe("getById", () => {
     expect(result.value).toStrictEqual(validPassengerOutput);
   });
 
+  test("should return null normally", async () => {
+    prisma.passenger.findUnique.mockResolvedValue(null);
+
+    const result = await repo.getById("test-id");
+
+    assert(result.isOk);
+    expect(result.value).toBeNull();
+  });
+
   test("should return error if prisma throws", async () => {
     prisma.passenger.findUnique.mockRejectedValue(new Error("test error"));
 

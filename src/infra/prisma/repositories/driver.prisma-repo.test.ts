@@ -79,6 +79,15 @@ describe("getById", () => {
     expect(result.value).toStrictEqual(validDriverOutput);
   });
 
+  test("should return null normally", async () => {
+    prisma.driver.findUnique.mockResolvedValue(null);
+
+    const result = await repo.getById("test-id");
+
+    assert(result.isOk);
+    expect(result.value).toBeNull();
+  });
+
   test("should return error if prisma throws", async () => {
     prisma.driver.findUnique.mockRejectedValue(new Error("test error"));
 

@@ -1,5 +1,5 @@
 import type { DriverRepository } from "@/domain/features/driver/driver.repository";
-import type { AppError } from "@/domain/utils/app-error";
+import { AppError } from "@/domain/utils/app-error";
 import { type AsyncResult, R } from "@/domain/utils/result";
 
 export class DeleteDriverUseCase {
@@ -13,6 +13,9 @@ export class DeleteDriverUseCase {
     const existing = await this.driverRepository.getById(id);
     if (existing.isError) {
       return R.error(existing.error);
+    }
+    if (existing.value === null) {
+      return R.error(new AppError("resourceNotFound", `driver with id ${id} not found`));
     }
 
     return await this.driverRepository.delete(id);

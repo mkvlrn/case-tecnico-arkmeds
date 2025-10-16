@@ -22,5 +22,6 @@ export const CreateUserSchema = z.strictObject({
   phone: z
     .string()
     .refine((phone) => phoneValidation(phone).isValid, { error: USER_VALIDATION.phone.message })
-    .transform((phone) => phoneValidation(phone).phoneNumber ?? ""),
+    // biome-ignore lint/style/noNonNullAssertion: it's guaranteed to be a string if validated
+    .transform((phone) => phoneValidation(phone).phoneNumber!),
 });

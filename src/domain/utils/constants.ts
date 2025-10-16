@@ -36,3 +36,10 @@ export const USER_VALIDATION = {
     message: "'prefersNoConversation' must be a boolean",
   },
 };
+
+export const PAGINATION_VALIDATION = {
+  page: {
+    min: 1,
+    message: "'page' must be a positive integer",
+  },
+};

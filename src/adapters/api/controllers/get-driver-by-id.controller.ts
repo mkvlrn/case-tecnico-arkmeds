@@ -1,9 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import type { Driver } from "@/domain/features/driver/driver.model";
 import type { GetDriverByIdUseCase } from "@/domain/features/driver/get-driver-by-id.usecase";
 
-type CustomRequest = Request<{ id: string }, Driver, unknown>;
+type CustomRequest = Request<{ id: string }>;
 
 export class GetDriverByIdController {
   private readonly usecase: GetDriverByIdUseCase;

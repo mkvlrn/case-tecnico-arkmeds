@@ -1,13 +1,13 @@
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import type { DeleteDriverUseCase } from "@/domain/features/driver/delete-driver.usecase";
+import type { DeletePassengerUseCase } from "@/domain/features/passenger/delete-passenger.usecase";
 
 type CustomRequest = Request<{ id: string }>;
 
-export class DeleteDriverController {
-  private readonly usecase: DeleteDriverUseCase;
+export class DeletePassengerController {
+  private readonly usecase: DeletePassengerUseCase;
 
-  constructor(usecase: DeleteDriverUseCase) {
+  constructor(usecase: DeletePassengerUseCase) {
     this.usecase = usecase;
   }
 

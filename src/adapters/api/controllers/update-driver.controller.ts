@@ -1,10 +1,9 @@
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import type { CreateDriverSchema } from "@/adapters/api/validation-schemas/driver.schema";
-import type { Driver } from "@/domain/features/driver/driver.model";
 import type { UpdateDriverUseCase } from "@/domain/features/driver/update-driver.usecase";
 
-type CustomRequest = Request<{ id: string }, Driver, CreateDriverSchema>;
+type CustomRequest = Request<{ id: string }, unknown, CreateDriverSchema>;
 
 export class UpdateDriverController {
   private readonly usecase: UpdateDriverUseCase;

@@ -1,13 +1,13 @@
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import type { DeleteDriverUseCase } from "@/domain/features/driver/delete-driver.usecase";
+import type { GetPassengerByIdUseCase } from "@/domain/features/passenger/get-passenger-by-id.usecase";
 
 type CustomRequest = Request<{ id: string }>;
 
-export class DeleteDriverController {
-  private readonly usecase: DeleteDriverUseCase;
+export class GetPassengerByIdController {
+  private readonly usecase: GetPassengerByIdUseCase;
 
-  constructor(usecase: DeleteDriverUseCase) {
+  constructor(usecase: GetPassengerByIdUseCase) {
     this.usecase = usecase;
   }
 
@@ -17,6 +17,6 @@ export class DeleteDriverController {
       return next(result.error);
     }
 
-    res.status(StatusCodes.NO_CONTENT).send();
+    res.status(StatusCodes.OK).json(result.value);
   }
 }

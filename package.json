@@ -16,6 +16,7 @@
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@jest/globals": "^30.2.0",
+    "@types/express": "^5.0.3",
     "@types/node": "^24.7.2",
     "cross-env": "^10.1.0",
     "husky": "^9.1.7",
@@ -44,6 +45,7 @@
     "@fnando/cpf": "^1.0.2",
     "@prisma/adapter-pg": "^6.17.1",
     "@prisma/client": "^6.17.1",
+    "express": "^5.1.0",
     "http-status-codes": "^2.3.0",
     "varlock": "^0.0.15",
     "zod": "^4.1.12"

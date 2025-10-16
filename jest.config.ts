@@ -5,7 +5,7 @@ export default {
   ...createDefaultEsmPreset(),
   collectCoverage: false,
   collectCoverageFrom: ["src/**/*.ts"],
-  coveragePathIgnorePatterns: ["src/generated", "src/.*\\.entity\\.ts$"],
+  coveragePathIgnorePatterns: ["src/generated"],
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   passWithNoTests: true,

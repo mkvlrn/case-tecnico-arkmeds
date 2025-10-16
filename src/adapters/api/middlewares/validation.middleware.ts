@@ -2,9 +2,11 @@ import type { NextFunction, Request, Response } from "express";
 import type { ZodType } from "zod";
 import { AppError } from "@/domain/utils/app-error";
 
-export function validation(schema: ZodType) {
+type Target = "body" | "query";
+
+export function validation(schema: ZodType, target: Target = "body") {
   return (req: Request, _res: Response, next: NextFunction) => {
-    const parsed = schema.safeParse({ body: req.body, query: req.query, params: req.params });
+    const parsed = schema.safeParse(req[target]);
     if (!parsed.success) {
       const details = parsed.error.issues.map((i) => ({
         [i.path.join(".")]: i.message.replaceAll('"', "'"),

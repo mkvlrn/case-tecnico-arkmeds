@@ -1,17 +1,15 @@
 import { expect, jest, test } from "@jest/globals";
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { validation } from "@/adapters/api/middleware/validation.middleware";
+import { validation } from "@/adapters/api/middlewares/validation.middleware";
 import { AppError } from "@/domain/utils/app-error";
 
 const schema = z.object({
-  body: z.object({ name: z.string() }),
-  query: z.object({}),
-  params: z.object({}),
+  name: z.string(),
 });
 
 test("should call next if validation succeeds", () => {
-  const req = { body: { name: "John" }, query: {}, params: {} } as Request;
+  const req = { body: { name: "Test" }, query: {} } as Request;
   const next = jest.fn();
 
   validation(schema)(req, {} as Response, next);

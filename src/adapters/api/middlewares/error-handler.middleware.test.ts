@@ -1,7 +1,7 @@
 import { expect, jest, test } from "@jest/globals";
 import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { errorHandler } from "@/adapters/api/middleware/error-handler.middleware";
+import { errorHandler } from "@/adapters/api/middlewares/error-handler.middleware";
 import { AppError } from "@/domain/utils/app-error";
 
 const res = {

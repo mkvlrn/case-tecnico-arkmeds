@@ -16,7 +16,10 @@ beforeEach(() => {
 
 describe("create", () => {
   test("should create and return a valid driver", async () => {
-    prisma.driver.create.mockResolvedValue(validDriverOutput);
+    prisma.driver.create.mockResolvedValue({
+      ...validDriverOutput,
+      dateOfBirth: new Date(validDriverOutput.dateOfBirth),
+    });
 
     const result = await repo.create(validDriverInput);
 
@@ -38,7 +41,12 @@ describe("create", () => {
 
 describe("getAll", () => {
   test("should return drivers", async () => {
-    prisma.driver.findMany.mockResolvedValue([validDriverOutput]);
+    prisma.driver.findMany.mockResolvedValue([
+      {
+        ...validDriverOutput,
+        dateOfBirth: new Date(validDriverOutput.dateOfBirth),
+      },
+    ]);
 
     const result = await repo.getAll(1);
 
@@ -60,7 +68,10 @@ describe("getAll", () => {
 
 describe("getById", () => {
   test("should return a driver by a given id", async () => {
-    prisma.driver.findUnique.mockResolvedValue(validDriverOutput);
+    prisma.driver.findUnique.mockResolvedValue({
+      ...validDriverOutput,
+      dateOfBirth: new Date(validDriverOutput.dateOfBirth),
+    });
 
     const result = await repo.getById("test-id");
 
@@ -82,7 +93,10 @@ describe("getById", () => {
 
 describe("update", () => {
   test("should update and return a valid driver", async () => {
-    prisma.driver.update.mockResolvedValue(validDriverOutput);
+    prisma.driver.update.mockResolvedValue({
+      ...validDriverOutput,
+      dateOfBirth: new Date(validDriverOutput.dateOfBirth),
+    });
 
     const result = await repo.update("test-id", validDriverInput);
 
@@ -104,7 +118,10 @@ describe("update", () => {
 
 describe("delete", () => {
   test("should delete a driver with a given id", async () => {
-    prisma.driver.delete.mockResolvedValue(validDriverOutput);
+    prisma.driver.delete.mockResolvedValue({
+      ...validDriverOutput,
+      dateOfBirth: new Date(validDriverOutput.dateOfBirth),
+    });
 
     const result = await repo.delete("test-id");
 

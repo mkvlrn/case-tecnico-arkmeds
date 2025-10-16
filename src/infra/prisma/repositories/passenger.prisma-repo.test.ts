@@ -16,7 +16,10 @@ beforeEach(() => {
 
 describe("create", () => {
   test("should create and return a valid passenger", async () => {
-    prisma.passenger.create.mockResolvedValue(validPassengerOutput);
+    prisma.passenger.create.mockResolvedValue({
+      ...validPassengerOutput,
+      dateOfBirth: new Date(validPassengerOutput.dateOfBirth),
+    });
 
     const result = await repo.create(validPassengerInput);
 
@@ -38,7 +41,12 @@ describe("create", () => {
 
 describe("getAll", () => {
   test("should return passengers", async () => {
-    prisma.passenger.findMany.mockResolvedValue([validPassengerOutput]);
+    prisma.passenger.findMany.mockResolvedValue([
+      {
+        ...validPassengerOutput,
+        dateOfBirth: new Date(validPassengerOutput.dateOfBirth),
+      },
+    ]);
 
     const result = await repo.getAll(1);
 
@@ -60,7 +68,10 @@ describe("getAll", () => {
 
 describe("getById", () => {
   test("should return a passenger by a given id", async () => {
-    prisma.passenger.findUnique.mockResolvedValue(validPassengerOutput);
+    prisma.passenger.findUnique.mockResolvedValue({
+      ...validPassengerOutput,
+      dateOfBirth: new Date(validPassengerOutput.dateOfBirth),
+    });
 
     const result = await repo.getById("test-id");
 
@@ -82,7 +93,10 @@ describe("getById", () => {
 
 describe("update", () => {
   test("should update and return a valid passenger", async () => {
-    prisma.passenger.update.mockResolvedValue(validPassengerOutput);
+    prisma.passenger.update.mockResolvedValue({
+      ...validPassengerOutput,
+      dateOfBirth: new Date(validPassengerOutput.dateOfBirth),
+    });
 
     const result = await repo.update("test-id", validPassengerInput);
 
@@ -104,7 +118,10 @@ describe("update", () => {
 
 describe("delete", () => {
   test("should delete a passenger with a given id", async () => {
-    prisma.passenger.delete.mockResolvedValue(validPassengerOutput);
+    prisma.passenger.delete.mockResolvedValue({
+      ...validPassengerOutput,
+      dateOfBirth: new Date(validPassengerOutput.dateOfBirth),
+    });
 
     const result = await repo.delete("test-id");
 

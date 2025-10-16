@@ -17,14 +17,14 @@ enum Gender {
 }
 
 model Driver {
-  id      String @id @default(cuid())
-  name    String
-  cpf     String
-  age     Int
-  gender  Gender
-  address String
-  phone   String
-  vehicle String
+  id          String   @id @default(cuid())
+  name        String
+  cpf         String
+  dateOfBirth DateTime
+  gender      Gender
+  address     String
+  phone       String
+  vehicle     String
 
   @@unique([cpf])
   @@index([cpf])
@@ -32,10 +32,10 @@ model Driver {
 }
 
 model Passenger {
-  id                    String  @id @default(cuid())
+  id                    String   @id @default(cuid())
   name                  String
   cpf                   String
-  age                   Int
+  dateOfBirth           DateTime
   gender                Gender
   address               String
   phone                 String

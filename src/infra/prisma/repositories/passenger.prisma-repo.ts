@@ -16,7 +16,7 @@ export class PassengerPrismaRepo implements PassengerRepository {
   async create(input: CreatePassengerSchema): AsyncResult<Passenger, AppError> {
     try {
       const passenger = await this.prisma.passenger.create({ data: input });
-      return R.ok(passenger);
+      return R.ok({ ...passenger, dateOfBirth: passenger.dateOfBirth.toISOString().slice(0, 10) });
     } catch (error) {
       return this.returnError(error);
     }
@@ -28,7 +28,12 @@ export class PassengerPrismaRepo implements PassengerRepository {
         skip: (page - 1) * USERS_PER_PAGE,
         take: USERS_PER_PAGE,
       });
-      return R.ok(passengers);
+      return R.ok(
+        passengers.map((passenger) => ({
+          ...passenger,
+          dateOfBirth: passenger.dateOfBirth.toISOString().slice(0, 10),
+        })),
+      );
     } catch (error) {
       return this.returnError(error);
     }
@@ -39,7 +44,11 @@ export class PassengerPrismaRepo implements PassengerRepository {
       const passenger = await this.prisma.passenger.findUnique({
         where: { id },
       });
-      return R.ok(passenger);
+      return R.ok(
+        passenger !== null
+          ? { ...passenger, dateOfBirth: passenger.dateOfBirth.toISOString().slice(0, 10) }
+          : null,
+      );
     } catch (error) {
       return this.returnError(error);
     }
@@ -51,7 +60,7 @@ export class PassengerPrismaRepo implements PassengerRepository {
         where: { id },
         data: input,
       });
-      return R.ok(passenger);
+      return R.ok({ ...passenger, dateOfBirth: passenger.dateOfBirth.toISOString().slice(0, 10) });
     } catch (error) {
       return this.returnError(error);
     }

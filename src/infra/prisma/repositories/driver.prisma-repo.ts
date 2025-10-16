@@ -16,8 +16,10 @@ export class DriverPrismaRepo implements DriverRepository {
 
   async create(input: CreateDriverSchema): AsyncResult<Driver, AppError> {
     try {
-      const driver = await this.prisma.driver.create({ data: input });
-      return R.ok(driver);
+      const driver = await this.prisma.driver.create({
+        data: { ...input, dateOfBirth: new Date(input.dateOfBirth) },
+      });
+      return R.ok({ ...driver, dateOfBirth: driver.dateOfBirth.toISOString().slice(0, 10) });
     } catch (error) {
       return this.returnError(error);
     }
@@ -29,7 +31,12 @@ export class DriverPrismaRepo implements DriverRepository {
         skip: (page - 1) * USERS_PER_PAGE,
         take: USERS_PER_PAGE,
       });
-      return R.ok(drivers);
+      return R.ok(
+        drivers.map((driver) => ({
+          ...driver,
+          dateOfBirth: driver.dateOfBirth.toISOString().slice(0, 10),
+        })),
+      );
     } catch (error) {
       return this.returnError(error);
     }
@@ -40,7 +47,11 @@ export class DriverPrismaRepo implements DriverRepository {
       const driver = await this.prisma.driver.findUnique({
         where: { id },
       });
-      return R.ok(driver);
+      return R.ok(
+        driver !== null
+          ? { ...driver, dateOfBirth: driver.dateOfBirth.toISOString().slice(0, 10) }
+          : null,
+      );
     } catch (error) {
       return this.returnError(error);
     }
@@ -52,7 +63,7 @@ export class DriverPrismaRepo implements DriverRepository {
         where: { id },
         data: input,
       });
-      return R.ok(driver);
+      return R.ok({ ...driver, dateOfBirth: driver.dateOfBirth.toISOString().slice(0, 10) });
     } catch (error) {
       return this.returnError(error);
     }

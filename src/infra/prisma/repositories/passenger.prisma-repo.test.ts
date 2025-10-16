@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { beforeEach, describe, expect, test } from "@jest/globals";
 import { type DeepMockProxy, mockDeep } from "jest-mock-extended";
+import { validPassengerInput, validPassengerOutput } from "@/domain/__fixtures";
 import { AppError } from "@/domain/utils/app-error";
 import type { PrismaClient } from "@/generated/prisma/client";
-import { validPassengerInput, validPassengerOutput } from "@/infra/prisma/repositories/fixtures";
 import { PassengerPrismaRepo } from "@/infra/prisma/repositories/passenger.prisma-repo";
 
 let prisma: DeepMockProxy<PrismaClient>;

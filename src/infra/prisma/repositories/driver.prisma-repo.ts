@@ -1,12 +1,13 @@
-import type { CreateDriverSchema } from "@/adapters/api/user/create-user.schema";
-import type { Driver } from "@/domain/user/driver.entity";
-import type { UserRepository } from "@/domain/user/user.repository";
+import type { CreateDriverSchema } from "@/adapters/api/validation-schemas/driver.schema";
+import type { Driver } from "@/domain/features/driver/driver.model";
+import type { DriverRepository } from "@/domain/features/driver/driver.repository";
+
 import { AppError } from "@/domain/utils/app-error";
 import { USERS_PER_PAGE } from "@/domain/utils/constants";
 import { type AsyncResult, R } from "@/domain/utils/result";
 import type { PrismaClient } from "@/generated/prisma/client";
 
-export class DriverPrismaRepo implements UserRepository<Driver, CreateDriverSchema> {
+export class DriverPrismaRepo implements DriverRepository {
   private readonly prisma: PrismaClient;
 
   constructor(prisma: PrismaClient) {

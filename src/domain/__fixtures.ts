@@ -1,9 +1,8 @@
-import type {
-  CreateDriverSchema,
-  CreatePassengerSchema,
-} from "@/adapters/api/user/create-user.schema";
-import type { Driver } from "@/domain/user/driver.entity";
-import type { Passenger } from "@/domain/user/passenger.entity";
+import type { CreateDriverSchema } from "@/adapters/api/validation-schemas/driver.schema";
+import type { CreatePassengerSchema } from "@/adapters/api/validation-schemas/passenger.schema";
+import type { Driver } from "@/domain/features/driver/driver.model";
+import type { Passenger } from "@/domain/features/passenger/passenger.model";
+import type { PaginationResult } from "@/domain/utils/pagination-result";
 
 export const validDriverInput = {
   name: "Test Driver",
@@ -19,6 +18,13 @@ export const validDriverOutput = {
   id: "test-id",
   ...validDriverInput,
 } satisfies Driver;
+
+export const validPaginatedDriverOutput = {
+  total: 1,
+  totalPages: 1,
+  page: 1,
+  items: [validDriverOutput],
+} satisfies PaginationResult<Driver>;
 
 export const validPassengerInput = {
   name: "Test Driver",

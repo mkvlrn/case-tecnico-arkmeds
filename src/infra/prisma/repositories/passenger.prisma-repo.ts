@@ -1,12 +1,12 @@
-import type { CreatePassengerSchema } from "@/adapters/api/user/create-user.schema";
-import type { Passenger } from "@/domain/user/passenger.entity";
-import type { UserRepository } from "@/domain/user/user.repository";
+import type { CreatePassengerSchema } from "@/adapters/api/validation-schemas/passenger.schema";
+import type { Passenger } from "@/domain/features/passenger/passenger.model";
+import type { PassengerRepository } from "@/domain/features/passenger/passenger.repository";
 import { AppError } from "@/domain/utils/app-error";
 import { USERS_PER_PAGE } from "@/domain/utils/constants";
 import { type AsyncResult, R } from "@/domain/utils/result";
 import type { PrismaClient } from "@/generated/prisma/client";
 
-export class PassengerPrismaRepo implements UserRepository<Passenger, CreatePassengerSchema> {
+export class PassengerPrismaRepo implements PassengerRepository {
   private readonly prisma: PrismaClient;
 
   constructor(prisma: PrismaClient) {

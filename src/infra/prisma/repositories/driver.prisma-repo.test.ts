@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { beforeEach, describe, expect, test } from "@jest/globals";
 import { type DeepMockProxy, mockDeep } from "jest-mock-extended";
+import { validDriverInput, validDriverOutput } from "@/domain/__fixtures";
 import { AppError } from "@/domain/utils/app-error";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { DriverPrismaRepo } from "@/infra/prisma/repositories/driver.prisma-repo";
-import { validDriverInput, validDriverOutput } from "@/infra/prisma/repositories/fixtures";
 
 let prisma: DeepMockProxy<PrismaClient>;
 let repo: DriverPrismaRepo;

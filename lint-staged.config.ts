@@ -1,6 +1,6 @@
 export default {
   "*.ts": [
-    "tsc-files",
+    "tsc-files env.d.ts",
     "biome check --no-errors-on-unmatched",
     "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --findRelatedTests --bail",
   ],

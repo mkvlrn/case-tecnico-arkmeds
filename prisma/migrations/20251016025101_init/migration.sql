@@ -2,7 +2,7 @@
 CREATE TYPE "Gender" AS ENUM ('male', 'female', 'other', 'undisclosed');
 
 -- CreateTable
-CREATE TABLE "Driver" (
+CREATE TABLE "drivers" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
@@ -12,11 +12,11 @@ CREATE TABLE "Driver" (
     "phone" TEXT NOT NULL,
     "vehicle" TEXT NOT NULL,
 
-    CONSTRAINT "Driver_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "drivers_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Passenger" (
+CREATE TABLE "passengers" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
@@ -26,5 +26,11 @@ CREATE TABLE "Passenger" (
     "phone" TEXT NOT NULL,
     "prefersNoConversation" BOOLEAN NOT NULL,
 
-    CONSTRAINT "Passenger_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "passengers_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "drivers_cpf_key" ON "drivers"("cpf");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "passengers_cpf_key" ON "passengers"("cpf");

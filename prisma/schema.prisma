@@ -25,6 +25,10 @@ model Driver {
   address String
   phone   String
   vehicle String
+
+  @@unique([cpf])
+  @@index([cpf])
+  @@map("drivers")
 }
 
 model Passenger {
@@ -36,4 +40,8 @@ model Passenger {
   address               String
   phone                 String
   prefersNoConversation Boolean
+
+  @@unique([cpf])
+  @@index([cpf])
+  @@map("passengers")
 }

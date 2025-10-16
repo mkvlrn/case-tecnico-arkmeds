@@ -1,5 +1,5 @@
-import type { User } from "@/domain/features/user/user.model";
+import type { BaseUser } from "@/domain/shared/base-user.model";
 
-export interface Passenger extends User {
+export interface Passenger extends BaseUser {
   prefersNoConversation: boolean;
 }

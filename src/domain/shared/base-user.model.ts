@@ -1,4 +1,4 @@
-export interface User {
+export interface BaseUser {
   id: string;
   name: string;
   cpf: string;

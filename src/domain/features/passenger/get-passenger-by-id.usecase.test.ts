@@ -3,7 +3,7 @@ import { beforeEach, expect, test } from "@jest/globals";
 import { type MockProxy, mock } from "jest-mock-extended";
 import { validPassengerOutput } from "@/domain/__fixtures";
 import { GetPassengerByIdUseCase } from "@/domain/features/passenger/get-passenger-by-id.usecase";
-import type { PassengerRepository } from "@/domain/features/passenger/passenger.repository";
+import type { PassengerRepository } from "@/domain/shared/base-user.repository.ts";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";
 

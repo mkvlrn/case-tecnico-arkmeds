@@ -5,7 +5,7 @@ import type { Passenger } from "@/domain/features/passenger/passenger.model";
 import type { AppError } from "@/domain/utils/app-error";
 import type { AsyncResult } from "@/domain/utils/result";
 
-export interface BaseUserRepository<TEntity, TCreateSchema> {
+export interface BaseUserRepository<TEntity, TCreateSchema = never> {
   create(input: TCreateSchema): AsyncResult<TEntity, AppError>;
   getAll(page: number): AsyncResult<TEntity[], AppError>;
   getById(id: string): AsyncResult<TEntity | null, AppError>;

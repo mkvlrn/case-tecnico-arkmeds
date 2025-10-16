@@ -3,7 +3,7 @@ import { beforeEach, expect, test } from "@jest/globals";
 import { type MockProxy, mock } from "jest-mock-extended";
 import { validDriverOutput } from "@/domain/__fixtures";
 import { DeleteDriverUseCase } from "@/domain/features/driver/delete-driver.usecase";
-import type { DriverRepository } from "@/domain/features/driver/driver.repository";
+import type { DriverRepository } from "@/domain/shared/base-user.repository.ts";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";
 

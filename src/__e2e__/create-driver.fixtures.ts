@@ -1,6 +1,9 @@
+import { strip } from "@fnando/cpf";
 import { expect } from "@jest/globals";
 import { StatusCodes } from "http-status-codes";
+import { phone } from "phone";
 import type { CreateDriverSchema } from "@/adapters/api/validation-schemas/driver.schema";
+import { USER_VALIDATION } from "@/domain/utils/constants";
 
 const validDriverInput = {
   name: "Test Driver",
@@ -15,7 +18,12 @@ const validDriverInput = {
 export const createDriver = {
   success: {
     input: validDriverInput,
-    output: { ...validDriverInput, id: expect.any(String) },
+    output: {
+      ...validDriverInput,
+      id: expect.any(String),
+      cpf: strip(validDriverInput.cpf),
+      phone: phone(validDriverInput.phone).phoneNumber,
+    },
   },
 
   fail: [
@@ -25,7 +33,7 @@ export const createDriver = {
       statusCode: StatusCodes.CONFLICT,
       error: {
         code: "resourceConflict",
-        message: `driver with cpf ${validDriverInput.cpf} already exists`,
+        message: `driver with cpf ${strip(validDriverInput.cpf)} already exists`,
       },
     },
 
@@ -46,7 +54,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [{ name: "Too small: expected string to have >=3 characters" }],
+        details: [{ name: USER_VALIDATION.name.message }],
       },
     },
     {
@@ -56,7 +64,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [{ name: "Too big: expected string to have <=80 characters" }],
+        details: [{ name: USER_VALIDATION.name.message }],
       },
     },
     {
@@ -97,7 +105,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [{ cpf: "Invalid input" }],
+        details: [{ cpf: USER_VALIDATION.cpf.message }],
       },
     },
     {
@@ -128,12 +136,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [
-          {
-            dateOfBirth:
-              "Invalid string: must match pattern /^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$/",
-          },
-        ],
+        details: [{ dateOfBirth: USER_VALIDATION.dateOfBirth.messageFormat }],
       },
     },
     {
@@ -143,12 +146,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [
-          {
-            dateOfBirth:
-              "Invalid string: must match pattern /^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$/",
-          },
-        ],
+        details: [{ dateOfBirth: USER_VALIDATION.dateOfBirth.messageFormat }],
       },
     },
     {
@@ -158,12 +156,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [
-          {
-            dateOfBirth:
-              "Invalid string: must match pattern /^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$/",
-          },
-        ],
+        details: [{ dateOfBirth: USER_VALIDATION.dateOfBirth.messageFormat }],
       },
     },
     {
@@ -176,6 +169,21 @@ export const createDriver = {
         details: [{ dateOfBirth: "Invalid input: expected string, received number" }],
       },
     },
+    {
+      spec: "driver is too young",
+      input: {
+        ...validDriverInput,
+        dateOfBirth: new Date(Date.now() - 17 * 365.25 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .slice(0, 10),
+      },
+      statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
+      error: {
+        code: "invalidInput",
+        message: "input/query is invalid or incomplete",
+        details: [{ dateOfBirth: USER_VALIDATION.dateOfBirth.messageDriverAge }],
+      },
+    },
 
     {
       spec: "missing gender",
@@ -184,11 +192,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [
-          {
-            gender: "Invalid option: expected one of 'male'|'female'|'other'|'undisclosed'",
-          },
-        ],
+        details: [{ gender: USER_VALIDATION.gender.message }],
       },
     },
     {
@@ -198,9 +202,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [
-          { gender: "Invalid option: expected one of 'male'|'female'|'other'|'undisclosed'" },
-        ],
+        details: [{ gender: USER_VALIDATION.gender.message }],
       },
     },
     {
@@ -210,11 +212,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [
-          {
-            gender: "Invalid option: expected one of 'male'|'female'|'other'|'undisclosed'",
-          },
-        ],
+        details: [{ gender: USER_VALIDATION.gender.message }],
       },
     },
 
@@ -235,7 +233,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [{ address: "Too small: expected string to have >=10 characters" }],
+        details: [{ address: USER_VALIDATION.address.message }],
       },
     },
     {
@@ -245,7 +243,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [{ address: "Too big: expected string to have <=255 characters" }],
+        details: [{ address: USER_VALIDATION.address.message }],
       },
     },
     {
@@ -270,23 +268,13 @@ export const createDriver = {
       },
     },
     {
-      spec: "phone too short",
+      spec: "invalid phone format",
       input: { ...validDriverInput, phone: "123456789" },
       statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [{ phone: "Too small: expected string to have >=10 characters" }],
-      },
-    },
-    {
-      spec: "phone too long",
-      input: { ...validDriverInput, phone: "1".repeat(256) },
-      statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
-      error: {
-        code: "invalidInput",
-        message: "input/query is invalid or incomplete",
-        details: [{ phone: "Too big: expected string to have <=255 characters" }],
+        details: [{ phone: USER_VALIDATION.phone.message }],
       },
     },
     {
@@ -317,7 +305,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [{ vehicle: "Too small: expected string to have >=10 characters" }],
+        details: [{ vehicle: USER_VALIDATION.vehicle.message }],
       },
     },
     {
@@ -327,7 +315,7 @@ export const createDriver = {
       error: {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
-        details: [{ vehicle: "Too big: expected string to have <=255 characters" }],
+        details: [{ vehicle: USER_VALIDATION.vehicle.message }],
       },
     },
     {

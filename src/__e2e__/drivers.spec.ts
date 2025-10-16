@@ -5,9 +5,9 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
 import { StatusCodes } from "http-status-codes";
 import supertest, { type Agent } from "supertest";
+import { createDriver } from "@/__e2e__/create-driver.fixtures";
 import { getServer } from "@/adapters/api/server";
 import { PrismaClient } from "@/generated/prisma/client";
-import { createDriver } from "./drivers.fixtures";
 
 const TEST_HOOK_TIMEOUT = 30_000;
 

@@ -14,6 +14,10 @@ export function validation(schema: ZodType, target: Target = "body") {
       throw new AppError("invalidInput", "input/query is invalid or incomplete", details);
     }
 
+    if (target === "body") {
+      req[target] = parsed.data;
+    }
+
     return next();
   };
 }

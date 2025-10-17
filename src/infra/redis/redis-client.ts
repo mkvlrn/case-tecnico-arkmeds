@@ -7,9 +7,7 @@ export async function getRedis(url: string) {
     redis = createClient({ url });
   }
 
-  if (!redis.isOpen) {
-    await redis.connect();
-  }
+  await redis.connect();
 
   return redis;
 }

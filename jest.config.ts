@@ -28,6 +28,7 @@ export default {
   verbose: !isE2E,
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
-    "^varlock/env$": "<rootDir>/src/__mocks__/varlock/env.ts",
+    "^@redis/client$": "<rootDir>/src/__mocks__/@redis/client.ts",
+    "^@/generated/prisma/client$": "<rootDir>/src/__mocks__/@/generated/prisma/client.ts",
   },
 } satisfies Config;

@@ -25,7 +25,9 @@ export class FarePriceCalculator {
       fare.destinationLongitude,
     );
 
-    return R.ok(distanceInKm * strategy.price);
+    const price = distanceInKm * strategy.price;
+
+    return R.ok(Math.round(price * 100) / 100);
   }
 
   private haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {

@@ -3,14 +3,11 @@ import { StatusCodes } from "http-status-codes";
 import type { CreateFareSchema } from "@/adapters/api/validation-schemas/fare.schema";
 import { FARE_VALIDATION } from "@/domain/utils/constants";
 
-// Helper to create a future date for testing
-// Using a date far enough in the future to avoid flakiness
 function getFutureDate(daysFromNow: number, hour: number, minute: number): string {
   const date = new Date();
   date.setDate(date.getDate() + daysFromNow);
   date.setHours(hour, minute, 0, 0);
 
-  // Format as ISO datetime WITHOUT seconds (precision: -1)
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -20,7 +17,6 @@ function getFutureDate(daysFromNow: number, hour: number, minute: number): strin
   return `${year}-${month}-${day}T${hours}:${minutes}+00:00`;
 }
 
-// Helper to create a past date for testing
 function getPastDate(): string {
   const date = new Date();
   date.setDate(date.getDate() - 1);

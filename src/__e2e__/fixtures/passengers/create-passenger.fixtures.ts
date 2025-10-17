@@ -27,6 +27,7 @@ export const createPassenger = {
   },
 
   fail: [
+    // ===== cpf conflict validation =====
     {
       spec: "cpf conflict",
       input: validPassengerInput,
@@ -37,6 +38,7 @@ export const createPassenger = {
       },
     },
 
+    // ===== name validation =====
     {
       spec: "missing name",
       input: { ...validPassengerInput, name: undefined },
@@ -88,6 +90,7 @@ export const createPassenger = {
       },
     },
 
+    // ===== cpf validation =====
     {
       spec: "missing cpf",
       input: { ...validPassengerInput, cpf: undefined },
@@ -119,6 +122,7 @@ export const createPassenger = {
       },
     },
 
+    // ===== dateOfBirth validation =====
     {
       spec: "missing dateOfBirth",
       input: { ...validPassengerInput, dateOfBirth: undefined },
@@ -185,6 +189,7 @@ export const createPassenger = {
       },
     },
 
+    // ===== gender validation =====
     {
       spec: "missing gender",
       input: { ...validPassengerInput, gender: undefined },
@@ -216,6 +221,7 @@ export const createPassenger = {
       },
     },
 
+    // ===== address validation =====
     {
       spec: "missing address",
       input: { ...validPassengerInput, address: undefined },
@@ -257,6 +263,7 @@ export const createPassenger = {
       },
     },
 
+    // ===== phone validation =====
     {
       spec: "missing phone",
       input: { ...validPassengerInput, phone: undefined },
@@ -288,6 +295,7 @@ export const createPassenger = {
       },
     },
 
+    // ===== prefersNoConversation validation =====
     {
       spec: "missing prefersNoConversation",
       input: { ...validPassengerInput, prefersNoConversation: undefined },
@@ -319,6 +327,7 @@ export const createPassenger = {
       },
     },
 
+    // ===== strictObject validation =====
     {
       spec: "extra field (strictObject)",
       input: { ...validPassengerInput, extraField: "not allowed" },

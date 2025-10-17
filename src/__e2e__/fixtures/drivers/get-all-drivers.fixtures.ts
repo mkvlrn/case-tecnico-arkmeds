@@ -27,6 +27,7 @@ export const getAllDrivers = {
   ],
 
   fail: [
+    // ===== pagination validation =====
     {
       spec: "negative page number",
       query: { page: -1 },

@@ -28,6 +28,7 @@ export const updatePassenger = {
   },
 
   fail: [
+    // ===== resource existence validation =====
     {
       spec: "passenger not found",
       id: "very-wrong-id",
@@ -38,6 +39,8 @@ export const updatePassenger = {
         message: "passenger with id very-wrong-id not found",
       },
     },
+
+    // ===== cpf conflict validation =====
     {
       spec: "cpf conflict",
       id: "okmclejrj1xegofrbc164ie0",
@@ -49,6 +52,7 @@ export const updatePassenger = {
       },
     },
 
+    // ===== name validation =====
     {
       spec: "missing name",
       id: "okmclejrj1xegofrbc164ie0",
@@ -105,6 +109,7 @@ export const updatePassenger = {
       },
     },
 
+    // ===== cpf validation =====
     {
       spec: "missing cpf",
       id: "okmclejrj1xegofrbc164ie0",
@@ -139,6 +144,7 @@ export const updatePassenger = {
       },
     },
 
+    // ===== dateOfBirth validation =====
     {
       spec: "missing dateOfBirth",
       id: "okmclejrj1xegofrbc164ie0",
@@ -211,6 +217,7 @@ export const updatePassenger = {
       },
     },
 
+    // ===== gender validation =====
     {
       spec: "missing gender",
       id: "okmclejrj1xegofrbc164ie0",
@@ -245,6 +252,7 @@ export const updatePassenger = {
       },
     },
 
+    // ===== address validation =====
     {
       spec: "missing address",
       id: "okmclejrj1xegofrbc164ie0",
@@ -290,6 +298,7 @@ export const updatePassenger = {
       },
     },
 
+    // ===== phone validation =====
     {
       spec: "missing phone",
       id: "okmclejrj1xegofrbc164ie0",
@@ -324,6 +333,7 @@ export const updatePassenger = {
       },
     },
 
+    // ===== prefersNoConversation validation =====
     {
       spec: "missing prefersNoConversation",
       id: "okmclejrj1xegofrbc164ie0",
@@ -358,6 +368,7 @@ export const updatePassenger = {
       },
     },
 
+    // ===== strictObject validation =====
     {
       spec: "extra field (strictObject)",
       id: "okmclejrj1xegofrbc164ie0",

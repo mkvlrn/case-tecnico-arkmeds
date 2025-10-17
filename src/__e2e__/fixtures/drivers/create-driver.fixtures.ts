@@ -27,6 +27,7 @@ export const createDriver = {
   },
 
   fail: [
+    // ===== cpf conflict validation =====
     {
       spec: "cpf conflict",
       input: validDriverInput,
@@ -37,6 +38,7 @@ export const createDriver = {
       },
     },
 
+    // ===== name validation =====
     {
       spec: "missing name",
       input: { ...validDriverInput, name: undefined },
@@ -88,6 +90,7 @@ export const createDriver = {
       },
     },
 
+    // ===== cpf validation =====
     {
       spec: "missing cpf",
       input: { ...validDriverInput, cpf: undefined },
@@ -119,6 +122,7 @@ export const createDriver = {
       },
     },
 
+    // ===== dateOfBirth validation =====
     {
       spec: "missing dateOfBirth",
       input: { ...validDriverInput, dateOfBirth: undefined },
@@ -185,6 +189,7 @@ export const createDriver = {
       },
     },
 
+    // ===== gender validation =====
     {
       spec: "missing gender",
       input: { ...validDriverInput, gender: undefined },
@@ -216,6 +221,7 @@ export const createDriver = {
       },
     },
 
+    // ===== address validation =====
     {
       spec: "missing address",
       input: { ...validDriverInput, address: undefined },
@@ -257,6 +263,7 @@ export const createDriver = {
       },
     },
 
+    // ===== phone validation =====
     {
       spec: "missing phone",
       input: { ...validDriverInput, phone: undefined },
@@ -288,6 +295,7 @@ export const createDriver = {
       },
     },
 
+    // ===== vehicle validation =====
     {
       spec: "missing vehicle",
       input: { ...validDriverInput, vehicle: undefined },
@@ -329,6 +337,7 @@ export const createDriver = {
       },
     },
 
+    // ===== strictObject validation =====
     {
       spec: "extra field (strictObject)",
       input: { ...validDriverInput, extraField: "not allowed" },

@@ -27,6 +27,7 @@ export const getAllPassengers = {
   ],
 
   fail: [
+    // ===== pagination validation =====
     {
       spec: "negative page number",
       query: { page: -1 },

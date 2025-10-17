@@ -28,6 +28,7 @@ export const updateDriver = {
   },
 
   fail: [
+    // ===== resource existence validation =====
     {
       spec: "driver not found",
       id: "very-wrong-id",
@@ -38,6 +39,8 @@ export const updateDriver = {
         message: "driver with id very-wrong-id not found",
       },
     },
+
+    // ===== cpf conflict validation =====
     {
       spec: "cpf conflict",
       id: "okmclejrj1xegofrbc164ie0",
@@ -49,6 +52,7 @@ export const updateDriver = {
       },
     },
 
+    // ===== name validation =====
     {
       spec: "missing name",
       id: "okmclejrj1xegofrbc164ie0",
@@ -105,6 +109,7 @@ export const updateDriver = {
       },
     },
 
+    // ===== cpf validation =====
     {
       spec: "missing cpf",
       id: "okmclejrj1xegofrbc164ie0",
@@ -139,6 +144,7 @@ export const updateDriver = {
       },
     },
 
+    // ===== dateOfBirth validation =====
     {
       spec: "missing dateOfBirth",
       id: "okmclejrj1xegofrbc164ie0",
@@ -211,6 +217,7 @@ export const updateDriver = {
       },
     },
 
+    // ===== gender validation =====
     {
       spec: "missing gender",
       id: "okmclejrj1xegofrbc164ie0",
@@ -245,6 +252,7 @@ export const updateDriver = {
       },
     },
 
+    // ===== address validation =====
     {
       spec: "missing address",
       id: "okmclejrj1xegofrbc164ie0",
@@ -290,6 +298,7 @@ export const updateDriver = {
       },
     },
 
+    // ===== phone validation =====
     {
       spec: "missing phone",
       id: "okmclejrj1xegofrbc164ie0",
@@ -324,6 +333,7 @@ export const updateDriver = {
       },
     },
 
+    // ===== vehicle validation =====
     {
       spec: "missing vehicle",
       id: "okmclejrj1xegofrbc164ie0",
@@ -369,6 +379,7 @@ export const updateDriver = {
       },
     },
 
+    // ===== strictObject validation =====
     {
       spec: "extra field (strictObject)",
       id: "okmclejrj1xegofrbc164ie0",

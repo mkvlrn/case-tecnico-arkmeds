@@ -1,5 +1,4 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
-import { PrismaPg } from "@prisma/adapter-pg";
 import type { RedisClientType } from "@redis/client";
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
 import { StatusCodes } from "http-status-codes";
@@ -12,7 +11,8 @@ import { getDriverById } from "@/__e2e__/fixtures/drivers/get-driver-by-id.fixtu
 import { updateDriver } from "@/__e2e__/fixtures/drivers/update-driver.fixtures";
 import { init, seed } from "@/__e2e__/setup";
 import { getServer } from "@/adapters/api/server";
-import { PrismaClient } from "@/generated/prisma/client";
+import type { PrismaClient } from "@/generated/prisma/client";
+import { getPrisma } from "@/infra/prisma/prisma-client";
 
 const TEST_HOOK_TIMEOUT = 30_000;
 
@@ -22,8 +22,7 @@ let server: Agent;
 
 beforeAll(async () => {
   db = await new PostgreSqlContainer("postgres:alpine").start();
-  const prismaPg = new PrismaPg({ connectionString: db.getConnectionUri() });
-  prisma = new PrismaClient({ adapter: prismaPg });
+  prisma = getPrisma(db.getConnectionUri());
   init(db.getConnectionUri());
   await seed(prisma);
   server = supertest(getServer(prisma, mockDeep<RedisClientType>()));

@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
-import { createClient, type RedisClientType } from "@redis/client";
+import type { RedisClientType } from "@redis/client";
 import { RedisContainer, type StartedRedisContainer } from "@testcontainers/redis";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
@@ -7,6 +7,7 @@ import supertest, { type Agent } from "supertest";
 import { createFare } from "@/__e2e__/fixtures/fares/create-fare.fixtures";
 import { getServer } from "@/adapters/api/server";
 import type { PrismaClient } from "@/generated/prisma/client";
+import { getRedis } from "@/infra/redis/redis-client";
 
 const TEST_HOOK_TIMEOUT = 30_000;
 
@@ -16,7 +17,7 @@ let server: Agent;
 
 beforeAll(async () => {
   db = await new RedisContainer("redis:alpine").start();
-  redis = await createClient({ url: db.getConnectionUrl() }).connect();
+  redis = await getRedis(db.getConnectionUrl());
   server = supertest(getServer(mockDeep<PrismaClient>(), redis));
 }, TEST_HOOK_TIMEOUT);
 

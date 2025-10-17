@@ -1,14 +1,12 @@
-import "varlock/auto-load";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { ENV } from "varlock/env";
 import { PrismaClient } from "@/generated/prisma/client";
 
 let prisma: PrismaClient | null = null;
 
-export function getPrisma() {
+export function getPrisma(connectionString: string) {
   if (!prisma) {
     prisma = new PrismaClient({
-      adapter: new PrismaPg({ connectionString: ENV.DATABASE_URL }),
+      adapter: new PrismaPg({ connectionString }),
     });
   }
 

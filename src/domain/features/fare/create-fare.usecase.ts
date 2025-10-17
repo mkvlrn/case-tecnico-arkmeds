@@ -28,7 +28,7 @@ export class CreateFareUseCase {
     }
 
     const fare = {
-      id: randomUUID(),
+      requestId: randomUUID(),
       ...input,
       datetime: new Date(input.datetime),
       price: price.value,

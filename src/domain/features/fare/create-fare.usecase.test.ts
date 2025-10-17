@@ -37,7 +37,7 @@ test("should create a fare successfully", async () => {
   expect(result.value.price).toBe(10);
   expect(fareRepository.create).toHaveBeenCalledWith(
     expect.objectContaining({
-      id: expect.any(String),
+      requestId: expect.any(String),
       originLatitude: -23.55,
       originLongitude: -46.63,
       destinationLatitude: -23.56,

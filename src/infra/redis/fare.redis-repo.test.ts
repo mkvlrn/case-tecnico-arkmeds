@@ -7,7 +7,7 @@ import { AppError } from "@/domain/utils/app-error";
 import { RedisRepo } from "@/infra/redis/fare.redis-repo";
 
 const validFareOutput: Fare = {
-  id: "test-fare-id",
+  requestId: "test-fare-id",
   originLatitude: -23.5505,
   originLongitude: -46.6333,
   destinationLatitude: -23.5629,
@@ -32,7 +32,10 @@ describe("create", () => {
 
     assert(result.isOk);
     expect(result.value).toStrictEqual(validFareOutput);
-    expect(redis.set).toHaveBeenCalledWith(validFareOutput.id, JSON.stringify(validFareOutput));
+    expect(redis.set).toHaveBeenCalledWith(
+      validFareOutput.requestId,
+      JSON.stringify(validFareOutput),
+    );
   });
 
   test("should return error if redis throws", async () => {

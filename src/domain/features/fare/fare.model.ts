@@ -1,5 +1,5 @@
 export interface Fare {
-  id: string;
+  requestId: string;
   originLatitude: number;
   originLongitude: number;
   destinationLatitude: number;

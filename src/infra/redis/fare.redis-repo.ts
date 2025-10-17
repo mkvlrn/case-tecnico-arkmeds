@@ -13,7 +13,7 @@ export class RedisRepo implements FareRepository {
 
   async create(fare: Fare): AsyncResult<Fare, AppError> {
     try {
-      await this.redis.set(fare.id, JSON.stringify(fare));
+      await this.redis.set(fare.requestId, JSON.stringify(fare));
       return R.ok(fare);
     } catch (err) {
       const msg = (err as Error).message;

@@ -43,3 +43,16 @@ export const PAGINATION_VALIDATION = {
     message: "'page' must be a positive integer",
   },
 };
+
+export const FARE_VALIDATION = {
+  latitude: {
+    min: -90,
+    max: 90,
+    message: "'latitude' must be between -90 and 90",
+  },
+  longitude: {
+    min: -180,
+    max: 180,
+    message: "'longitude' must be between -180 and 180",
+  },
+};

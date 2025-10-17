@@ -10,7 +10,7 @@ export class FarePriceCalculator {
     this.strategies = strategies;
   }
 
-  calculate(fare: CreateFareSchema, datetime: Date): Result<number, AppError> {
+  calculate(fare: CreateFareSchema, datetime: Date): Result<[number, number], AppError> {
     const strategy = this.strategies.find((strategy) => strategy.matches(datetime));
     if (!strategy) {
       return R.error(
@@ -27,7 +27,7 @@ export class FarePriceCalculator {
 
     const price = distanceInKm * strategy.price;
 
-    return R.ok(Math.round(price * 100) / 100);
+    return R.ok([Math.round(distanceInKm * 100) / 100, Math.round(price * 100) / 100]);
   }
 
   private haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {

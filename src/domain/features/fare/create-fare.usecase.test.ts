@@ -28,8 +28,8 @@ test("should create a fare successfully", async () => {
     destinationLongitude: -46.64,
     datetime: tempDate,
   };
-  priceCalculator.calculate.mockReturnValue(R.ok(10));
-  fareRepository.create.mockResolvedValue(R.ok({ price: 10 } as Fare));
+  priceCalculator.calculate.mockReturnValue(R.ok([10, 10]));
+  fareRepository.create.mockResolvedValue(R.ok({ distanceInKm: 10, price: 10 } as Fare));
 
   const result = await usecase.execute(input);
 
@@ -43,6 +43,7 @@ test("should create a fare successfully", async () => {
       destinationLatitude: -23.56,
       destinationLongitude: -46.64,
       datetime: new Date(tempDate),
+      distanceInKm: 10,
       price: 10,
     }),
   );

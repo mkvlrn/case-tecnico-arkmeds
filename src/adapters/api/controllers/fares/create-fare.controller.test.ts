@@ -17,6 +17,7 @@ const validFareOutput: Fare = {
   destinationLatitude: -23.5629,
   destinationLongitude: -46.6544,
   datetime: new Date("2024-01-01T10:00:00-03:00"),
+  distanceInKm: 10,
   price: 25.5,
 };
 

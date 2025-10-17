@@ -5,5 +5,6 @@ export interface Fare {
   destinationLatitude: number;
   destinationLongitude: number;
   datetime: Date;
+  distanceInKm: number;
   price: number;
 }

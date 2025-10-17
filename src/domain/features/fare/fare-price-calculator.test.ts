@@ -20,8 +20,10 @@ test("should calculate price correctly for a matching strategy", () => {
   const result = calculator.calculate(fare, datetime);
 
   assert(result.isOk);
+  const [distanceInKm, price] = result.value;
   // distance ~1606.4 km * 2.8 = ~4497.92
-  expect(result.value).toBeCloseTo(4497.92, 1);
+  expect(distanceInKm).toBeCloseTo(1606.4, 1);
+  expect(price).toBeCloseTo(4497.92, 1);
 });
 
 test("should return error if no strategy matches", () => {

@@ -22,16 +22,18 @@ export class CreateFareUseCase {
       return R.error(new AppError("invalidInput", "datetime cannot be in the past"));
     }
 
-    const price = this.priceCalculator.calculate(input, datetime);
-    if (price.isError) {
-      return R.error(price.error);
+    const result = this.priceCalculator.calculate(input, datetime);
+    if (result.isError) {
+      return R.error(result.error);
     }
 
+    const [distanceInKm, price] = result.value;
     const fare = {
       requestId: randomUUID(),
       ...input,
       datetime: new Date(input.datetime),
-      price: price.value,
+      distanceInKm,
+      price,
     } satisfies Fare;
 
     return await this.fareRepository.create(fare);

@@ -12,8 +12,8 @@ import { WeekendsEveningFareStrategy } from "@/domain/features/fare/strategies/w
 import { WeekendsNightFareStrategy } from "@/domain/features/fare/strategies/weekends-night";
 import { RedisFaresRepo } from "@/infra/redis/fare.redis-repo";
 
-export function getFaresRouter(redis: RedisClientType) {
-  const repo = new RedisFaresRepo(redis);
+export function getFaresRouter(redis: RedisClientType, faresTtl: number) {
+  const repo = new RedisFaresRepo(redis, faresTtl);
   const priceCalculator = new FarePriceCalculator([
     new WeekdaysDaytimeFareStrategy(),
     new WeekdaysEveningFareStrategy(),

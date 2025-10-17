@@ -1,3 +1,4 @@
+import "varlock/auto-load";
 import process from "node:process";
 import { ENV } from "varlock/env";
 import { getServer } from "@/adapters/api/server";
@@ -6,7 +7,7 @@ import { getRedis } from "@/infra/redis/redis-client";
 
 const prisma = getPrisma(ENV.DATABASE_URL);
 const redis = await getRedis(ENV.REDIS_URL);
-const server = getServer(prisma, redis);
+const server = getServer(prisma, redis, ENV.FARE_TTL);
 // biome-ignore lint/suspicious/noConsole: just for dev
 const instance = server.listen(ENV.PORT, () => console.info(`Server is running @${ENV.PORT}`));
 

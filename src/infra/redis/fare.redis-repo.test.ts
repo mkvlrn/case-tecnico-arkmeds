@@ -21,7 +21,7 @@ let repo: RedisFaresRepo;
 
 beforeEach(() => {
   redis = mockDeep<RedisClientType>();
-  repo = new RedisFaresRepo(redis);
+  repo = new RedisFaresRepo(redis, 600);
 });
 
 describe("create", () => {

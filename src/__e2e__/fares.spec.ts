@@ -10,6 +10,7 @@ import type { PrismaClient } from "@/generated/prisma/client";
 import { getRedis } from "@/infra/redis/redis-client";
 
 const TEST_HOOK_TIMEOUT = 30_000;
+const TEST_TTL = 600;
 
 let db: StartedRedisContainer;
 let redis: RedisClientType;
@@ -18,7 +19,7 @@ let server: Agent;
 beforeAll(async () => {
   db = await new RedisContainer("redis:alpine").start();
   redis = await getRedis(db.getConnectionUrl());
-  server = supertest(getServer(mockDeep<PrismaClient>(), redis));
+  server = supertest(getServer(mockDeep<PrismaClient>(), redis, TEST_TTL));
 }, TEST_HOOK_TIMEOUT);
 
 afterAll(async () => {

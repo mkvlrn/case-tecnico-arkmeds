@@ -1,6 +1,4 @@
-import "varlock/auto-load";
 import type { RedisClientType } from "@redis/client";
-import { ENV } from "varlock/env";
 import type { Fare } from "@/domain/features/fare/fare.model";
 import type { FareRepository } from "@/domain/features/fare/fare.repository";
 import { AppError } from "@/domain/utils/app-error";
@@ -8,15 +6,17 @@ import { type AsyncResult, R } from "@/domain/utils/result";
 
 export class RedisFaresRepo implements FareRepository {
   private readonly redis: RedisClientType;
+  private readonly fareTtl: number;
 
-  constructor(redis: RedisClientType) {
+  constructor(redis: RedisClientType, fareTtl: number) {
     this.redis = redis;
+    this.fareTtl = fareTtl;
   }
 
   async create(fare: Fare): AsyncResult<Fare, AppError> {
     try {
       await this.redis.set(fare.requestId, JSON.stringify(fare), {
-        expiration: { type: "EX", value: ENV.FARE_TTL },
+        expiration: { type: "EX", value: this.fareTtl },
       });
       return R.ok(fare);
     } catch (err) {

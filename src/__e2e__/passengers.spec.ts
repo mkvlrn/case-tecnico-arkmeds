@@ -25,7 +25,7 @@ beforeAll(async () => {
   prisma = getPrisma(db.getConnectionUri());
   init(db.getConnectionUri());
   await seed(prisma);
-  server = supertest(getServer(prisma, mockDeep<RedisClientType>()));
+  server = supertest(getServer(prisma, mockDeep<RedisClientType>(), 0));
 }, TEST_HOOK_TIMEOUT);
 
 afterAll(async () => {

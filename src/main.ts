@@ -6,7 +6,7 @@ import { getRedis } from "@/infra/redis/client";
 
 const prisma = getPrisma();
 const redis = await getRedis();
-const server = getServer(prisma);
+const server = getServer(prisma, redis);
 // biome-ignore lint/suspicious/noConsole: just for dev
 const instance = server.listen(ENV.PORT, () => console.info(`Server is running @${ENV.PORT}`));
 

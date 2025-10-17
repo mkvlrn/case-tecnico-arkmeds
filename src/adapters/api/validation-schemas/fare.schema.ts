@@ -18,6 +18,6 @@ export const CreateFareSchema = z.strictObject({
     .number({ error: FARE_VALIDATION.longitude.message })
     .min(FARE_VALIDATION.longitude.min, { error: FARE_VALIDATION.longitude.message })
     .max(FARE_VALIDATION.longitude.max, { error: FARE_VALIDATION.longitude.message }),
-  datetime: z.iso.datetime({ offset: true, precision: -1 }),
+  datetime: z.iso.datetime({ offset: true, precision: 0 }),
 });
 export type CreateFareSchema = z.infer<typeof CreateFareSchema>;

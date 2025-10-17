@@ -13,8 +13,9 @@ function getFutureDate(daysFromNow: number, hour: number, minute: number): strin
   const day = String(date.getDate()).padStart(2, "0");
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
 
-  return `${year}-${month}-${day}T${hours}:${minutes}+00:00`;
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}+00:00`;
 }
 
 function getPastDate(): string {
@@ -27,8 +28,9 @@ function getPastDate(): string {
   const day = String(date.getDate()).padStart(2, "0");
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
 
-  return `${year}-${month}-${day}T${hours}:${minutes}+00:00`;
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}+00:00`;
 }
 
 const validFareInput = {
@@ -281,8 +283,8 @@ export const createFare = {
       },
     },
     {
-      spec: "datetime WITH seconds (invalid precision)",
-      input: { ...validFareInput, datetime: "2025-06-15T14:30:00+00:00" },
+      spec: "datetime without seconds (invalid precision)",
+      input: { ...validFareInput, datetime: "2025-06-15T14:30+00:00" },
       statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
       error: {
         code: "invalidInput",

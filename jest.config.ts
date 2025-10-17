@@ -19,6 +19,8 @@ export default {
     "src/.*\\.repository\\.ts$", // also interfaces
     "src/.*fixtures\\.ts$", // fixture files don't have production code
     "constants.ts", // not production code
+    "setup.ts", // not production code
+    "src/.*\\.spec.ts$", // e2e tests
   ],
   coverageDirectory: "coverage",
   coverageProvider: "v8",

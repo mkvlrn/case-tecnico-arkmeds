@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { CreatePassengerController } from "@/adapters/api/controllers/create-passenger.controller";
-import { DeletePassengerController } from "@/adapters/api/controllers/delete-passenger.controller";
-import { GetAllPassengersController } from "@/adapters/api/controllers/get-all-passengers.controller";
-import { GetPassengerByIdController } from "@/adapters/api/controllers/get-passenger-by-id.controller";
-import { UpdatePassengerController } from "@/adapters/api/controllers/update-passenger.controller";
+import { CreatePassengerController } from "@/adapters/api/controllers/passengers/create-passenger.controller";
+import { DeletePassengerController } from "@/adapters/api/controllers/passengers/delete-passenger.controller";
+import { GetAllPassengersController } from "@/adapters/api/controllers/passengers/get-all-passengers.controller";
+import { GetPassengerByIdController } from "@/adapters/api/controllers/passengers/get-passenger-by-id.controller";
+import { UpdatePassengerController } from "@/adapters/api/controllers/passengers/update-passenger.controller";
 import { validation } from "@/adapters/api/middlewares/validation.middleware";
 import { PaginatedResultQuery } from "@/adapters/api/validation-schemas/paginated-result.schema";
 import { CreatePassengerSchema } from "@/adapters/api/validation-schemas/passenger.schema";

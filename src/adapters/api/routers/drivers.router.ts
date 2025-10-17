@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { CreateDriverController } from "@/adapters/api/controllers/create-driver.controller";
-import { DeleteDriverController } from "@/adapters/api/controllers/delete-driver.controller";
-import { GetAllDriversController } from "@/adapters/api/controllers/get-all-drivers.controller";
-import { GetDriverByIdController } from "@/adapters/api/controllers/get-driver-by-id.controller";
-import { UpdateDriverController } from "@/adapters/api/controllers/update-driver.controller";
+import { CreateDriverController } from "@/adapters/api/controllers/drivers/create-driver.controller";
+import { DeleteDriverController } from "@/adapters/api/controllers/drivers/delete-driver.controller";
+import { GetAllDriversController } from "@/adapters/api/controllers/drivers/get-all-drivers.controller";
+import { GetDriverByIdController } from "@/adapters/api/controllers/drivers/get-driver-by-id.controller";
+import { UpdateDriverController } from "@/adapters/api/controllers/drivers/update-driver.controller";
 import { validation } from "@/adapters/api/middlewares/validation.middleware";
 import { CreateDriverSchema } from "@/adapters/api/validation-schemas/driver.schema";
 import { PaginatedResultQuery } from "@/adapters/api/validation-schemas/paginated-result.schema";

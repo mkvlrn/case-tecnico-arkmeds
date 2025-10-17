@@ -1,7 +1,7 @@
 import { afterEach, expect, jest, test } from "@jest/globals";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
-import { GetDriverByIdController } from "@/adapters/api/controllers/get-driver-by-id.controller";
+import { GetDriverByIdController } from "@/adapters/api/controllers/drivers/get-driver-by-id.controller";
 import { createControllerMocks } from "@/adapters/api/test-utils/controller-mocks";
 import { validDriverOutput } from "@/domain/__fixtures";
 import type { GetDriverByIdUseCase } from "@/domain/features/driver/get-driver-by-id.usecase";

@@ -1,7 +1,7 @@
 import { afterEach, expect, jest, test } from "@jest/globals";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
-import { DeletePassengerController } from "@/adapters/api/controllers/delete-passenger.controller";
+import { DeletePassengerController } from "@/adapters/api/controllers/passengers/delete-passenger.controller";
 import { createControllerMocks } from "@/adapters/api/test-utils/controller-mocks";
 import type { DeletePassengerUseCase } from "@/domain/features/passenger/delete-passenger.usecase";
 import { AppError } from "@/domain/utils/app-error";

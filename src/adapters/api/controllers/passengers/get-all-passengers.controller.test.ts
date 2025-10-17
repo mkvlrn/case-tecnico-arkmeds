@@ -1,7 +1,7 @@
 import { afterEach, expect, jest, test } from "@jest/globals";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
-import { GetAllPassengersController } from "@/adapters/api/controllers/get-all-passengers.controller";
+import { GetAllPassengersController } from "@/adapters/api/controllers/passengers/get-all-passengers.controller";
 import { createControllerMocks } from "@/adapters/api/test-utils/controller-mocks";
 import { validPassengerOutput } from "@/domain/__fixtures";
 import type { GetAllPassengersUseCase } from "@/domain/features/passenger/get-all-passengers.usecase";

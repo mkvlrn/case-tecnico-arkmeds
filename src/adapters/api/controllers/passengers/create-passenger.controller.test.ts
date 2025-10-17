@@ -1,28 +1,28 @@
 import { afterEach, expect, jest, test } from "@jest/globals";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
-import { CreateDriverController } from "@/adapters/api/controllers/create-driver.controller";
+import { CreatePassengerController } from "@/adapters/api/controllers/passengers/create-passenger.controller";
 import { createControllerMocks } from "@/adapters/api/test-utils/controller-mocks";
-import { validDriverOutput } from "@/domain/__fixtures";
-import type { CreateDriverUseCase } from "@/domain/features/driver/create-driver.usecase";
+import { validPassengerOutput } from "@/domain/__fixtures";
+import type { CreatePassengerUseCase } from "@/domain/features/passenger/create-passenger.usecase";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";
 
-const usecase = mockDeep<CreateDriverUseCase>();
-const { controller, req, res, next } = createControllerMocks(CreateDriverController, usecase);
+const usecase = mockDeep<CreatePassengerUseCase>();
+const { controller, req, res, next } = createControllerMocks(CreatePassengerController, usecase);
 
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-test("should create and return a driver", async () => {
-  usecase.execute.mockResolvedValue(R.ok(validDriverOutput));
+test("should create and return a passenger", async () => {
+  usecase.execute.mockResolvedValue(R.ok(validPassengerOutput));
 
   await controller.handle(req, res, next);
 
   expect(usecase.execute).toHaveBeenCalledWith(req.body);
   expect(res.status).toHaveBeenCalledWith(StatusCodes.CREATED);
-  expect(res.json).toHaveBeenCalledWith(validDriverOutput);
+  expect(res.json).toHaveBeenCalledWith(validPassengerOutput);
   expect(next).not.toHaveBeenCalled();
 });
 

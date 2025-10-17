@@ -1,22 +1,22 @@
 import { afterEach, expect, jest, test } from "@jest/globals";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
-import { UpdatePassengerController } from "@/adapters/api/controllers/update-passenger.controller";
+import { UpdateDriverController } from "@/adapters/api/controllers/drivers/update-driver.controller";
 import { createControllerMocks } from "@/adapters/api/test-utils/controller-mocks";
-import { validPassengerOutput } from "@/domain/__fixtures";
-import type { UpdatePassengerUseCase } from "@/domain/features/passenger/update-passenger.usecase";
+import { validDriverOutput } from "@/domain/__fixtures";
+import type { UpdateDriverUseCase } from "@/domain/features/driver/update-driver.usecase";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";
 
-const usecase = mockDeep<UpdatePassengerUseCase>();
-const { controller, req, res, next } = createControllerMocks(UpdatePassengerController, usecase);
+const usecase = mockDeep<UpdateDriverUseCase>();
+const { controller, req, res, next } = createControllerMocks(UpdateDriverController, usecase);
 
 afterEach(() => {
   jest.resetAllMocks();
 });
 
-test("should update and return a passenger", async () => {
-  usecase.execute.mockResolvedValue(R.ok(validPassengerOutput));
+test("should update and return a driver", async () => {
+  usecase.execute.mockResolvedValue(R.ok(validDriverOutput));
   const typedReq = req as typeof req & { params: { id: string } };
   typedReq.params = { id: "test-id" };
   typedReq.body = { name: "Updated Name" };
@@ -25,12 +25,12 @@ test("should update and return a passenger", async () => {
 
   expect(usecase.execute).toHaveBeenCalledWith("test-id", req.body);
   expect(res.status).toHaveBeenCalledWith(StatusCodes.OK);
-  expect(res.json).toHaveBeenCalledWith(validPassengerOutput);
+  expect(res.json).toHaveBeenCalledWith(validDriverOutput);
   expect(next).not.toHaveBeenCalled();
 });
 
 test("should pass error to error handler if usecase throws", async () => {
-  const expectedError = new AppError("resourceNotFound", "passenger with id test-id not found");
+  const expectedError = new AppError("resourceNotFound", "driver with id test-id not found");
   usecase.execute.mockResolvedValue(R.error(expectedError));
   const typedReq = req as typeof req & { params: { id: string } };
   typedReq.params = { id: "test-id" };

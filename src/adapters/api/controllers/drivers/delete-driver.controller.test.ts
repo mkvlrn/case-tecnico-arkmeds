@@ -1,7 +1,7 @@
 import { afterEach, expect, jest, test } from "@jest/globals";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
-import { DeleteDriverController } from "@/adapters/api/controllers/delete-driver.controller";
+import { DeleteDriverController } from "@/adapters/api/controllers/drivers/delete-driver.controller";
 import { createControllerMocks } from "@/adapters/api/test-utils/controller-mocks";
 import type { DeleteDriverUseCase } from "@/domain/features/driver/delete-driver.usecase";
 import { AppError } from "@/domain/utils/app-error";

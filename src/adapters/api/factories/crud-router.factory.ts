@@ -9,25 +9,35 @@ interface Controller {
 }
 
 interface CrudControllers {
-  create: Controller;
-  getAll: Controller;
-  getById: Controller;
-  update: Controller;
-  delete: Controller;
+  create?: Controller;
+  getAll?: Controller;
+  getById?: Controller;
+  update?: Controller;
+  delete?: Controller;
 }
 
 export function createCrudRouter(controllers: CrudControllers, schema: ZodType): Router {
   const router = Router();
 
-  router.post("/", validation(schema), controllers.create.handle.bind(controllers.create));
-  router.get(
-    "/",
-    validation(PaginatedResultQuery, "query"),
-    controllers.getAll.handle.bind(controllers.getAll),
-  );
-  router.get("/:id", controllers.getById.handle.bind(controllers.getById));
-  router.put("/:id", validation(schema), controllers.update.handle.bind(controllers.update));
-  router.delete("/:id", controllers.delete.handle.bind(controllers.delete));
+  if (controllers.create) {
+    router.post("/", validation(schema), controllers.create.handle.bind(controllers.create));
+  }
+  if (controllers.getAll) {
+    router.get(
+      "/",
+      validation(PaginatedResultQuery, "query"),
+      controllers.getAll.handle.bind(controllers.getAll),
+    );
+  }
+  if (controllers.getById) {
+    router.get("/:id", controllers.getById.handle.bind(controllers.getById));
+  }
+  if (controllers.update) {
+    router.put("/:id", validation(schema), controllers.update.handle.bind(controllers.update));
+  }
+  if (controllers.delete) {
+    router.delete("/:id", controllers.delete.handle.bind(controllers.delete));
+  }
 
   return router;
 }

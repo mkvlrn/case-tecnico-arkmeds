@@ -1,7 +1,9 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import { PrismaPg } from "@prisma/adapter-pg";
+import type { RedisClientType } from "@redis/client";
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
 import { StatusCodes } from "http-status-codes";
+import { mockDeep } from "jest-mock-extended";
 import supertest, { type Agent } from "supertest";
 import { createPassenger } from "@/__e2e__/fixtures/passengers/create-passenger.fixtures";
 import { deletePassenger } from "@/__e2e__/fixtures/passengers/delete-passenger.fixtures";
@@ -24,7 +26,7 @@ beforeAll(async () => {
   prisma = new PrismaClient({ adapter: prismaPg });
   init(db.getConnectionUri());
   await seed(prisma);
-  server = supertest(getServer(prisma));
+  server = supertest(getServer(prisma, mockDeep<RedisClientType>()));
 }, TEST_HOOK_TIMEOUT);
 
 afterAll(async () => {

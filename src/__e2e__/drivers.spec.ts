@@ -1,14 +1,15 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import { PrismaPg } from "@prisma/adapter-pg";
+import type { RedisClientType } from "@redis/client";
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
 import { StatusCodes } from "http-status-codes";
+import { mockDeep } from "jest-mock-extended";
 import supertest, { type Agent } from "supertest";
 import { createDriver } from "@/__e2e__/fixtures/drivers/create-driver.fixtures";
 import { deleteDriver } from "@/__e2e__/fixtures/drivers/delete-driver.fixtures";
 import { getAllDrivers } from "@/__e2e__/fixtures/drivers/get-all-drivers.fixtures";
 import { getDriverById } from "@/__e2e__/fixtures/drivers/get-driver-by-id.fixtures";
 import { updateDriver } from "@/__e2e__/fixtures/drivers/update-driver.fixtures";
-
 import { init, seed } from "@/__e2e__/setup";
 import { getServer } from "@/adapters/api/server";
 import { PrismaClient } from "@/generated/prisma/client";
@@ -25,7 +26,7 @@ beforeAll(async () => {
   prisma = new PrismaClient({ adapter: prismaPg });
   init(db.getConnectionUri());
   await seed(prisma);
-  server = supertest(getServer(prisma));
+  server = supertest(getServer(prisma, mockDeep<RedisClientType>()));
 }, TEST_HOOK_TIMEOUT);
 
 afterAll(async () => {

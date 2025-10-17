@@ -5,7 +5,7 @@ import { getServer } from "@/adapters/api/server";
 import { getPrisma } from "@/infra/prisma/prisma-client";
 import { getRedis } from "@/infra/redis/redis-client";
 
-const prisma = getPrisma(ENV.DATABASE_URL);
+const prisma = await getPrisma(ENV.DATABASE_URL);
 const redis = await getRedis(ENV.REDIS_URL);
 const server = getServer(prisma, redis, ENV.FARE_TTL);
 // biome-ignore lint/suspicious/noConsole: just for dev

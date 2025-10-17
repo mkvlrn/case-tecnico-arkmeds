@@ -4,7 +4,11 @@ let redis: RedisClientType | null = null;
 
 export async function getRedis(url: string) {
   if (!redis) {
-    redis = await createClient({ url }).connect();
+    redis = createClient({ url });
+  }
+
+  if (!redis.isOpen) {
+    await redis.connect();
   }
 
   return redis;

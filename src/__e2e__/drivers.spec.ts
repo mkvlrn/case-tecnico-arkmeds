@@ -22,7 +22,7 @@ let server: Agent;
 
 beforeAll(async () => {
   db = await new PostgreSqlContainer("postgres:alpine").start();
-  prisma = getPrisma(db.getConnectionUri());
+  prisma = await getPrisma(db.getConnectionUri());
   init(db.getConnectionUri());
   await seed(prisma);
   server = supertest(getServer(prisma, mockDeep<RedisClientType>(), 0));

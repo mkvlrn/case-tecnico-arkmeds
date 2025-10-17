@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const CreateFareSchema = z.strictObject({
-  passengerId: z.string(),
   originLatitude: z.number(),
   originLongitude: z.number(),
   destinationLatitude: z.number(),

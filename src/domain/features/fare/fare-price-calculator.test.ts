@@ -1,0 +1,47 @@
+import assert from "node:assert/strict";
+import { expect, test } from "@jest/globals";
+import type { CreateFareSchema } from "@/adapters/api/validation-schemas/fare.schema";
+import { FarePriceCalculator } from "@/domain/features/fare/fare-price-calculator";
+import { WeekdaysDaytimeFareStrategy } from "@/domain/features/fare/strategies/weekdays-daytime";
+
+const strategies = [new WeekdaysDaytimeFareStrategy()];
+const calculator = new FarePriceCalculator(strategies);
+
+const fare: CreateFareSchema = {
+  originLatitude: -22.298_475,
+  originLongitude: -42.537_458,
+  destinationLatitude: -15.597_321,
+  destinationLongitude: -56.082_842,
+  datetime: "2025-10-20T09:00:00-03:00",
+};
+
+test("should calculate price correctly for a matching strategy", () => {
+  const datetime = new Date("2025-10-20T09:00:00-03:00");
+  const result = calculator.calculate(fare, datetime);
+
+  assert(result.isOk);
+  // distance ~1606.4 km * 2.8 = ~4497.92
+  expect(result.value).toBeCloseTo(4497.92, 1);
+});
+
+test("should return error if no strategy matches", () => {
+  const datetime = new Date("2025-10-20T07:00:00-03:00"); // fora do horário
+  const result = calculator.calculate(fare, datetime);
+
+  assert(result.isError);
+  expect(result.error.message).toBe("could not create an estimation for given datetime");
+});
+
+test("should calculate approximate distance correctly", () => {
+  const distance = (
+    calculator as unknown as {
+      haversineDistance: (lat1: number, lon1: number, lat2: number, lon2: number) => number;
+    }
+  ).haversineDistance(
+    fare.originLatitude,
+    fare.originLongitude,
+    fare.destinationLatitude,
+    fare.destinationLongitude,
+  );
+  expect(distance).toBeCloseTo(1606.4, 1);
+});

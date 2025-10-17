@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { beforeEach, expect, test } from "@jest/globals";
 import { type MockProxy, mock } from "jest-mock-extended";
-import { validDriverOutput } from "@/domain/__fixtures";
 import type { Driver } from "@/domain/features/driver/driver.model";
 import { GetAllDriversUseCase } from "@/domain/features/driver/get-all-drivers.usecase";
+import { validDriverOutput } from "@/domain/fixtures";
 import type { DriverRepository } from "@/domain/shared/base-user.repository.ts";
 import { AppError } from "@/domain/utils/app-error";
 import { PaginationResult } from "@/domain/utils/pagination-result";

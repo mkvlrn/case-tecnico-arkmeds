@@ -3,8 +3,8 @@ import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
 import { GetPassengerByIdController } from "@/adapters/api/controllers/passengers/get-passenger-by-id.controller";
 import { createControllerMocks } from "@/adapters/api/test-utils/controller-mocks";
-import { validPassengerOutput } from "@/domain/__fixtures";
 import type { GetPassengerByIdUseCase } from "@/domain/features/passenger/get-passenger-by-id.usecase";
+import { validPassengerOutput } from "@/domain/fixtures";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";
 

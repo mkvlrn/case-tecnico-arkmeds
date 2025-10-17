@@ -3,8 +3,8 @@ import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
 import { CreatePassengerController } from "@/adapters/api/controllers/passengers/create-passenger.controller";
 import { createControllerMocks } from "@/adapters/api/test-utils/controller-mocks";
-import { validPassengerOutput } from "@/domain/__fixtures";
 import type { CreatePassengerUseCase } from "@/domain/features/passenger/create-passenger.usecase";
+import { validPassengerOutput } from "@/domain/fixtures";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";
 

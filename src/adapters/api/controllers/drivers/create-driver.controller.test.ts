@@ -3,8 +3,8 @@ import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
 import { CreateDriverController } from "@/adapters/api/controllers/drivers/create-driver.controller";
 import { createControllerMocks } from "@/adapters/api/test-utils/controller-mocks";
-import { validDriverOutput } from "@/domain/__fixtures";
 import type { CreateDriverUseCase } from "@/domain/features/driver/create-driver.usecase";
+import { validDriverOutput } from "@/domain/fixtures";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";
 

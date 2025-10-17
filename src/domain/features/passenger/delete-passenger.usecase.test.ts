@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { beforeEach, expect, test } from "@jest/globals";
 import { type MockProxy, mock } from "jest-mock-extended";
-import { validPassengerOutput } from "@/domain/__fixtures";
 import { DeletePassengerUseCase } from "@/domain/features/passenger/delete-passenger.usecase";
+import { validPassengerOutput } from "@/domain/fixtures";
 import type { PassengerRepository } from "@/domain/shared/base-user.repository.ts";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";

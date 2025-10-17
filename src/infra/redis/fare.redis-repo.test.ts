@@ -35,6 +35,7 @@ describe("create", () => {
     expect(redis.set).toHaveBeenCalledWith(
       validFareOutput.requestId,
       JSON.stringify(validFareOutput),
+      { expiration: { type: "EX", value: 600 } },
     );
   });
 

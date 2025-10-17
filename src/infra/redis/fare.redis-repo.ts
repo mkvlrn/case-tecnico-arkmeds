@@ -1,4 +1,6 @@
+import "varlock/auto-load";
 import type { RedisClientType } from "@redis/client";
+import { ENV } from "varlock/env";
 import type { Fare } from "@/domain/features/fare/fare.model";
 import type { FareRepository } from "@/domain/features/fare/fare.repository";
 import { AppError } from "@/domain/utils/app-error";
@@ -13,7 +15,9 @@ export class RedisFaresRepo implements FareRepository {
 
   async create(fare: Fare): AsyncResult<Fare, AppError> {
     try {
-      await this.redis.set(fare.requestId, JSON.stringify(fare));
+      await this.redis.set(fare.requestId, JSON.stringify(fare), {
+        expiration: { type: "EX", value: ENV.FARE_TTL },
+      });
       return R.ok(fare);
     } catch (err) {
       const msg = (err as Error).message;

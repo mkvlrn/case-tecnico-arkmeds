@@ -3,11 +3,11 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
 import { StatusCodes } from "http-status-codes";
 import supertest, { type Agent } from "supertest";
-import { createDriver } from "@/__e2e__/fixtures/create-driver.fixtures";
-import { deleteDriver } from "@/__e2e__/fixtures/delete-driver.fixtures";
-import { getAllDrivers } from "@/__e2e__/fixtures/get-all-drivers.fixtures";
-import { getDriverById } from "@/__e2e__/fixtures/get-driver-by-id.fixtures";
-import { updateDriver } from "@/__e2e__/fixtures/update-driver.fixtures";
+import { createDriver } from "@/__e2e__/fixtures/drivers/create-driver.fixtures";
+import { deleteDriver } from "@/__e2e__/fixtures/drivers/delete-driver.fixtures";
+import { getAllDrivers } from "@/__e2e__/fixtures/drivers/get-all-drivers.fixtures";
+import { getDriverById } from "@/__e2e__/fixtures/drivers/get-driver-by-id.fixtures";
+import { updateDriver } from "@/__e2e__/fixtures/drivers/update-driver.fixtures";
 
 import { init, seed } from "@/__e2e__/setup";
 import { getServer } from "@/adapters/api/server";
@@ -102,18 +102,15 @@ describe("PUT /drivers/:id", () => {
     expect(response.body).toStrictEqual(updateDriver.success.output);
   });
 
-  test.each(updateDriver.fail)(
-    "should fail on $spec",
-    async ({ spec, id, input, error, statusCode }) => {
-      const response = await server
-        .put(`/drivers/${id}`)
-        .set("Content-Type", "application/json")
-        .send(JSON.stringify(input));
+  test.each(updateDriver.fail)("should fail on $spec", async ({ id, input, error, statusCode }) => {
+    const response = await server
+      .put(`/drivers/${id}`)
+      .set("Content-Type", "application/json")
+      .send(JSON.stringify(input));
 
-      expect(response.status).toStrictEqual(statusCode);
-      expect(response.body).toStrictEqual(error);
-    },
-  );
+    expect(response.status).toStrictEqual(statusCode);
+    expect(response.body).toStrictEqual(error);
+  });
 });
 
 describe("DELETE /drivers/:id", () => {

@@ -4,7 +4,7 @@ import type { FareRepository } from "@/domain/features/fare/fare.repository";
 import { AppError } from "@/domain/utils/app-error";
 import { type AsyncResult, R } from "@/domain/utils/result";
 
-export class RedisRepo implements FareRepository {
+export class RedisFaresRepo implements FareRepository {
   private readonly redis: RedisClientType;
 
   constructor(redis: RedisClientType) {

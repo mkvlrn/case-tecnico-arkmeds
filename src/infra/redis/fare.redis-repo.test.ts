@@ -4,7 +4,7 @@ import type { RedisClientType } from "@redis/client";
 import { type DeepMockProxy, mockDeep } from "jest-mock-extended";
 import type { Fare } from "@/domain/features/fare/fare.model";
 import { AppError } from "@/domain/utils/app-error";
-import { RedisRepo } from "@/infra/redis/fare.redis-repo";
+import { RedisFaresRepo } from "@/infra/redis/fare.redis-repo";
 
 const validFareOutput: Fare = {
   requestId: "test-fare-id",
@@ -17,11 +17,11 @@ const validFareOutput: Fare = {
 };
 
 let redis: DeepMockProxy<RedisClientType>;
-let repo: RedisRepo;
+let repo: RedisFaresRepo;
 
 beforeEach(() => {
   redis = mockDeep<RedisClientType>();
-  repo = new RedisRepo(redis);
+  repo = new RedisFaresRepo(redis);
 });
 
 describe("create", () => {

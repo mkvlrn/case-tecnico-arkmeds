@@ -49,6 +49,7 @@
     "@fnando/cpf": "^1.0.2",
     "@prisma/adapter-pg": "^6.17.1",
     "@prisma/client": "^6.17.1",
+    "@redis/client": "^5.8.3",
     "dayjs": "^1.11.18",
     "express": "^5.1.0",
     "http-status-codes": "^2.3.0",

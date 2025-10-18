@@ -16,7 +16,7 @@ import type { Fare } from "@/domain/features/fare/fare.model";
 import type { Trip } from "@/domain/features/trip/trip.model";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { getAmpq } from "@/infra/amqp/amqp-client";
-import { configureContainer } from "@/infra/container";
+import { configureContainer } from "@/infra/container/index";
 import { getPrisma } from "@/infra/prisma/prisma-client";
 import { getRedis } from "@/infra/redis/redis-client";
 

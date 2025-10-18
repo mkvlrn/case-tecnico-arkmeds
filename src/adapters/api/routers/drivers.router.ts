@@ -1,9 +1,9 @@
 import type { AwilixContainer } from "awilix";
 import { createCrudRouter } from "@/adapters/api/factories/crud-router.factory";
 import { CreateDriverSchema } from "@/adapters/api/validation-schemas/driver.schema";
-import type { ContainerDependencies } from "@/infra/container";
+import type { AppContainer } from "@/infra/container/types";
 
-export function getDriversRouter(container: AwilixContainer<ContainerDependencies>) {
+export function getDriversRouter(container: AwilixContainer<AppContainer>) {
   const {
     createDriverController,
     getAllDriversController,

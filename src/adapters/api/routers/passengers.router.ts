@@ -1,9 +1,9 @@
 import type { AwilixContainer } from "awilix";
 import { createCrudRouter } from "@/adapters/api/factories/crud-router.factory";
 import { CreatePassengerSchema } from "@/adapters/api/validation-schemas/passenger.schema";
-import type { ContainerDependencies } from "@/infra/container";
+import type { AppContainer } from "@/infra/container/types";
 
-export function getPassengersRouter(container: AwilixContainer<ContainerDependencies>) {
+export function getPassengersRouter(container: AwilixContainer<AppContainer>) {
   const {
     createPassengerController,
     getAllPassengersController,

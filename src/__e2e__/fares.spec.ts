@@ -8,7 +8,7 @@ import supertest, { type Agent } from "supertest";
 import { createFare } from "@/__e2e__/fixtures/fares/create-fare.fixtures";
 import { getServer } from "@/adapters/api/server";
 import type { PrismaClient } from "@/generated/prisma/client";
-import { configureContainer } from "@/infra/container";
+import { configureContainer } from "@/infra/container/index";
 import { getRedis } from "@/infra/redis/redis-client";
 
 const TEST_HOOK_TIMEOUT = 30_000;

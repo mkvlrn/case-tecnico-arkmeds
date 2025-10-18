@@ -13,7 +13,7 @@ import { updatePassenger } from "@/__e2e__/fixtures/passengers/update-passenger.
 import { init, seed } from "@/__e2e__/setup";
 import { getServer } from "@/adapters/api/server";
 import type { PrismaClient } from "@/generated/prisma/client";
-import { configureContainer } from "@/infra/container";
+import { configureContainer } from "@/infra/container/index";
 import { getPrisma } from "@/infra/prisma/prisma-client";
 
 const TEST_HOOK_TIMEOUT = 30_000;

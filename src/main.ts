@@ -3,7 +3,7 @@ import process from "node:process";
 import { ENV } from "varlock/env";
 import { getServer } from "@/adapters/api/server";
 import { getAmpq } from "@/infra/amqp/amqp-client";
-import { configureContainer } from "@/infra/container";
+import { configureContainer } from "@/infra/container/index";
 import { getPrisma } from "@/infra/prisma/prisma-client";
 import { getRedis } from "@/infra/redis/redis-client";
 

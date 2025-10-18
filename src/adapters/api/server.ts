@@ -6,9 +6,9 @@ import { getDriversRouter } from "@/adapters/api/routers/drivers.router";
 import { getFaresRouter } from "@/adapters/api/routers/fares.router";
 import { getPassengersRouter } from "@/adapters/api/routers/passengers.router";
 import { getTripsRouter } from "@/adapters/api/routers/trips.router";
-import type { ContainerDependencies } from "@/infra/container";
+import type { AppContainer } from "@/infra/container/types";
 
-export function getServer(container: AwilixContainer<ContainerDependencies>): Application {
+export function getServer(container: AwilixContainer<AppContainer>): Application {
   const server = express();
 
   server.use(express.urlencoded({ extended: true }));

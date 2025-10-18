@@ -47,9 +47,10 @@ beforeEach(() => {
   usecase = new CreateTripUseCase(passengerRepo, fareRepo, tripNotifier);
 });
 
-test("should create a trip and notify when passenger and fare exist", async () => {
+test("should create a trip, notify, and delete fare when passenger and fare exist", async () => {
   passengerRepo.getById.mockResolvedValue(R.ok(validPassengerOutput));
   fareRepo.get.mockResolvedValue(R.ok(validFare));
+  fareRepo.delete.mockResolvedValue(R.ok(true));
 
   const result = await usecase.execute(validTripInput);
 
@@ -57,6 +58,8 @@ test("should create a trip and notify when passenger and fare exist", async () =
   expect(result.value).toStrictEqual(expectedTrip);
   expect(tripNotifier.notify).toHaveBeenCalledWith(expectedTrip);
   expect(tripNotifier.notify).toHaveBeenCalledTimes(1);
+  expect(fareRepo.delete).toHaveBeenCalledWith(validFare.requestId);
+  expect(fareRepo.delete).toHaveBeenCalledTimes(1);
 });
 
 test("should return an error when passenger repository fails", async () => {
@@ -68,6 +71,7 @@ test("should return an error when passenger repository fails", async () => {
   assert(result.isError);
   expect(result.error).toStrictEqual(expectedError);
   expect(tripNotifier.notify).not.toHaveBeenCalled();
+  expect(fareRepo.delete).not.toHaveBeenCalled();
 });
 
 test("should return an error when passenger does not exist", async () => {
@@ -82,6 +86,7 @@ test("should return an error when passenger does not exist", async () => {
   assert(result.isError);
   expect(result.error).toStrictEqual(expectedError);
   expect(tripNotifier.notify).not.toHaveBeenCalled();
+  expect(fareRepo.delete).not.toHaveBeenCalled();
 });
 
 test("should return an error when fare repository fails", async () => {
@@ -94,6 +99,7 @@ test("should return an error when fare repository fails", async () => {
   assert(result.isError);
   expect(result.error).toStrictEqual(expectedError);
   expect(tripNotifier.notify).not.toHaveBeenCalled();
+  expect(fareRepo.delete).not.toHaveBeenCalled();
 });
 
 test("should return an error when fare does not exist", async () => {
@@ -109,4 +115,5 @@ test("should return an error when fare does not exist", async () => {
   assert(result.isError);
   expect(result.error).toStrictEqual(expectedError);
   expect(tripNotifier.notify).not.toHaveBeenCalled();
+  expect(fareRepo.delete).not.toHaveBeenCalled();
 });

@@ -14,10 +14,10 @@ export default {
   collectCoverage: false,
   collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
   coveragePathIgnorePatterns: [
-    "src/.*\\.(test|spec).ts$", // test files
-    "src/.*\\.(model|repository|notifier|consumer)\\.ts$", // interfaces
-    "src/generated", // prisma generated code
-    "src/.*fixtures\\.ts$", // fixture files don't have production code
+    "generated/", // prisma generated code
+    ".*(test|spec).ts", // test files
+    ".*(model|repository|notifier|consumer).ts", // interfaces
+    ".*fixtures.ts", // fixture files don't have production code
     "constants.ts", // not production code
     "setup.ts", // not production code
   ],

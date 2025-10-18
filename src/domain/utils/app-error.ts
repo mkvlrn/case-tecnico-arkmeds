@@ -1,6 +1,11 @@
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
 
-export type ErrorCode = "invalidInput" | "databaseError" | "resourceNotFound" | "resourceConflict";
+export type ErrorCode =
+  | "invalidInput"
+  | "databaseError"
+  | "resourceNotFound"
+  | "resourceConflict"
+  | "fsError";
 
 export class AppError extends Error {
   static readonly errorToStatus: Record<ErrorCode, StatusCodes> = {
@@ -8,6 +13,7 @@ export class AppError extends Error {
     databaseError: StatusCodes.INTERNAL_SERVER_ERROR,
     resourceNotFound: StatusCodes.NOT_FOUND,
     resourceConflict: StatusCodes.CONFLICT,
+    fsError: StatusCodes.INTERNAL_SERVER_ERROR,
   };
 
   readonly code: ErrorCode;

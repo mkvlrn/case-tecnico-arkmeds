@@ -16,9 +16,8 @@ export default {
   coveragePathIgnorePatterns: [
     "generated/", // prisma generated code
     ".*(test|spec).ts", // test files
-    ".*(model|repository|notifier|consumer).ts", // interfaces
+    ".*(model|repository|notifier|consumer|types).ts", // interfaces
     ".*fixtures.ts", // fixture files don't have production code
-    "constants.ts", // not production code
     "setup.ts", // not production code
   ],
   coverageDirectory: "coverage",

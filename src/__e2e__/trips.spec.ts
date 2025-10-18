@@ -34,9 +34,9 @@ let server: Agent;
 
 beforeAll(async () => {
   [postgresDb, redisDb, rabbitDb] = await Promise.all([
-    new PostgreSqlContainer("postgres:alpine").start(),
-    new RedisContainer("redis:alpine").start(),
-    new RabbitMQContainer("rabbitmq:alpine").start(),
+    new PostgreSqlContainer("postgres:18.0-alpine").start(),
+    new RedisContainer("redis:8.2.2-alpine").start(),
+    new RabbitMQContainer("rabbitmq:4.1.4-alpine").start(),
   ]);
 
   prisma = await getPrisma(postgresDb.getConnectionUri());

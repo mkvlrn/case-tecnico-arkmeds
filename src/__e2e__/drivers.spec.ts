@@ -23,7 +23,7 @@ let prisma: PrismaClient;
 let server: Agent;
 
 beforeAll(async () => {
-  db = await new PostgreSqlContainer("postgres:alpine").start();
+  db = await new PostgreSqlContainer("postgres:18.0-alpine").start();
   prisma = await getPrisma(db.getConnectionUri());
   init(db.getConnectionUri());
   await seed(prisma);

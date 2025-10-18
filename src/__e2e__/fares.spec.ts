@@ -19,7 +19,7 @@ let redis: RedisClientType;
 let server: Agent;
 
 beforeAll(async () => {
-  db = await new RedisContainer("redis:alpine").start();
+  db = await new RedisContainer("redis:8.2.2-alpine").start();
   redis = await getRedis(db.getConnectionUrl());
   const container = configureContainer(
     mockDeep<PrismaClient>(),

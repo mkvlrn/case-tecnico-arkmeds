@@ -29,5 +29,6 @@ export default {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^@redis/client$": "<rootDir>/src/__mocks__/@redis/client.ts",
     "^@/generated/prisma/client$": "<rootDir>/src/__mocks__/@/generated/prisma/client.ts",
+    "^amqplib$": "<rootDir>/src/__mocks__/amqplib.ts",
   },
 } satisfies Config;

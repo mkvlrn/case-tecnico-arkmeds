@@ -15,7 +15,7 @@ export default {
   collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
   coveragePathIgnorePatterns: [
     "src/.*\\.(test|spec).ts$", // test files
-    "src/.*\\.(model|repository|notifier)\\.ts$", // interfaces
+    "src/.*\\.(model|repository|notifier|consumer)\\.ts$", // interfaces
     "src/generated", // prisma generated code
     "src/.*fixtures\\.ts$", // fixture files don't have production code
     "constants.ts", // not production code
@@ -27,8 +27,5 @@ export default {
   verbose: !isE2E,
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
-    "^@redis/client$": "<rootDir>/src/__mocks__/@redis/client.ts",
-    "^@/generated/prisma/client$": "<rootDir>/src/__mocks__/@/generated/prisma/client.ts",
-    "^amqplib$": "<rootDir>/src/__mocks__/amqplib.ts",
   },
 } satisfies Config;

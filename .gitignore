@@ -37,6 +37,7 @@ lerna-debug.log*
 .tmp
 temp
 tmp
+tmp-e2e
 
 # ides & editors
 .idea

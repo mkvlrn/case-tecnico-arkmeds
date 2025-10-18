@@ -17,6 +17,7 @@
     "@commitlint/config-conventional": "^20.0.0",
     "@jest/globals": "^30.2.0",
     "@testcontainers/postgresql": "^11.7.1",
+    "@testcontainers/rabbitmq": "^11.7.1",
     "@testcontainers/redis": "^11.7.1",
     "@types/amqplib": "^0.10.7",
     "@types/express": "^5.0.3",

@@ -16,8 +16,7 @@ import type { Fare } from "@/domain/features/fare/fare.model";
 import type { Trip } from "@/domain/features/trip/trip.model";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { getAmpq } from "@/infra/amqp/amqp-client";
-import { TripAmqpConsumer } from "@/infra/amqp/trip.amqp-consume";
-import { FilesystemTripReceiptRepo } from "@/infra/fs/trip-receipt.fs-repo";
+import { configureContainer } from "@/infra/container";
 import { getPrisma } from "@/infra/prisma/prisma-client";
 import { getRedis } from "@/infra/redis/redis-client";
 
@@ -47,11 +46,12 @@ beforeAll(async () => {
   init(postgresDb.getConnectionUri());
   await seed(prisma);
 
+  const container = configureContainer(prisma, redis, amqp, TEST_TTL, TEST_RECEIPT_DIR);
+
   // start the consumer to save receipts
-  const tripConsumer = new TripAmqpConsumer(amqp);
-  const fsRepo = new FilesystemTripReceiptRepo(TEST_RECEIPT_DIR);
+  const { tripConsumer, tripReceiptRepository } = container.cradle;
   await tripConsumer.consume(async (trip) => {
-    await fsRepo.save(trip);
+    await tripReceiptRepository.save(trip);
   });
 
   const testFare: Fare = {
@@ -69,7 +69,7 @@ beforeAll(async () => {
     expiration: { type: "EX", value: TEST_TTL },
   });
 
-  server = supertest(getServer(prisma, redis, amqp, TEST_TTL));
+  server = supertest(getServer(container));
 }, TEST_HOOK_TIMEOUT);
 
 afterAll(async () => {

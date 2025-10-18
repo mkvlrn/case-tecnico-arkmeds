@@ -1,20 +1,14 @@
-import type { RedisClientType } from "@redis/client";
 import { apiReference } from "@scalar/express-api-reference";
-import type { ChannelModel } from "amqplib";
-import express from "express";
+import type { AwilixContainer } from "awilix";
+import express, { type Application } from "express";
 import { errorHandler } from "@/adapters/api/middlewares/error-handler.middleware";
 import { getDriversRouter } from "@/adapters/api/routers/drivers.router";
 import { getFaresRouter } from "@/adapters/api/routers/fares.router";
 import { getPassengersRouter } from "@/adapters/api/routers/passengers.router";
 import { getTripsRouter } from "@/adapters/api/routers/trips.router";
-import type { PrismaClient } from "@/generated/prisma/client";
+import type { ContainerDependencies } from "@/infra/container";
 
-export function getServer(
-  prisma: PrismaClient,
-  redis: RedisClientType,
-  amqp: ChannelModel,
-  faresTtl: number,
-) {
+export function getServer(container: AwilixContainer<ContainerDependencies>): Application {
   const server = express();
 
   server.use(express.urlencoded({ extended: true }));
@@ -35,10 +29,10 @@ export function getServer(
     res.sendFile("openapi.json", { root: "." });
   });
 
-  server.use("/drivers", getDriversRouter(prisma));
-  server.use("/passengers", getPassengersRouter(prisma));
-  server.use("/fares", getFaresRouter(redis, faresTtl));
-  server.use("/trips", getTripsRouter(prisma, redis, amqp, faresTtl));
+  server.use("/drivers", getDriversRouter(container));
+  server.use("/passengers", getPassengersRouter(container));
+  server.use("/fares", getFaresRouter(container));
+  server.use("/trips", getTripsRouter(container));
 
   server.use(errorHandler);
 

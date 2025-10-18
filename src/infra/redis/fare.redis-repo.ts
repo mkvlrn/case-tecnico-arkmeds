@@ -6,17 +6,17 @@ import { type AsyncResult, R } from "@/domain/utils/result";
 
 export class RedisFaresRepo implements FareRepository {
   private readonly redis: RedisClientType;
-  private readonly fareTtl: number;
+  private readonly faresTtl: number;
 
-  constructor(redis: RedisClientType, fareTtl: number) {
+  constructor(redis: RedisClientType, faresTtl: number) {
     this.redis = redis;
-    this.fareTtl = fareTtl;
+    this.faresTtl = faresTtl;
   }
 
   async create(fare: Fare): AsyncResult<Fare, AppError> {
     try {
       await this.redis.set(fare.requestId, JSON.stringify(fare), {
-        expiration: { type: "EX", value: this.fareTtl },
+        expiration: { type: "EX", value: this.faresTtl },
       });
       return R.ok(fare);
     } catch (err) {

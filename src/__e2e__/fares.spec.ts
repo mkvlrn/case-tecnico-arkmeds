@@ -8,6 +8,7 @@ import supertest, { type Agent } from "supertest";
 import { createFare } from "@/__e2e__/fixtures/fares/create-fare.fixtures";
 import { getServer } from "@/adapters/api/server";
 import type { PrismaClient } from "@/generated/prisma/client";
+import { configureContainer } from "@/infra/container";
 import { getRedis } from "@/infra/redis/redis-client";
 
 const TEST_HOOK_TIMEOUT = 30_000;
@@ -20,9 +21,14 @@ let server: Agent;
 beforeAll(async () => {
   db = await new RedisContainer("redis:alpine").start();
   redis = await getRedis(db.getConnectionUrl());
-  server = supertest(
-    getServer(mockDeep<PrismaClient>(), redis, mockDeep<ChannelModel>(), TEST_TTL),
+  const container = configureContainer(
+    mockDeep<PrismaClient>(),
+    redis,
+    mockDeep<ChannelModel>(),
+    TEST_TTL,
+    "./tmp",
   );
+  server = supertest(getServer(container));
 }, TEST_HOOK_TIMEOUT);
 
 afterAll(async () => {

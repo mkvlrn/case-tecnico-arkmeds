@@ -1,4 +1,5 @@
 import type { RedisClientType } from "@redis/client";
+import { apiReference } from "@scalar/express-api-reference";
 import type { ChannelModel } from "amqplib";
 import express from "express";
 import { errorHandler } from "@/adapters/api/middlewares/error-handler.middleware";
@@ -18,10 +19,27 @@ export function getServer(
 
   server.use(express.urlencoded({ extended: true }));
   server.use(express.json());
+
+  server.use(
+    "/docs",
+    apiReference({
+      url: "/openapi.json",
+      theme: "moon",
+      layout: "modern",
+      darkMode: true,
+      hideModels: true,
+      hideClientButton: true,
+    }),
+  );
+  server.get("/openapi.json", (_req, res) => {
+    res.sendFile("openapi.json", { root: "." });
+  });
+
   server.use("/drivers", getDriversRouter(prisma));
   server.use("/passengers", getPassengersRouter(prisma));
   server.use("/fares", getFaresRouter(redis, faresTtl));
   server.use("/trips", getTripsRouter(prisma, redis, amqp, faresTtl));
+
   server.use(errorHandler);
 
   return server;

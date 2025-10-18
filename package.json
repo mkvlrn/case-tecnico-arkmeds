@@ -53,6 +53,7 @@
     "@prisma/adapter-pg": "^6.17.1",
     "@prisma/client": "^6.17.1",
     "@redis/client": "^5.8.3",
+    "@scalar/express-api-reference": "^0.8.22",
     "amqplib": "^0.10.9",
     "dayjs": "^1.11.18",
     "express": "^5.1.0",

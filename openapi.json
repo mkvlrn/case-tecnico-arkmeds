@@ -1,0 +1,882 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Case Técnico ArkMeds - mkvlrn@gmail.com",
+    "version": "1.0.0",
+    "description": "Technical case for ArkMeds - A ride-sharing/transportation service backend with driver, passenger, fare, and trip management capabilities.",
+    "contact": {
+      "name": "Mike Valeriano",
+      "email": "mkvlrn@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "description": "Development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Drivers",
+      "description": "Driver management endpoints"
+    },
+    {
+      "name": "Passengers",
+      "description": "Passenger management endpoints"
+    },
+    {
+      "name": "Fares",
+      "description": "Fare calculation endpoints"
+    },
+    {
+      "name": "Trips",
+      "description": "Trip creation endpoints"
+    }
+  ],
+  "paths": {
+    "/drivers": {
+      "post": {
+        "tags": ["Drivers"],
+        "summary": "Create a new driver",
+        "description": "Register a new driver in the system. Driver must be at least 18 years old.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDriverRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Driver created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Driver"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Drivers"],
+        "summary": "Get all drivers",
+        "description": "Retrieve a paginated list of all drivers in the system.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of drivers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginatedResult"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Driver"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/drivers/{id}": {
+      "get": {
+        "tags": ["Drivers"],
+        "summary": "Get driver by ID",
+        "description": "Retrieve a specific driver by their unique identifier.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Driver found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Driver"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Drivers"],
+        "summary": "Update driver",
+        "description": "Update an existing driver's information.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDriverRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Driver updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Driver"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Drivers"],
+        "summary": "Delete driver",
+        "description": "Remove a driver from the system.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Driver deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Driver"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/passengers": {
+      "post": {
+        "tags": ["Passengers"],
+        "summary": "Create a new passenger",
+        "description": "Register a new passenger in the system. Passenger must be at least 15 years old.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePassengerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Passenger created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Passenger"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Passengers"],
+        "summary": "Get all passengers",
+        "description": "Retrieve a paginated list of all passengers in the system.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of passengers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginatedResult"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Passenger"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/passengers/{id}": {
+      "get": {
+        "tags": ["Passengers"],
+        "summary": "Get passenger by ID",
+        "description": "Retrieve a specific passenger by their unique identifier.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Passenger found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Passenger"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Passengers"],
+        "summary": "Update passenger",
+        "description": "Update an existing passenger's information.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdPath"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePassengerRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Passenger updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Passenger"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Passengers"],
+        "summary": "Delete passenger",
+        "description": "Remove a passenger from the system.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Passenger deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Passenger"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/fares": {
+      "post": {
+        "tags": ["Fares"],
+        "summary": "Calculate fare",
+        "description": "Calculate the fare for a trip based on origin, destination, and datetime. The fare is cached in Redis with a TTL of 5 minutes and returns a requestId for trip creation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFareRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Fare calculated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fare"
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/trips": {
+      "post": {
+        "tags": ["Trips"],
+        "summary": "Create a new trip",
+        "description": "Create a trip using a passenger ID and a fare requestId. The fare must exist in Redis cache (not expired). A receipt is generated asynchronously via RabbitMQ.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTripRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Trip created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trip"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Passenger or fare not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "passengerNotFound": {
+                    "value": {
+                      "code": "resourceNotFound",
+                      "message": "passenger not found"
+                    }
+                  },
+                  "fareNotFound": {
+                    "value": {
+                      "code": "resourceNotFound",
+                      "message": "fare not found or expired"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "IdPath": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "Unique identifier"
+      },
+      "PageQuery": {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1
+        },
+        "description": "Page number for pagination (10 items per page)"
+      }
+    },
+    "schemas": {
+      "Gender": {
+        "type": "string",
+        "enum": ["male", "female", "other", "undisclosed"],
+        "description": "Gender identification"
+      },
+      "BaseUser": {
+        "type": "object",
+        "required": ["name", "cpf", "dateOfBirth", "gender", "address", "phone"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 80,
+            "description": "Full name",
+            "example": "John Doe"
+          },
+          "cpf": {
+            "type": "string",
+            "pattern": "^\\d{11}$|^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$",
+            "description": "Brazilian CPF (with or without formatting)",
+            "example": "123.456.789-00"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date",
+            "description": "Date of birth in YYYY-MM-DD format",
+            "example": "1990-01-15"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/Gender"
+          },
+          "address": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 255,
+            "description": "Full address",
+            "example": "123 Main St, City, State, 12345"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number (international format accepted)",
+            "example": "+5511987654321"
+          }
+        }
+      },
+      "CreateDriverRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseUser"
+          },
+          {
+            "type": "object",
+            "required": ["vehicle"],
+            "properties": {
+              "dateOfBirth": {
+                "type": "string",
+                "format": "date",
+                "description": "Date of birth (driver must be at least 18 years old)",
+                "example": "1990-01-15"
+              },
+              "vehicle": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 255,
+                "description": "Vehicle information (make, model, year, plate)",
+                "example": "Toyota Corolla 2020, ABC-1234"
+              }
+            }
+          }
+        ]
+      },
+      "Driver": {
+        "allOf": [
+          {
+            "type": "object",
+            "required": ["id"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Unique driver identifier"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CreateDriverRequest"
+          }
+        ]
+      },
+      "CreatePassengerRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseUser"
+          },
+          {
+            "type": "object",
+            "required": ["prefersNoConversation"],
+            "properties": {
+              "dateOfBirth": {
+                "type": "string",
+                "format": "date",
+                "description": "Date of birth (passenger must be at least 15 years old)",
+                "example": "2005-01-15"
+              },
+              "prefersNoConversation": {
+                "type": "boolean",
+                "description": "Whether the passenger prefers no conversation during rides",
+                "example": false
+              }
+            }
+          }
+        ]
+      },
+      "Passenger": {
+        "allOf": [
+          {
+            "type": "object",
+            "required": ["id"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Unique passenger identifier"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/CreatePassengerRequest"
+          }
+        ]
+      },
+      "CreateFareRequest": {
+        "type": "object",
+        "required": [
+          "originLatitude",
+          "originLongitude",
+          "destinationLatitude",
+          "destinationLongitude",
+          "datetime"
+        ],
+        "properties": {
+          "originLatitude": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90,
+            "description": "Origin latitude coordinate",
+            "example": -23.5505
+          },
+          "originLongitude": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180,
+            "description": "Origin longitude coordinate",
+            "example": -46.6333
+          },
+          "destinationLatitude": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90,
+            "description": "Destination latitude coordinate",
+            "example": -23.5629
+          },
+          "destinationLongitude": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180,
+            "description": "Destination longitude coordinate",
+            "example": -46.6544
+          },
+          "datetime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time for the trip (ISO 8601 with timezone, no milliseconds)",
+            "example": "2024-01-15T14:30:00-03:00"
+          }
+        }
+      },
+      "Fare": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CreateFareRequest"
+          },
+          {
+            "type": "object",
+            "required": ["requestId", "distanceInKm", "price"],
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Unique fare request identifier (use this for trip creation)"
+              },
+              "distanceInKm": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Calculated distance in kilometers",
+                "example": 5.23
+              },
+              "price": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Calculated fare price (varies by time and day)",
+                "example": 25.5
+              }
+            }
+          }
+        ]
+      },
+      "CreateTripRequest": {
+        "type": "object",
+        "required": ["passengerId", "requestId"],
+        "properties": {
+          "passengerId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "ID of the passenger taking the trip"
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Fare request ID obtained from POST /fares (must not be expired)"
+          }
+        }
+      },
+      "Trip": {
+        "type": "object",
+        "required": ["passengerId", "datetime", "distanceInKm", "price"],
+        "properties": {
+          "passengerId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "ID of the passenger"
+          },
+          "datetime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Trip date and time"
+          },
+          "distanceInKm": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Trip distance in kilometers"
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Trip price"
+          }
+        }
+      },
+      "PaginatedResult": {
+        "type": "object",
+        "required": ["total", "totalPages", "page", "items"],
+        "properties": {
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total number of items across all pages"
+          },
+          "totalPages": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total number of pages"
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Current page number"
+          },
+          "items": {
+            "type": "array",
+            "description": "Items on current page (max 10 items)"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "invalidInput",
+              "databaseError",
+              "resourceNotFound",
+              "resourceConflict",
+              "fsError",
+              "internalServerError"
+            ],
+            "description": "Error code"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message"
+          },
+          "details": {
+            "description": "Additional error details (optional)"
+          }
+        }
+      }
+    },
+    "responses": {
+      "ValidationError": {
+        "description": "Validation error - invalid input data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "code": "invalidInput",
+              "message": "'name' must be between 3 and 80 characters long"
+            }
+          }
+        }
+      },
+      "NotFoundError": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "code": "resourceNotFound",
+              "message": "driver not found"
+            }
+          }
+        }
+      },
+      "ConflictError": {
+        "description": "Resource conflict - likely duplicate CPF",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "code": "resourceConflict",
+              "message": "driver with this CPF already exists"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "code": "internalServerError",
+              "message": "An unexpected error occurred"
+            }
+          }
+        }
+      }
+    }
+  }
+}

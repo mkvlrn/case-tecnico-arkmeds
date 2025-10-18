@@ -24,11 +24,11 @@ export class RedisFaresRepo implements FareRepository {
       return R.error(new AppError("databaseError", msg, err));
     }
   }
-  async get(id: string): AsyncResult<Fare, AppError> {
+  async get(id: string): AsyncResult<Fare | null, AppError> {
     try {
       const fare = await this.redis.get(id);
       if (!fare) {
-        return R.error(new AppError("resourceNotFound", `fare with id ${id} not found`));
+        return R.ok(null);
       }
 
       const parsed = JSON.parse(fare) as Fare;

@@ -37,6 +37,11 @@ export class CreateTripUseCase {
     if (fare.isError) {
       return R.error(fare.error);
     }
+    if (fare.value === null) {
+      return R.error(
+        new AppError("resourceNotFound", `fare with id ${request.requestId} not found`),
+      );
+    }
 
     const trip = this.createReceipt(request, fare.value);
     this.tripNotifier.notify(trip);

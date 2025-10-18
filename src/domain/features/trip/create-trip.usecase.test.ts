@@ -102,7 +102,7 @@ test("should return an error when fare does not exist", async () => {
     `fare with id ${validTripInput.requestId} not found`,
   );
   passengerRepo.getById.mockResolvedValue(R.ok(validPassengerOutput));
-  fareRepo.get.mockResolvedValue(R.error(expectedError));
+  fareRepo.get.mockResolvedValue(R.ok(null));
 
   const result = await usecase.execute(validTripInput);
 

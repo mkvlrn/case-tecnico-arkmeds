@@ -54,7 +54,7 @@ describe("create", () => {
 
 describe("get", () => {
   test("should return a fare by a given id", async () => {
-    redis.get.mockResolvedValue(JSON.stringify(validFareOutput) as never);
+    redis.get.mockResolvedValue(JSON.stringify(validFareOutput));
 
     const result = await repo.get("test-fare-id");
 
@@ -63,15 +63,14 @@ describe("get", () => {
     expect(redis.get).toHaveBeenCalledWith("test-fare-id");
   });
 
-  test("should return error if fare not found", async () => {
-    redis.get.mockResolvedValue(null as never);
+  test("should return null if fare not found", async () => {
+    redis.get.mockResolvedValue(null);
 
-    const result = await repo.get("non-existent-id");
+    const result = await repo.get("test-fare-id");
 
-    assert(result.isError);
-    expect(result.error).toBeInstanceOf(AppError);
-    expect(result.error.message).toBe("fare with id non-existent-id not found");
-    expect(result.error.code).toBe("resourceNotFound");
+    assert(result.isOk);
+    expect(result.value).toStrictEqual(null);
+    expect(redis.get).toHaveBeenCalledWith("test-fare-id");
   });
 
   test("should return error if redis throws", async () => {

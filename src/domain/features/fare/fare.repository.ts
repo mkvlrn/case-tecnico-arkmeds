@@ -4,5 +4,5 @@ import type { AsyncResult } from "@/domain/utils/result";
 
 export interface FareRepository {
   create(fare: Fare): AsyncResult<Fare, AppError>;
-  get(id: string): AsyncResult<Fare, AppError>;
+  get(id: string): AsyncResult<Fare | null, AppError>;
 }

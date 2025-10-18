@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { expect, test } from "@jest/globals";
 import type { CreateFareSchema } from "@/adapters/api/validation-schemas/fare.schema";
-import { FarePriceCalculator } from "@/domain/features/fare/fare-price-calculator";
-import { WeekdaysDaytimeFareStrategy } from "@/domain/features/fare/strategies/weekdays-daytime";
+import { FarePriceCalculator } from "@/domain/services/fare-price-calculator";
+import { WeekdaysDaytimeFareStrategy } from "@/domain/strategies/weekdays-daytime";
 
 const strategies = [new WeekdaysDaytimeFareStrategy()];
 const calculator = new FarePriceCalculator(strategies);

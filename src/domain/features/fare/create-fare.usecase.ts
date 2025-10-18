@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import type { CreateFareSchema } from "@/adapters/api/validation-schemas/fare.schema";
 import type { Fare } from "@/domain/features/fare/fare.model";
 import type { FareRepository } from "@/domain/features/fare/fare.repository";
-import type { FarePriceCalculator } from "@/domain/features/fare/fare-price-calculator";
+import type { FarePriceCalculator } from "@/domain/services/fare-price-calculator";
 import { AppError } from "@/domain/utils/app-error";
 import { type AsyncResult, R } from "@/domain/utils/result";
 

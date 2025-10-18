@@ -1,4 +1,4 @@
-import { BaseFareStrategy } from "@/domain/features/fare/strategies/base-fare-strategy";
+import { BaseFareStrategy } from "@/domain/strategies/base-fare-strategy";
 
 export class WeekendsEveningFareStrategy extends BaseFareStrategy {
   readonly price = 4.1;

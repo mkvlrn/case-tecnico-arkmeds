@@ -5,7 +5,7 @@ import type { CreateFareSchema } from "@/adapters/api/validation-schemas/fare.sc
 import { CreateFareUseCase } from "@/domain/features/fare/create-fare.usecase";
 import type { Fare } from "@/domain/features/fare/fare.model";
 import type { FareRepository } from "@/domain/features/fare/fare.repository";
-import type { FarePriceCalculator } from "@/domain/features/fare/fare-price-calculator";
+import type { FarePriceCalculator } from "@/domain/services/fare-price-calculator";
 import { AppError } from "@/domain/utils/app-error";
 import { R } from "@/domain/utils/result";
 

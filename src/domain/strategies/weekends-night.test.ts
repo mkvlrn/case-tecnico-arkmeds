@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { WeekendsNightFareStrategy } from "@/domain/features/fare/strategies/weekends-night";
+import { WeekendsNightFareStrategy } from "@/domain/strategies/weekends-night";
 
 const strategy = new WeekendsNightFareStrategy();
 

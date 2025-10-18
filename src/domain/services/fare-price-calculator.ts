@@ -1,5 +1,5 @@
 import type { CreateFareSchema } from "@/adapters/api/validation-schemas/fare.schema";
-import type { BaseFareStrategy } from "@/domain/features/fare/strategies/base-fare-strategy";
+import type { BaseFareStrategy } from "@/domain/strategies/base-fare-strategy";
 import { AppError } from "@/domain/utils/app-error";
 import { R, type Result } from "@/domain/utils/result";
 

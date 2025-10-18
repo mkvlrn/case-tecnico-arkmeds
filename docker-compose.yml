@@ -33,6 +33,7 @@ services:
       retries: 10
 
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:4.1.4-alpine
     ports:
       - "5672:5672"
@@ -43,6 +44,34 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+
+  app:
+    container_name: arkmeds-api
+    image: mkvlrn/case-tecnico-arkmeds:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    ports:
+      - 4000:4000
+    environment:
+      PORT: 4000
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/arkmeds
+      REDIS_URL: redis://redis:6379
+      BROKER_URL: amqp://rabbitmq:5672
+      FARE_TTL: 300
+      RECEIPT_DIR: /app/tmp
+      NODE_ENV: production
+    volumes:
+      - ./tmp:/app/tmp
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
 
 volumes:
   postgres-data:

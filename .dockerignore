@@ -1,0 +1,44 @@
+# dev
+.husky/
+.vscode/
+.git/
+.github/
+
+# test
+coverage/
+src/__e2e__/
+src/**/*.spec.ts
+src/**/*.test.ts
+*.spec.ts
+*.test.ts
+
+# deps
+node_modules/
+
+# temp files
+tmp*/
+
+# artifacts
+build/
+dist/
+
+# env files
+.env
+.env.*
+!.env.schema
+
+# ide/editor config
+.editorconfig
+.nvmrc
+
+# docs
+README.md
+*.md
+!docker-entrypoint.sh
+
+# config files
+*.config.ts
+*.config.js
+biome.json
+jest.config.ts
+commitlint.config.ts

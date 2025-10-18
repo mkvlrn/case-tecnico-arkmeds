@@ -1,5 +1,7 @@
 export const USERS_PER_PAGE = 10;
 
+export const TRIP_NOTIFICATION_QUEUE = "trip-notification";
+
 export const USER_VALIDATION = {
   name: {
     minLength: 3,

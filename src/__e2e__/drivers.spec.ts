@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import type { RedisClientType } from "@redis/client";
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
+import type { ChannelModel } from "amqplib";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
 import supertest, { type Agent } from "supertest";
@@ -25,7 +26,7 @@ beforeAll(async () => {
   prisma = await getPrisma(db.getConnectionUri());
   init(db.getConnectionUri());
   await seed(prisma);
-  server = supertest(getServer(prisma, mockDeep<RedisClientType>(), 0));
+  server = supertest(getServer(prisma, mockDeep<RedisClientType>(), mockDeep<ChannelModel>(), 0));
 }, TEST_HOOK_TIMEOUT);
 
 afterAll(async () => {

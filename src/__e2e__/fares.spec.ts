@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import type { RedisClientType } from "@redis/client";
 import { RedisContainer, type StartedRedisContainer } from "@testcontainers/redis";
+import type { ChannelModel } from "amqplib";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
 import supertest, { type Agent } from "supertest";
@@ -19,7 +20,9 @@ let server: Agent;
 beforeAll(async () => {
   db = await new RedisContainer("redis:alpine").start();
   redis = await getRedis(db.getConnectionUrl());
-  server = supertest(getServer(mockDeep<PrismaClient>(), redis, TEST_TTL));
+  server = supertest(
+    getServer(mockDeep<PrismaClient>(), redis, mockDeep<ChannelModel>(), TEST_TTL),
+  );
 }, TEST_HOOK_TIMEOUT);
 
 afterAll(async () => {

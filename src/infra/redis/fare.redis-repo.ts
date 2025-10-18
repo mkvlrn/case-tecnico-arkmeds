@@ -42,4 +42,14 @@ export class RedisFaresRepo implements FareRepository {
       return R.error(new AppError("databaseError", msg, err));
     }
   }
+
+  async delete(id: string): AsyncResult<true, AppError> {
+    try {
+      await this.redis.del(id);
+      return R.ok(true);
+    } catch (err) {
+      const msg = (err as Error).message;
+      return R.error(new AppError("databaseError", msg, err));
+    }
+  }
 }

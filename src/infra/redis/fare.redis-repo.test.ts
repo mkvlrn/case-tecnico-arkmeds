@@ -84,3 +84,36 @@ describe("get", () => {
     expect(result.error.code).toBe("databaseError");
   });
 });
+
+describe("delete", () => {
+  test("should delete a fare by a given id and return true", async () => {
+    redis.del.mockResolvedValue(1);
+
+    const result = await repo.delete("test-fare-id");
+
+    assert(result.isOk);
+    expect(result.value).toBe(true);
+    expect(redis.del).toHaveBeenCalledWith("test-fare-id");
+  });
+
+  test("should return true even if fare does not exist", async () => {
+    redis.del.mockResolvedValue(0);
+
+    const result = await repo.delete("non-existent-id");
+
+    assert(result.isOk);
+    expect(result.value).toBe(true);
+    expect(redis.del).toHaveBeenCalledWith("non-existent-id");
+  });
+
+  test("should return error if redis throws", async () => {
+    redis.del.mockRejectedValue(new Error("test error"));
+
+    const result = await repo.delete("test-fare-id");
+
+    assert(result.isError);
+    expect(result.error).toBeInstanceOf(AppError);
+    expect(result.error.message).toBe("test error");
+    expect(result.error.code).toBe("databaseError");
+  });
+});

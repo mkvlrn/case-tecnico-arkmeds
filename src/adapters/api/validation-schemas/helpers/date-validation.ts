@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat.js";
 import { z } from "zod";
 import { USER_VALIDATION } from "@/domain/utils/constants";
 

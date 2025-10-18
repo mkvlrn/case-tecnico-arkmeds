@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import process from "node:process";
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
@@ -79,6 +79,7 @@ afterAll(async () => {
   await postgresDb.stop();
   await redisDb.stop();
   await rabbitDb.stop();
+  await rm(TEST_RECEIPT_DIR, { recursive: true, force: true });
 }, TEST_HOOK_TIMEOUT);
 
 describe("POST /trips", () => {

@@ -13,7 +13,7 @@ const redis = await getRedis(ENV.REDIS_URL);
 const amqp = await getAmpq(ENV.BROKER_URL);
 
 const tripConsumer = new TripAmqpConsumer(amqp);
-const fsRepo = new FilesystemTripReceiptRepo("./tmp");
+const fsRepo = new FilesystemTripReceiptRepo(ENV.RECEIPT_DIR);
 await tripConsumer.consume(async (trip) => {
   await fsRepo.save(trip);
 });

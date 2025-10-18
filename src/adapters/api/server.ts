@@ -1,6 +1,8 @@
+import { resolve } from "node:path";
 import { apiReference } from "@scalar/express-api-reference";
 import type { AwilixContainer } from "awilix";
 import express, { type Application } from "express";
+import serveIndex from "serve-index";
 import { errorHandler } from "@/adapters/api/middlewares/error-handler.middleware";
 import { getDriversRouter } from "@/adapters/api/routers/drivers.router";
 import { getFaresRouter } from "@/adapters/api/routers/fares.router";
@@ -13,6 +15,9 @@ export function getServer(container: AwilixContainer<AppContainer>): Application
 
   server.use(express.urlencoded({ extended: true }));
   server.use(express.json());
+
+  const tmpDir = resolve(container.cradle.receiptDir);
+  server.use("/tmp", express.static(tmpDir), serveIndex(tmpDir, { icons: true }));
 
   server.use(
     "/docs",

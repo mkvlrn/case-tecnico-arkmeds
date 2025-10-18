@@ -11,12 +11,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:4000",
-      "description": "Development server"
+      "url": "https://case-tecnico-arkmeds-mkvlrn.up.railway.app",
+      "description": "railway - prod server"
     },
     {
-      "url": "https://case-tecnico-arkmeds-mkvlrn.up.railway.app",
-      "description": "Railway server"
+      "url": "http://localhost:4000",
+      "description": "localhost - dev server"
     }
   ],
   "tags": [

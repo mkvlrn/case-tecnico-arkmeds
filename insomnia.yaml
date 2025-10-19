@@ -1,0 +1,361 @@
+type: collection.insomnia.rest/5.0
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1760834668621
+  modified: 1760834668621
+  description: ""
+collection:
+  - name: Passengers
+    meta:
+      id: fld_1fb3ba7a707b4ba7a7a33b103cd81aff
+      created: 1760834739875
+      modified: 1760834739875
+      sortKey: -1760834739875
+      description: Passenger management endpoints
+    children:
+      - url: "{{ _.base_url }}/passengers"
+        name: Get all passengers
+        meta:
+          id: req_12de9d2b55cc4e4b86381fd28a8cfead
+          created: 1760834739878
+          modified: 1760834739878
+          isPrivate: false
+          description: Retrieve a paginated list of all passengers in the system.
+          sortKey: -1760834739878
+        method: GET
+        parameters:
+          - name: page
+            disabled: true
+            value: "1"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/passengers"
+        name: Create a new passenger
+        meta:
+          id: req_626dae36a6624252a5127c3a25fbb086
+          created: 1760834739878
+          modified: 1760834739878
+          isPrivate: false
+          description: Register a new passenger in the system. Passenger must be at least
+            15 years old.
+          sortKey: -1760834739878
+        method: POST
+        body:
+          mimeType: application/json
+          text: "null"
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/passengers/{{ _.id }}"
+        name: Update passenger
+        meta:
+          id: req_6a6c148f1ab9425dac93f88272c06660
+          created: 1760834739878
+          modified: 1760834739878
+          isPrivate: false
+          description: Update an existing passenger's information.
+          sortKey: -1760834739878
+        method: PUT
+        body:
+          mimeType: application/json
+          text: "null"
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/passengers/{{ _.id }}"
+        name: Get passenger by ID
+        meta:
+          id: req_6cf891b08153433ebd8d1722797e333d
+          created: 1760834739878
+          modified: 1760834739878
+          isPrivate: false
+          description: Retrieve a specific passenger by their unique identifier.
+          sortKey: -1760834739878
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/passengers/{{ _.id }}"
+        name: Delete passenger
+        meta:
+          id: req_e1b0cfb220c340b48e42a2eefa32eb1f
+          created: 1760834739878
+          modified: 1760834739878
+          isPrivate: false
+          description: Remove a passenger from the system.
+          sortKey: -1760834739878
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Drivers
+    meta:
+      id: fld_e4402586adde447bbd0a06481b5418e9
+      created: 1760834739875
+      modified: 1760834739875
+      sortKey: -1760834739875
+      description: Driver management endpoints
+    children:
+      - url: "{{ _.base_url }}/drivers"
+        name: Create a new driver
+        meta:
+          id: req_e33710b01b2d4c618c2af56d501dbabb
+          created: 1760834739876
+          modified: 1760834739876
+          isPrivate: false
+          description: Register a new driver in the system. Driver must be at least 18
+            years old.
+          sortKey: -1760834739876
+        method: POST
+        body:
+          mimeType: application/json
+          text: "null"
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/drivers/{{ _.id }}"
+        name: Get driver by ID
+        meta:
+          id: req_0cbef7e36e0f4129b9482f75bce634e2
+          created: 1760834739877
+          modified: 1760834739877
+          isPrivate: false
+          description: Retrieve a specific driver by their unique identifier.
+          sortKey: -1760834739877
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/drivers/{{ _.id }}"
+        name: Update driver
+        meta:
+          id: req_2efde1672a2f484f93790d36fd46719b
+          created: 1760834739877
+          modified: 1760834739877
+          isPrivate: false
+          description: Update an existing driver's information.
+          sortKey: -1760834739877
+        method: PUT
+        body:
+          mimeType: application/json
+          text: "null"
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/drivers/{{ _.id }}"
+        name: Delete driver
+        meta:
+          id: req_43b675d904024d2d9fa445358ee6bc00
+          created: 1760834739877
+          modified: 1760834739877
+          isPrivate: false
+          description: Remove a driver from the system.
+          sortKey: -1760834739877
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/drivers"
+        name: Get all drivers
+        meta:
+          id: req_d0af7017b90d4df2bd569a44009821f3
+          created: 1760834739877
+          modified: 1760834739877
+          isPrivate: false
+          description: Retrieve a paginated list of all drivers in the system.
+          sortKey: -1760834739877
+        method: GET
+        parameters:
+          - name: page
+            disabled: true
+            value: "1"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Fares
+    meta:
+      id: fld_16d0a1de0291452f8980f8c56616412f
+      created: 1760834739876
+      modified: 1760834739876
+      sortKey: -1760834739876
+      description: Fare calculation endpoints
+    children:
+      - url: "{{ _.base_url }}/fares"
+        name: Calculate fare
+        meta:
+          id: req_2d5d63f5244e4da9b31fa9f7a17c2e0c
+          created: 1760834739879
+          modified: 1760834739879
+          isPrivate: false
+          description: Calculate the fare for a trip based on origin, destination, and
+            datetime. The fare is cached in Redis with a TTL of 5 minutes and
+            returns a requestId for trip creation.
+          sortKey: -1760834739879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "originLatitude": -23.5505,
+              "originLongitude": -46.6333,
+              "destinationLatitude": -23.5629,
+              "destinationLongitude": -46.6544,
+              "datetime": "2024-01-15T14:30:00-03:00"
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Trips
+    meta:
+      id: fld_e5ca14b12b9d42d0a61d2736e059f9d1
+      created: 1760834739876
+      modified: 1760834739876
+      sortKey: -1760834739876
+      description: Trip creation endpoints
+    children:
+      - url: "{{ _.base_url }}/trips"
+        name: Create a new trip
+        meta:
+          id: req_e36c33cdf6ee4b9198d2ad5fda011782
+          created: 1760834739879
+          modified: 1760834739879
+          isPrivate: false
+          description: Create a trip using a passenger ID and a fare requestId. The fare
+            must exist in Redis cache (not expired). A receipt is generated
+            asynchronously via RabbitMQ.
+          sortKey: -1760834739879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "passengerId": "string",
+              "requestId": "string"
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1760834694327
+    modified: 1760834694327
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1760834694326
+    modified: 1760834739873
+    isPrivate: false
+  data:
+    base_url: "{{ _.scheme }}://{{ _.host }}{{ _.base_path }}"
+  subEnvironments:
+    - name: OpenAPI env case-tecnico-arkmeds-mkvlrn.up.railway.app
+      meta:
+        id: env_23fc16278a254dffbdaccf1de753c670
+        created: 1760834739874
+        modified: 1760834739874
+        isPrivate: false
+        sortKey: 1760834739874
+      data:
+        scheme: https
+        base_path: ""
+        host: case-tecnico-arkmeds-mkvlrn.up.railway.app
+    - name: OpenAPI env localhost:4000
+      meta:
+        id: env_d994fc5adc704e1fa9e459ec1d221178
+        created: 1760834739874
+        modified: 1760834739874
+        isPrivate: false
+        sortKey: 1760834739874
+      data:
+        scheme: http
+        base_path: ""
+        host: localhost:4000

@@ -1,5 +1,4 @@
 import { resolve } from "node:path";
-import { apiReference } from "@scalar/express-api-reference";
 import type { AwilixContainer } from "awilix";
 import express, { type Application } from "express";
 import serveIndex from "serve-index";

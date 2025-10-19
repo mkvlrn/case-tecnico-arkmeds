@@ -1,11 +1,11 @@
 import { type ChannelModel, connect } from "amqplib";
+import type { Logger } from "pino";
 
 let amqp: ChannelModel | null = null;
 
-export async function getAmpq(url: string) {
+export async function getAmpq(url: string, pino: Logger) {
   if (!amqp) {
-    // biome-ignore lint/suspicious/noConsole: fine for warning
-    amqp = (await connect(url)).on("error", (err) => console.error(err));
+    amqp = (await connect(url)).on("error", (err) => pino.error(err));
   }
 
   return amqp;

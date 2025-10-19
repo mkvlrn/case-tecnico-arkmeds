@@ -8,6 +8,8 @@ import { RabbitMQContainer, type StartedRabbitMQContainer } from "@testcontainer
 import { RedisContainer, type StartedRedisContainer } from "@testcontainers/redis";
 import type { ChannelModel } from "amqplib";
 import { StatusCodes } from "http-status-codes";
+import { mockDeep } from "jest-mock-extended";
+import type { Logger } from "pino";
 import supertest, { type Agent } from "supertest";
 import { createTrip } from "@/__e2e__/fixtures/trips/create-trip.fixtures";
 import { init, seed } from "@/__e2e__/setup";
@@ -41,12 +43,19 @@ beforeAll(async () => {
 
   prisma = await getPrisma(postgresDb.getConnectionUri());
   redis = await getRedis(redisDb.getConnectionUrl());
-  amqp = await getAmpq(rabbitDb.getAmqpUrl());
+  amqp = await getAmpq(rabbitDb.getAmqpUrl(), mockDeep<Logger>());
 
   init(postgresDb.getConnectionUri());
   await seed(prisma);
 
-  const container = configureContainer(prisma, redis, amqp, TEST_TTL, TEST_RECEIPT_DIR);
+  const container = configureContainer(
+    prisma,
+    redis,
+    amqp,
+    mockDeep<Logger>(),
+    TEST_TTL,
+    TEST_RECEIPT_DIR,
+  );
 
   // start the consumer to save receipts
   const { tripConsumer, tripReceiptRepository } = container.cradle;

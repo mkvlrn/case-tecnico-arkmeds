@@ -1,5 +1,6 @@
 import type { RedisClientType } from "@redis/client";
 import type { ChannelModel } from "amqplib";
+import type { Logger } from "pino";
 import type { CreateDriverController } from "@/adapters/api/controllers/drivers/create-driver.controller";
 import type { DeleteDriverController } from "@/adapters/api/controllers/drivers/delete-driver.controller";
 import type { GetAllDriversController } from "@/adapters/api/controllers/drivers/get-all-drivers.controller";
@@ -44,6 +45,7 @@ export interface AppContainer {
   prisma: PrismaClient;
   redis: RedisClientType;
   amqp: ChannelModel;
+  pino: Logger;
   faresTtl: number;
   receiptDir: string;
   apiEnv: "dev" | "prod";

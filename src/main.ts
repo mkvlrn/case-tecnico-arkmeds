@@ -4,17 +4,20 @@ import { ENV } from "varlock/env";
 import { getServer } from "@/adapters/api/server";
 import { getAmpq } from "@/infra/amqp/amqp-client";
 import { configureContainer } from "@/infra/container/index";
+import { getPino } from "@/infra/pino/pino-logger";
 import { getPrisma } from "@/infra/prisma/prisma-client";
 import { getRedis } from "@/infra/redis/redis-client";
 
+const pino = getPino();
 const prisma = await getPrisma(ENV.DATABASE_URL);
 const redis = await getRedis(ENV.REDIS_URL);
-const amqp = await getAmpq(ENV.BROKER_URL);
+const amqp = await getAmpq(ENV.BROKER_URL, pino);
 
 const container = configureContainer(
   prisma,
   redis,
   amqp,
+  pino,
   ENV.FARE_TTL,
   ENV.RECEIPT_DIR,
   ENV.API_ENV,
@@ -26,8 +29,7 @@ await tripConsumer.consume(async (trip) => {
 });
 
 const server = getServer(container);
-// biome-ignore lint/suspicious/noConsole: just for dev
-const instance = server.listen(ENV.PORT, () => console.info(`Server is running @${ENV.PORT}`));
+const instance = server.listen(ENV.PORT, () => pino.info(`Server is running @${ENV.PORT}`));
 
 async function shutdown() {
   await prisma.$disconnect();

@@ -4,6 +4,7 @@ import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testconta
 import type { ChannelModel } from "amqplib";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
+import type { Logger } from "pino";
 import supertest, { type Agent } from "supertest";
 import { createPassenger } from "@/__e2e__/fixtures/passengers/create-passenger.fixtures";
 import { deletePassenger } from "@/__e2e__/fixtures/passengers/delete-passenger.fixtures";
@@ -31,6 +32,7 @@ beforeAll(async () => {
     prisma,
     mockDeep<RedisClientType>(),
     mockDeep<ChannelModel>(),
+    mockDeep<Logger>(),
     0,
     "./tmp",
   );

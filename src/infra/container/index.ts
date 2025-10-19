@@ -2,6 +2,7 @@ import type { PrismaClient } from "@prisma/client";
 import type { RedisClientType } from "@redis/client";
 import type { ChannelModel } from "amqplib";
 import { createContainer, InjectionMode } from "awilix";
+import type { Logger } from "pino";
 import { registerControllers } from "@/infra/container/controllers.registry";
 import { registerInfrastructure } from "@/infra/container/infra.registry";
 import { registerRepositories } from "@/infra/container/repos.registry";
@@ -13,6 +14,7 @@ export function configureContainer(
   prisma: PrismaClient,
   redis: RedisClientType,
   amqp: ChannelModel,
+  pino: Logger,
   faresTtl: number,
   receiptDir: string,
   apiEnv: "dev" | "prod" = "dev",
@@ -21,7 +23,7 @@ export function configureContainer(
     injectionMode: InjectionMode.PROXY,
   });
 
-  registerInfrastructure(container, prisma, redis, amqp, faresTtl, receiptDir, apiEnv);
+  registerInfrastructure(container, prisma, redis, amqp, pino, faresTtl, receiptDir, apiEnv);
   registerRepositories(container);
   registerServices(container);
   registerUseCases(container);

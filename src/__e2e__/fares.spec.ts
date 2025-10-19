@@ -4,6 +4,7 @@ import { RedisContainer, type StartedRedisContainer } from "@testcontainers/redi
 import type { ChannelModel } from "amqplib";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
+import type { Logger } from "pino";
 import supertest, { type Agent } from "supertest";
 import { createFare } from "@/__e2e__/fixtures/fares/create-fare.fixtures";
 import { getServer } from "@/adapters/api/server";
@@ -25,6 +26,7 @@ beforeAll(async () => {
     mockDeep<PrismaClient>(),
     redis,
     mockDeep<ChannelModel>(),
+    mockDeep<Logger>(),
     TEST_TTL,
     "./tmp",
   );

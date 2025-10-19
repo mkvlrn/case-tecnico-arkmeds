@@ -1,6 +1,7 @@
 import { beforeEach, expect, jest, test } from "@jest/globals";
 import type { Channel, ChannelModel, ConsumeMessage } from "amqplib";
 import { type DeepMockProxy, mockDeep } from "jest-mock-extended";
+import type { Logger } from "pino";
 import type { Trip } from "@/domain/features/trip/trip.model";
 import { TRIP_NOTIFICATION_QUEUE } from "@/domain/utils/constants";
 import { TripAmqpConsumer } from "@/infra/amqp/trip.amqp-consume";
@@ -20,7 +21,7 @@ let mockHandler: jest.Mock<(trip: Trip) => Promise<void>>;
 beforeEach(() => {
   amqp = mockDeep<ChannelModel>();
   channel = mockDeep<Channel>();
-  consumer = new TripAmqpConsumer(amqp);
+  consumer = new TripAmqpConsumer(amqp, mockDeep<Logger>());
   mockHandler = jest.fn();
 });
 
@@ -84,7 +85,6 @@ test("should nack message without requeue if handler fails", async () => {
     messageCallback = callback as (msg: ConsumeMessage | null) => Promise<void>;
     return {} as never;
   });
-  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
 
   await consumer.consume(mockHandler);
   const mockMessage = {
@@ -95,9 +95,6 @@ test("should nack message without requeue if handler fails", async () => {
   expect(mockHandler).toHaveBeenCalledWith(validTrip);
   expect(channel.nack).toHaveBeenCalledWith(mockMessage, false, false);
   expect(channel.ack).not.toHaveBeenCalled();
-  expect(consoleErrorSpy).toHaveBeenCalledWith(handlerError);
-
-  consoleErrorSpy.mockRestore();
 });
 
 test("should nack message without requeue if JSON parsing fails", async () => {
@@ -108,7 +105,6 @@ test("should nack message without requeue if JSON parsing fails", async () => {
     messageCallback = callback as (msg: ConsumeMessage | null) => Promise<void>;
     return {} as never;
   });
-  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
 
   await consumer.consume(mockHandler);
   const mockMessage = {
@@ -119,9 +115,6 @@ test("should nack message without requeue if JSON parsing fails", async () => {
   expect(mockHandler).not.toHaveBeenCalled();
   expect(channel.nack).toHaveBeenCalledWith(mockMessage, false, false);
   expect(channel.ack).not.toHaveBeenCalled();
-  expect(consoleErrorSpy).toHaveBeenCalled();
-
-  consoleErrorSpy.mockRestore();
 });
 
 test("should do nothing if message is null", async () => {

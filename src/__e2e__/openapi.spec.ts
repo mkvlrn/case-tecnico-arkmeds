@@ -3,6 +3,7 @@ import type { RedisClientType } from "@redis/client";
 import type { ChannelModel } from "amqplib";
 import { StatusCodes } from "http-status-codes";
 import { mockDeep } from "jest-mock-extended";
+import type { Logger } from "pino";
 import supertest, { type Agent } from "supertest";
 import { getServer } from "@/adapters/api/server";
 import type { PrismaClient } from "@/generated/prisma/client";
@@ -15,6 +16,7 @@ beforeAll(() => {
     mockDeep<PrismaClient>(),
     mockDeep<RedisClientType>(),
     mockDeep<ChannelModel>(),
+    mockDeep<Logger>(),
     0,
     "./tmp",
   );

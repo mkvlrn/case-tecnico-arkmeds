@@ -1,5 +1,5 @@
 import { afterEach, expect, jest, test } from "@jest/globals";
-import { getPrisma } from "./prisma-client";
+import { getPrisma } from "@/infra/prisma/prisma-client";
 
 jest.mock("@/generated/prisma/client");
 jest.mock("@prisma/adapter-pg");

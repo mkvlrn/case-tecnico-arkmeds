@@ -1,12 +1,16 @@
 import { apiReference } from "@scalar/express-api-reference";
 
 export function getScalarMiddleware(apiEnv: "dev" | "prod") {
-  const url =
-    apiEnv === "dev"
-      ? "http://localhost:4000"
-      : "https://case-tecnico-arkmeds-mkvlrn.up.railway.app";
-  const description = apiEnv === "dev" ? "localhost - dev server" : "railway - prod server";
-  const servers = [{ url, description }];
+  const servers = {
+    dev: {
+      url: "http://localhost:4000",
+      description: "localhost - dev server",
+    },
+    prod: {
+      url: "https://case-tecnico-arkmeds-mkvlrn.up.railway.app",
+      description: "railway - prod server",
+    },
+  };
 
   return apiReference({
     url: "/openapi.json",
@@ -17,6 +21,6 @@ export function getScalarMiddleware(apiEnv: "dev" | "prod") {
     hideClientButton: true,
     forceDarkModeState: "dark",
     pageTitle: "Case Técnico Arkmeds - mkvlrn@gmail.com - API docs",
-    servers,
+    servers: [servers[apiEnv]],
   });
 }

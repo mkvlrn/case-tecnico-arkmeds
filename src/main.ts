@@ -11,7 +11,14 @@ const prisma = await getPrisma(ENV.DATABASE_URL);
 const redis = await getRedis(ENV.REDIS_URL);
 const amqp = await getAmpq(ENV.BROKER_URL);
 
-const container = configureContainer(prisma, redis, amqp, ENV.FARE_TTL, ENV.RECEIPT_DIR);
+const container = configureContainer(
+  prisma,
+  redis,
+  amqp,
+  ENV.FARE_TTL,
+  ENV.RECEIPT_DIR,
+  ENV.API_ENV,
+);
 
 const { tripConsumer, tripReceiptRepository } = container.cradle;
 await tripConsumer.consume(async (trip) => {

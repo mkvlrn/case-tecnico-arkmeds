@@ -46,6 +46,7 @@ export interface AppContainer {
   amqp: ChannelModel;
   faresTtl: number;
   receiptDir: string;
+  apiEnv: "dev" | "prod";
 
   // repositories
   driverRepository: DriverPrismaRepo;

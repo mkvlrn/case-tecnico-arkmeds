@@ -14,6 +14,7 @@ export function registerInfrastructure(
   amqp: ChannelModel,
   faresTtl: number,
   receiptDir: string,
+  apiEnv: "dev" | "prod",
 ) {
   container.register({
     // external dependencies
@@ -22,6 +23,7 @@ export function registerInfrastructure(
     amqp: asValue(amqp),
     faresTtl: asValue(faresTtl),
     receiptDir: asValue(receiptDir),
+    apiEnv: asValue(apiEnv),
 
     // messaging
     tripConsumer: asFunction(({ amqp }: AppContainer) => new TripAmqpConsumer(amqp)).singleton(),

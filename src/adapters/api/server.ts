@@ -8,6 +8,7 @@ import { getDriversRouter } from "@/adapters/api/routers/drivers.router";
 import { getFaresRouter } from "@/adapters/api/routers/fares.router";
 import { getPassengersRouter } from "@/adapters/api/routers/passengers.router";
 import { getTripsRouter } from "@/adapters/api/routers/trips.router";
+import { getScalarMiddleware } from "@/adapters/api/scalar";
 import type { AppContainer } from "@/infra/container/types";
 
 export function getServer(container: AwilixContainer<AppContainer>): Application {
@@ -19,17 +20,7 @@ export function getServer(container: AwilixContainer<AppContainer>): Application
   const tmpDir = resolve(container.cradle.receiptDir);
   server.use("/tmp", express.static(tmpDir), serveIndex(tmpDir, { icons: true }));
 
-  server.use(
-    "/docs",
-    apiReference({
-      url: "/openapi.json",
-      theme: "moon",
-      layout: "modern",
-      darkMode: true,
-      hideModels: true,
-      hideClientButton: true,
-    }),
-  );
+  server.use("/docs", getScalarMiddleware(container.cradle.apiEnv));
   server.get("/openapi.json", (_req, res) => {
     res.sendFile("openapi.json", { root: "." });
   });

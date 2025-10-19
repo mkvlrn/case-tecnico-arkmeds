@@ -15,12 +15,13 @@ export function configureContainer(
   amqp: ChannelModel,
   faresTtl: number,
   receiptDir: string,
+  apiEnv: "dev" | "prod" = "dev",
 ) {
   const container = createContainer<AppContainer>({
     injectionMode: InjectionMode.PROXY,
   });
 
-  registerInfrastructure(container, prisma, redis, amqp, faresTtl, receiptDir);
+  registerInfrastructure(container, prisma, redis, amqp, faresTtl, receiptDir, apiEnv);
   registerRepositories(container);
   registerServices(container);
   registerUseCases(container);

@@ -42,7 +42,7 @@ test("should return an error if updated cpf already exists", async () => {
     `driver with cpf ${validDriverInput.cpf} already exists`,
   );
   repo.getById.mockResolvedValue(R.ok(validDriverOutput));
-  repo.getByCpf.mockResolvedValue(R.ok(validDriverOutput));
+  repo.getByCpf.mockResolvedValue(R.ok({ ...validDriverOutput, id: "different-id" }));
 
   const result = await usecase.execute("test-id", validDriverInput);
 

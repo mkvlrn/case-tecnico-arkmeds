@@ -42,7 +42,7 @@ test("should return an error if updated cpf already exists", async () => {
     `passenger with cpf ${validPassengerInput.cpf} already exists`,
   );
   repo.getById.mockResolvedValue(R.ok(validPassengerOutput));
-  repo.getByCpf.mockResolvedValue(R.ok(validPassengerOutput));
+  repo.getByCpf.mockResolvedValue(R.ok({ ...validPassengerOutput, id: "different-id" }));
 
   const result = await usecase.execute("test-id", validPassengerInput);
 

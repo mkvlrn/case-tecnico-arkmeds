@@ -61,7 +61,7 @@ services:
       BROKER_URL: amqp://rabbitmq:5672
       FARE_TTL: 300
       RECEIPT_DIR: /app/tmp
-      NODE_ENV: production
+      API_ENV: dev
     volumes:
       - ./tmp:/app/tmp
     depends_on:

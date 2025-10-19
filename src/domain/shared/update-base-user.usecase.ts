@@ -31,7 +31,7 @@ export abstract class UpdateBaseUserUseCase<
     if (conflict.isError) {
       return R.error(conflict.error);
     }
-    if (conflict.value !== null && conflict.value.cpf === input.cpf) {
+    if (conflict.value !== null && conflict.value.id !== id) {
       return R.error(
         new AppError("resourceConflict", `${this.modelName} with cpf ${input.cpf} already exists`),
       );

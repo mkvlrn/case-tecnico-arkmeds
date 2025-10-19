@@ -27,7 +27,7 @@ test("should calculate price correctly for a matching strategy", () => {
 });
 
 test("should return error if no strategy matches", () => {
-  const datetime = new Date("2025-10-20T07:00:00-03:00"); // fora do horário
+  const datetime = new Date("2025-10-18T07:00:00-03:00"); // outside strategy range
   const result = calculator.calculate(fare, datetime);
 
   assert(result.isError);

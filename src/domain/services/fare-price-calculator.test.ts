@@ -12,11 +12,11 @@ const fare: CreateFareSchema = {
   originLongitude: -42.537_458,
   destinationLatitude: -15.597_321,
   destinationLongitude: -56.082_842,
-  datetime: "2025-10-20T09:00:00-03:00",
+  datetime: "2025-10-20T12:00:00Z", // 12:00 UTC (09:00 UTC-3)
 };
 
 test("should calculate price correctly for a matching strategy", () => {
-  const datetime = new Date("2025-10-20T09:00:00-03:00");
+  const datetime = new Date("2025-10-20T12:00:00Z"); // monday 12:00 UTC (09:00 UTC-3)
   const result = calculator.calculate(fare, datetime);
 
   assert(result.isOk);
@@ -27,7 +27,7 @@ test("should calculate price correctly for a matching strategy", () => {
 });
 
 test("should return error if no strategy matches", () => {
-  const datetime = new Date("2025-10-18T07:00:00-03:00"); // outside strategy range
+  const datetime = new Date("2025-10-20T07:00:00Z"); // 07:00 UTC - outside strategy range (8-17)
   const result = calculator.calculate(fare, datetime);
 
   assert(result.isError);

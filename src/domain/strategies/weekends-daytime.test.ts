@@ -4,17 +4,17 @@ import { WeekendsDaytimeFareStrategy } from "@/domain/strategies/weekends-daytim
 const strategy = new WeekendsDaytimeFareStrategy();
 
 test("should match a weekend during daytime", () => {
-  const date = new Date("2025-10-18T10:00:00-03:00"); // saturday 10:00
+  const date = new Date("2025-10-18T13:00:00Z"); // saturday 13:00 UTC (10:00 UTC-3)
   expect(strategy.matches(date)).toBe(true);
 });
 
 test("should not match a weekend outside daytime", () => {
-  const date = new Date("2025-10-18T07:00:00-03:00"); // saturday 07:00
+  const date = new Date("2025-10-18T07:00:00Z"); // saturday 07:00 UTC (04:00 UTC-3)
   expect(strategy.matches(date)).toBe(false);
 });
 
 test("should not match a weekday", () => {
-  const date = new Date("2025-10-20T10:00:00-03:00"); // monday 10:00
+  const date = new Date("2025-10-20T13:00:00Z"); // monday 13:00 UTC (10:00 UTC-3)
   expect(strategy.matches(date)).toBe(false);
 });
 

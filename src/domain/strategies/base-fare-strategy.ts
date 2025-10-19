@@ -12,8 +12,8 @@ export abstract class BaseFareStrategy {
   }
 
   matches(datetime: Date): boolean {
-    const day = datetime.getDay();
-    const hour = datetime.getHours();
+    const day = datetime.getUTCDay();
+    const hour = datetime.getUTCHours();
 
     if (!this.days.includes(day)) {
       return false;

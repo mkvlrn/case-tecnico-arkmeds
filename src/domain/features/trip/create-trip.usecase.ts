@@ -44,8 +44,8 @@ export class CreateTripUseCase {
     }
 
     const trip = this.createReceipt(request, fare.value);
-    this.tripNotifier.notify(trip);
     this.fareRepository.delete(fare.value.requestId);
+    this.tripNotifier.notify(trip);
 
     return R.ok(trip);
   }

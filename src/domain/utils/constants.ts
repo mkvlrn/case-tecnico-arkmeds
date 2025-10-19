@@ -39,6 +39,21 @@ export const USER_VALIDATION = {
   },
 };
 
+export const TRIP_VALIDATION = {
+  passengerId: {
+    message: "'passengerId' must not be empty",
+  },
+  requestId: {
+    message: "'requestId' must not be empty",
+  },
+};
+
+export const ID_VALIDATION = {
+  id: {
+    message: "'id' must not be empty",
+  },
+};
+
 export const PAGINATION_VALIDATION = {
   page: {
     min: 1,

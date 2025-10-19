@@ -1,6 +1,7 @@
 import { expect } from "@jest/globals";
 import { StatusCodes } from "http-status-codes";
 import type { CreateTripSchema } from "@/adapters/api/validation-schemas/trip.schema";
+import { TRIP_VALIDATION } from "@/domain/utils/constants";
 
 const validTripInput = {
   passengerId: "okmclejrj1xegofrbc164ie0",
@@ -28,6 +29,16 @@ export const createTrip = {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
         details: [{ passengerId: "Invalid input: expected string, received undefined" }],
+      },
+    },
+    {
+      spec: "empty passengerId",
+      input: { ...validTripInput, passengerId: "" },
+      statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
+      error: {
+        code: "invalidInput",
+        message: "input/query is invalid or incomplete",
+        details: [{ passengerId: TRIP_VALIDATION.passengerId.message }],
       },
     },
     {
@@ -69,6 +80,16 @@ export const createTrip = {
         code: "invalidInput",
         message: "input/query is invalid or incomplete",
         details: [{ requestId: "Invalid input: expected string, received undefined" }],
+      },
+    },
+    {
+      spec: "empty requestId",
+      input: { ...validTripInput, requestId: "" },
+      statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
+      error: {
+        code: "invalidInput",
+        message: "input/query is invalid or incomplete",
+        details: [{ requestId: TRIP_VALIDATION.requestId.message }],
       },
     },
     {

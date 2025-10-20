@@ -29,7 +29,12 @@ await tripConsumer.consume(async (trip) => {
 });
 
 const server = getServer(container);
-const instance = server.listen(ENV.PORT, () => pino.info(`Server is running @${ENV.PORT}`));
+const instance = server.listen(ENV.PORT, () => {
+  pino.info(`server is running @${ENV.PORT}`);
+  if (ENV.API_ENV === "dev") {
+    pino.info(`view docs at http://localhost:${ENV.PORT}/docs`);
+  }
+});
 
 async function shutdown() {
   await prisma.$disconnect();

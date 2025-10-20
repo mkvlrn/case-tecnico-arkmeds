@@ -206,29 +206,29 @@ Separar a API e o processamento de trips em microsserviços seria uma alternativ
 Foram utilizadas as tecnologias previstas no documento do projeto, com outras sendo utilizadas, quando não existia uma determinação, a meu critério. Aqui segue uma listagem não exaustiva:
 
 - Geral
-  - <a href="https://github.com/nodejs/node" target="_blank" rel="noopener noreferrer">node</a>
-  - <a href="https://github.com/microsoft/TypeScript" target="_blank" rel="noopener noreferrer">typescript</a>
-  - <a href="https://github.com/privatenumber/tsx" target="_blank" rel="noopener noreferrer">tsx</a> - executor de typescript
-  - <a href="https://github.com/jeffijoe/awilix" target="_blank" rel="noopener noreferrer">awilix</a> - container de DI
-  - <a href="https://github.com/dmno-dev/varlock" target="_blank" rel="noopener noreferrer">varlock</a> - gerenciamento de variáveis de ambiente
+  - [node](https://github.com/nodejs/node)
+  - [typescript](https://github.com/microsoft/TypeScript)
+  - [tsx](https://github.com/privatenumber/tsx) - executor de typescript
+  - [awilix](https://github.com/jeffijoe/awilix) - container de DI
+  - [varlock](https://github.com/dmno-dev/varlock) - gerenciamento de variáveis de ambiente
 - Qualidade/Testes
-  - <a href="https://github.com/biomejs/biome" target="_blank" rel="noopener noreferrer">biome</a> - linter e formatter de código
-  - <a href="https://github.com/conventional-changelog/commitlint" target="_blank" rel="noopener noreferrer">commitlint</a> - linter de mensagens de commit
-  - <a href="https://github.com/typicode/husky" target="_blank" rel="noopener noreferrer">husky</a> - hooks de git
-  - <a href="https://github.com/lint-staged/lint-staged" target="_blank" rel="noopener noreferrer">lint-staged</a> - execução de tasks de qualidade junto aos hooks de git
-  - <a href="https://github.com/jestjs/jest" target="_blank" rel="noopener noreferrer">jest</a> - testes
-  - <a href="https://github.com/testcontainers" target="_blank" rel="noopener noreferrer">testcontainers</a> - containers para garantir resiliência em cenários reais durante testes de integração e e2e
+  - [biome](https://github.com/biomejs/biome) - linter e formatter de código
+  - [commitlint](https://github.com/conventional-changelog/commitlint) - linter de mensagens de commit
+  - [husky](https://github.com/typicode/husky) - hooks de git
+  - [lint-staged](https://github.com/lint-staged/lint-staged) - execução de tasks de qualidade junto aos hooks de git
+  - [jest](https://github.com/jestjs/jest) - testes
+  - [testcontainers](https://github.com/testcontainers) - containers para garantir resiliência em cenários reais durante testes de integração e e2e
 - API
-  - <a href="https://github.com/expressjs/express" target="_blank" rel="noopener noreferrer">express</a> - framework de api
-  - <a href="https://www.postgresql.org" target="_blank" rel="noopener noreferrer">postgres</a> - banco para persistência de drivers e passengers
-  - <a href="https://redis.io/" target="_blank" rel="noopener noreferrer">redis</a> - persistência efêmera de fares
-  - <a href="https://www.rabbitmq.com/" target="_blank" rel="noopener noreferrer">rabbitmq</a> - broker de mensagens para criação de recibos de forma assíncrona
-  - <a href="https://github.com/scalar/scalar" target="_blank" rel="noopener noreferrer">scalar</a> - documentação e referência de api
-  - <a href="https://github.com/colinhacks/zod" target="_blank" rel="noopener noreferrer">zod</a> - validação de dados através de schemas
+  - [express](https://github.com/expressjs/express) - framework de api
+  - [postgres](https://www.postgresql.org) - banco para persistência de drivers e passengers
+  - [redis](https://redis.io/) - persistência efêmera de fares
+  - [rabbitmq](https://www.rabbitmq.com/) - broker de mensagens para criação de recibos de forma assíncrona
+  - [scalar](https://github.com/scalar/scalar) - documentação e referência de api
+  - [zod](https://github.com/colinhacks/zod) - validação de dados através de schemas
 - Infra
-  - <a href="https://github.com/prisma/prisma" target="_blank" rel="noopener noreferrer">prisma</a> - orm para interação entre a API e o banco de dados
-  - <a href="https://github.com/redis/node-redis" target="_blank" rel="noopener noreferrer">@redis/client</a> - interação com o redis
-  - <a href="https://github.com/amqp-node/amqplib" target="_blank" rel="noopener noreferrer">amqplib</a> - interação com o rabbitmq
+  - [prisma](https://github.com/prisma/prisma) - orm para interação entre a API e o banco de dados
+  - [@redis/client](https://github.com/redis/node-redis) - interação com o redis
+  - [amqplib](https://github.com/amqp-node/amqplib) - interação com o rabbitmq
 
 <h3 id="project_env">Variáveis de ambiente <a href="#top" title="voltar ao topo">🔝</a></h3>
 

@@ -443,7 +443,7 @@
       "post": {
         "tags": ["Trips"],
         "summary": "Create a new trip",
-        "description": "Create a trip using a passenger ID and a fare requestId. The fare must exist in Redis cache (not expired). A receipt is generated asynchronously via RabbitMQ.",
+        "description": "Create a trip using a passenger ID and a fare requestId. The fare must exist in Redis cache (not expired). A driver must be available in the system. A receipt is generated asynchronously via RabbitMQ.",
         "requestBody": {
           "required": true,
           "content": {
@@ -494,6 +494,20 @@
           },
           "500": {
             "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "description": "Service unavailable - no drivers available to fulfill the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "code": "noDriversAvailable",
+                  "message": "no drivers available to fulfill request"
+                }
+              }
+            }
           }
         }
       }
@@ -749,12 +763,17 @@
       },
       "Trip": {
         "type": "object",
-        "required": ["passengerId", "datetime", "distanceInKm", "price"],
+        "required": ["passengerId", "driverId", "datetime", "distanceInKm", "price"],
         "properties": {
           "passengerId": {
             "type": "string",
             "format": "uuid",
             "description": "ID of the passenger"
+          },
+          "driverId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "ID of the assigned driver"
           },
           "datetime": {
             "type": "string",
@@ -810,6 +829,7 @@
               "resourceNotFound",
               "resourceConflict",
               "fsError",
+              "noDriversAvailable",
               "internalServerError"
             ],
             "description": "Error code"

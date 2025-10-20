@@ -334,8 +334,6 @@ Além disso, os endpoints para documentação, spec OpenAPI, e listagem do diret
 
 Eu sei que a implementação peca em um fator importante: a lógica de criação de trips simplesmente pede o `passengerId` e o `requestId` no corpo do request, o que é _absurdo_, mas eu escolhi não criar um sistema de autenticação para permitir envio de ID através de headers por questão de tempo - iria levar alguns dias a mais para fazer tudo certo.
 
-Também não foi implementado o conceito de ligar um driver à uma trip na criação; entendo que a criação da trip deveria depender da existência e disponibilidade de um driver, mas o requisito não existe no documento, e eu resolvi cumprir tudo que foi pedido antes de considerar esses gaps; infelizmente o tempo não seria suficiente para fazer toda a lógica de forma satisfatória.
-
 <h3 id="disclaimers_errors">Operações sem Error Handling <a href="#top" title="voltar ao topo">🔝</a></h3>
 
 A notificação da criação de trips é "fire and forget" deliberadamente. O retorno para o usuário é imediato, mas não fiz tratamento de erro no caso de problemas com o broker de mensagens. Novamente, o constraint foi tempo hábil.

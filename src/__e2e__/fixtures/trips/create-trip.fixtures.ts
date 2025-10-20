@@ -13,6 +13,7 @@ export const createTrip = {
     input: validTripInput,
     output: {
       passengerId: validTripInput.passengerId,
+      driverId: expect.any(String),
       datetime: expect.any(String),
       distanceInKm: expect.any(Number),
       price: expect.any(Number),
@@ -144,6 +145,17 @@ export const createTrip = {
           { passengerId: expect.any(String) },
           { requestId: expect.any(String) },
         ]),
+      },
+    },
+
+    // ===== driver availability =====
+    {
+      spec: "no drivers available",
+      input: validTripInput,
+      statusCode: StatusCodes.SERVICE_UNAVAILABLE,
+      error: {
+        code: "noDriversAvailable",
+        message: "no drivers available to fulfill request",
       },
     },
   ],

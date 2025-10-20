@@ -15,5 +15,7 @@ export interface BaseUserRepository<TEntity, TCreateSchema = never> {
   count(): AsyncResult<number, AppError>;
 }
 
-export interface DriverRepository extends BaseUserRepository<Driver, CreateDriverSchema> {}
+export interface DriverRepository extends BaseUserRepository<Driver, CreateDriverSchema> {
+  getNearest(): AsyncResult<Driver | null, AppError>;
+}
 export interface PassengerRepository extends BaseUserRepository<Passenger, CreatePassengerSchema> {}

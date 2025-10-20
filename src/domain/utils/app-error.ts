@@ -5,7 +5,8 @@ export type ErrorCode =
   | "databaseError"
   | "resourceNotFound"
   | "resourceConflict"
-  | "fsError";
+  | "fsError"
+  | "noDriversAvailable";
 
 export class AppError extends Error {
   static readonly errorToStatus: Record<ErrorCode, StatusCodes> = {
@@ -14,6 +15,7 @@ export class AppError extends Error {
     resourceNotFound: StatusCodes.NOT_FOUND,
     resourceConflict: StatusCodes.CONFLICT,
     fsError: StatusCodes.INTERNAL_SERVER_ERROR,
+    noDriversAvailable: StatusCodes.SERVICE_UNAVAILABLE,
   };
 
   readonly code: ErrorCode;

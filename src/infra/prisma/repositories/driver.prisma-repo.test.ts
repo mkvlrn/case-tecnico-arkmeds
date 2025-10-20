@@ -205,3 +205,39 @@ describe("count", () => {
     expect(result.error.code).toBe("databaseError");
   });
 });
+
+describe("getNearest", () => {
+  test("should return a random driver", async () => {
+    prisma.$queryRaw.mockResolvedValue([
+      {
+        ...validDriverOutput,
+        dateOfBirth: new Date(validDriverOutput.dateOfBirth),
+      },
+    ]);
+
+    const result = await repo.getNearest();
+
+    assert(result.isOk);
+    expect(result.value).toStrictEqual(validDriverOutput);
+  });
+
+  test("should return null when no drivers exist", async () => {
+    prisma.$queryRaw.mockResolvedValue([]);
+
+    const result = await repo.getNearest();
+
+    assert(result.isOk);
+    expect(result.value).toBeNull();
+  });
+
+  test("should return error if prisma throws", async () => {
+    prisma.$queryRaw.mockRejectedValue(new Error("test error"));
+
+    const result = await repo.getNearest();
+
+    assert(result.isError);
+    expect(result.error).toBeInstanceOf(AppError);
+    expect(result.error.message).toBe("test error");
+    expect(result.error.code).toBe("databaseError");
+  });
+});

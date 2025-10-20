@@ -12,7 +12,7 @@ import { mockDeep } from "jest-mock-extended";
 import type { Logger } from "pino";
 import supertest, { type Agent } from "supertest";
 import { createTrip } from "@/__e2e__/fixtures/trips/create-trip.fixtures";
-import { init, seed } from "@/__e2e__/setup";
+import { clearDrivers, destroy, init, seed } from "@/__e2e__/setup";
 import { getServer } from "@/adapters/api/server";
 import type { Fare } from "@/domain/features/fare/fare.model";
 import type { Trip } from "@/domain/features/trip/trip.model";
@@ -33,6 +33,17 @@ let prisma: PrismaClient;
 let redis: RedisClientType;
 let amqp: ChannelModel;
 let server: Agent;
+
+const testFare: Fare = {
+  requestId: "test-fare-request-id-123",
+  originLatitude: 40.7128,
+  originLongitude: -74.006,
+  destinationLatitude: 34.0522,
+  destinationLongitude: -118.2437,
+  datetime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
+  distanceInKm: 4500,
+  price: 2250.0,
+};
 
 beforeAll(async () => {
   [postgresDb, redisDb, rabbitDb] = await Promise.all([
@@ -63,17 +74,6 @@ beforeAll(async () => {
     await tripReceiptRepository.save(trip);
   });
 
-  const testFare: Fare = {
-    requestId: "test-fare-request-id-123",
-    originLatitude: 40.7128,
-    originLongitude: -74.006,
-    destinationLatitude: 34.0522,
-    destinationLongitude: -118.2437,
-    datetime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
-    distanceInKm: 4500,
-    price: 2250.0,
-  };
-
   await redis.set(testFare.requestId, JSON.stringify(testFare), {
     expiration: { type: "EX", value: TEST_TTL },
   });
@@ -91,6 +91,7 @@ afterAll(async () => {
   await rm(TEST_RECEIPT_DIR, { recursive: true, force: true });
 }, TEST_HOOK_TIMEOUT);
 
+// biome-ignore lint/complexity/noExcessiveLinesPerFunction: big describe
 describe("POST /trips", () => {
   test(
     "should create a trip, send notification to RabbitMQ, and create receipt file",
@@ -135,13 +136,47 @@ describe("POST /trips", () => {
     TEST_HOOK_TIMEOUT,
   );
 
-  test.each(createTrip.fail)("should fail on $spec", async ({ input, error, statusCode }) => {
-    const response = await server
-      .post("/trips")
-      .set("Content-Type", "application/json")
-      .send(JSON.stringify(input));
+  test.each(createTrip.fail.filter((t) => t.spec !== "no drivers available"))(
+    "should fail on $spec",
+    async ({ input, error, statusCode }) => {
+      const response = await server
+        .post("/trips")
+        .set("Content-Type", "application/json")
+        .send(JSON.stringify(input));
 
-    expect(response.status).toStrictEqual(statusCode);
-    expect(response.body).toStrictEqual(error);
-  });
+      expect(response.status).toStrictEqual(statusCode);
+      expect(response.body).toStrictEqual(error);
+    },
+  );
+
+  test(
+    "should fail when no drivers are available",
+    async () => {
+      // clear all drivers to simulate no drivers available
+      await clearDrivers(prisma);
+
+      // create new fare
+      await redis.set(testFare.requestId, JSON.stringify(testFare), {
+        expiration: { type: "EX", value: TEST_TTL },
+      });
+
+      const noDriversFixture = createTrip.fail.find((t) => t.spec === "no drivers available");
+      if (!noDriversFixture) {
+        throw new Error("No drivers available fixture not found");
+      }
+
+      const response = await server
+        .post("/trips")
+        .set("Content-Type", "application/json")
+        .send(JSON.stringify(noDriversFixture.input));
+
+      expect(response.status).toStrictEqual(noDriversFixture.statusCode);
+      expect(response.body).toStrictEqual(noDriversFixture.error);
+
+      // re-seed drivers for other tests that might run after
+      destroy(postgresDb.getConnectionUri());
+      await seed(prisma);
+    },
+    TEST_HOOK_TIMEOUT,
+  );
 });

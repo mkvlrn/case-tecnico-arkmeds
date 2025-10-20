@@ -52,3 +52,7 @@ export function init(url: string) {
 export function destroy(url: string) {
   execSync("prisma migrate reset --force", { env: { ...process.env, DATABASE_URL: url } });
 }
+
+export async function clearDrivers(prisma: PrismaClient) {
+  await prisma.driver.deleteMany({});
+}

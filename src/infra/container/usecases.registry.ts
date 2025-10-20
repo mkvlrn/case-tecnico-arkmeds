@@ -56,8 +56,8 @@ export function registerUseCases(container: AwilixContainer<AppContainer>) {
         new CreateFareUseCase(fareRepository, farePriceCalculator),
     ).scoped(),
     createTripUseCase: asFunction(
-      ({ passengerRepository, fareRepository, tripNotifier }: AppContainer) =>
-        new CreateTripUseCase(passengerRepository, fareRepository, tripNotifier),
+      ({ passengerRepository, driverRepository, fareRepository, tripNotifier }: AppContainer) =>
+        new CreateTripUseCase(passengerRepository, driverRepository, fareRepository, tripNotifier),
     ).scoped(),
   });
 }

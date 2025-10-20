@@ -8,6 +8,7 @@ import { TripAmqpConsumer } from "@/infra/amqp/trip.amqp-consume";
 
 const validTrip: Trip = {
   passengerId: "test-passenger-id",
+  driverId: "test-id",
   datetime: new Date("2024-01-01T10:00:00Z"),
   distanceInKm: 10.5,
   price: 25.75,

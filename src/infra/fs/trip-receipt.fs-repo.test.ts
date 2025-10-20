@@ -12,6 +12,7 @@ jest.unstable_mockModule("node:fs/promises", async () => ({
 
 const validTrip: Trip = {
   passengerId: "test-passenger-id",
+  driverId: "test-id",
   datetime: new Date("2024-01-15T14:30:45Z"),
   distanceInKm: 10.5,
   price: 25.75,

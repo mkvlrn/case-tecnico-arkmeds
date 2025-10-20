@@ -2,19 +2,27 @@
 
 <h2>Índice</h2>
 
+> ⚠️ **Notas Importantes**: Este projeto contém algumas decisões técnicas deliberadas e limitações de escopo. Recomendo ler a seção [Disclaimers](#disclaimers) para entender o contexto completo da implementação.
+
 - [Quick Start](#quickstart)
 - [Rodando o Projeto](#running)
   - [Live](#running_live)
   - [Localmente via Docker Compose](#running_compose)
 - [Desenvolvimento](#dev)
   - [Rodando em Dev](#dev_run)
-  - [Testes](#dev_test)
+  - [Executando testes](#dev_test)
 - [Projeto](#project)
   - [Estrutura](#project_structure)
+    - [Arquitetura Limpa](#project_structure_clean)
+    - [Monolito ao invés de Microsserviços](#project_structure_monolith)
   - [Tecnologias](#project_tech)
   - [Variáveis de Ambiente](#project_env)
   - [Requisitos Técnicos](#project_technical_requirements)
+    - [Arquitetura Limpa](#project_technical_requirements_clean)
+    - [Padrões de Projeto](#project_technical_requirements_patterns)
+    - [Testes](#project_technical_requirements_tests)
   - [Requisitos Funcionais](#project_functional_requirements)
+    - [Como funcionam internamente](#project_functional_requirements_internals)
 - [Disclaimers](#disclaimers)
   - [Domínio aparentemente "incompleto"](#disclaimers_domain)
   - [Operações sem Error Handling](#disclaimers_errors)
@@ -83,7 +91,7 @@ Imagens necessárias:
 | postgres                    | `18.0-alpine`  | _~106MB_            | _~280MB_         |
 | redis                       | `8.2.2-alpine` | _~26MB_             | _~71MB_          |
 | rabbitmq                    | `4.1.4-alpine` | _~78MB_             | _~160MB_         |
-| mkvlrn/case-tecnico-arkmeds | `latest`       | _~335MB_            | _~659MB_         |
+| mkvlrn/case-tecnico-arkmeds | `latest`       | _~590MB_            | _~661MB_         |
 
 Recomendo fazer pull antes de iniciar:
 
@@ -159,7 +167,7 @@ Coleção Insomnia: [insomnia.yaml](./insomnia.yaml)
 
 Listagem de recibos: http://localhost:4000/tmp
 
-<h3 id="dev_test">Testes <a href="#top" title="voltar ao topo">🔝</a></h3>
+<h3 id="dev_test">Executando testes <a href="#top" title="voltar ao topo">🔝</a></h3>
 
 Siga todos os passos de [Rodando em Dev](#dev_run) até a instalação de dependências, então:
 
@@ -175,7 +183,7 @@ E testes e2e junto aos anteriores:
 npm run test-e2e
 ```
 
-Mais detalhes sobre os testes em [Requisitos Técnicos](#project_technical_requirements_tests).
+Mais detalhes sobre os testes em [Testes](#project_technical_requirements_tests).
 
 ---
 
@@ -183,15 +191,15 @@ Mais detalhes sobre os testes em [Requisitos Técnicos](#project_technical_requi
 
 <h3 id="project_structure">Estrutura <a href="#top" title="voltar ao topo">🔝</a></h3>
 
-<h4 id="project_structure_clean">Arquitetura Limpa</h4>
+<h4 id="project_structure_clean">Arquitetura Limpa <a href="#top" title="voltar ao topo">🔝</a></h4>
 
-Acho que nunca vai existir um acordo entre desenvolvedores sobre como organizar o código, então espero que minha estrutura de diretórios faça sentido.
+Nunca vai existir um acordo completo entre desenvolvedores sobre como organizar código, mas a estrutura escolhida busca um equilíbrio entre simplicidade e clareza.
 
 É minimalista, se comparada com estruturas demonstradas em grandes cursos/tutoriais ou projetos corporativos, mas acho que consegui encontrar um bom equilíbrio entre simplicidade e organização.
 
-<h4 id="project_structure_monolith">Monolito ao invés de Microsserviços</h4>
+<h4 id="project_structure_monolith">Monolito ao invés de Microsserviços <a href="#top" title="voltar ao topo">🔝</a></h4>
 
-Até faria sentido separar a API e o processamento de trips, ainda mais por ser o tipo de arquitetura com que estou mais familiarizado. Mas um monolito é, principalmente para um teste desse tamanho, igualmente viável; possivelmente mais fácil de manter e de entender.
+Separar a API e o processamento de trips em microsserviços seria uma alternativa válida. Porém, um monolito é igualmente viável para um projeto deste tamanho, sendo possivelmente mais fácil de manter e entender.
 
 <h3 id="project_tech">Tecnologias <a href="#top" title="voltar ao topo">🔝</a></h3>
 
@@ -255,27 +263,36 @@ Se alguma variável não estiver definida, o projeto irá falhar ao iniciar.
 
 <h3 id="project_technical_requirements">Requisitos Técnicos <a href="#top" title="voltar ao topo">🔝</a></h3>
 
-<h4 id="project_technical_requirements_clean">Arquitetura Limpa</h4>
+<h4 id="project_technical_requirements_clean">Arquitetura Limpa <a href="#top" title="voltar ao topo">🔝</a></h4>
 
 Como [já descrito acima](#project_structure_clean), usei uma arquitetura limpa de acordo com meu conhecimento teórico e alguma experiência prática; não foram muitos os projetos onde clean arch foi usada, mas eu entendo muito bem o conceito e a importância dele.
 
-<h4 id="project_technical_requirements_patterns">Padrões de Projeto</h4>
+<h4 id="project_technical_requirements_patterns">Padrões de Projeto <a href="#top" title="voltar ao topo">🔝</a></h4>
 
-Alguns dos padrões que usei foram:
+**Padrões Criacionais:**
+
+- **Factory**: usado na função `createCrudRouter` que cria routers do express com configurações padronizadas e middlewares de validação aplicados automaticamente
+- **Singleton**: aplicado junto ao container de DI
+- **Dependency Injection / IoC Container**: implementado com awilix para configuração e gerenciamento de dependências em toda a aplicação
+
+**Padrões Estruturais:**
+
+- **Adapter**: implementado nos controllers base que adaptam use cases do domínio (lógica de negócio pura) para a interface http/express, e também para a interface de comunicação com o banco de dados
+- **Repository**: interfaces de repositório abstratas foram criadas, com implementações concretas para diferentes tecnologias de persistência
+
+**Padrões Comportamentais:**
 
 - **Strategy**: implementado no sistema de cálculo de tarifas com diferentes estratégias baseadas em horário e dia da semana
-- **Repository**: interfaces de repositório abstratas foram criadas, com implementações concretas para diferentes tecnologias de persistência
 - **Template Method**: implementado em classes base abstratas como `CreateUserBaseUseCase` que definem o fluxo algorítmico comum para operações CRUD de usuários, permitindo reutilização de lógica enquanto subclasses customizam partes específicas
-- **Factory**: usado na função `createCrudRouter` que cria routers do express com configurações padronizadas e middlewares de validação aplicados automaticamente
-- **Dependency Injection / IoC Container**: implementado com awilix para configuração e gerenciamento de dependências em toda a aplicação
-- **Singleton**: aplicado junto ao container de DI
-- **Observer**: implementado através da interface `TripNotifier` com implementação `TripAmqpPublish` para notificações assíncronas de criação de viagens via amqp
 - **Command**: usado nos use cases (`CreateTripUseCase`, `CreateFareUseCase`, etc.) que encapsulam comandos de negócio completos com validação e orquestração de dependências
-- **Adapter**: implementado nos controllers base que adaptam use cases do domínio (lógica de negócio pura) para a interface http/express, e também para a interface de comunicação com o banco de dados
-- **Result**: implementado um tipo `Result<T, E>` para tratamento de erros sem exceptions, propagando erros de forma segura e explícita em toda a aplicação, especialmente em use cases e repositórios; é _absolutamente_ a parte mais interessante de linguagens como rust e go (e programação funcional como um todo) que obrigatoriamente uso em _todos_ os meus projetos
+- **Observer**: implementado através da interface `TripNotifier` com implementação `TripAmqpPublish` para notificações assíncronas de criação de viagens via amqp
 - **Middleware**: usado na camada de API com middlewares express para validação, tratamento de erros e outras interceptações de requisições http de forma modular e componentizada
 
-<h4 id="project_technical_requirements_tests">Testes</h4>
+**Padrões de Tratamento de Erros:**
+
+- **Result**: implementado um tipo `Result<T, E>` para tratamento de erros sem exceptions, propagando erros de forma segura e explícita em toda a aplicação, especialmente em use cases e repositórios; é _absolutamente_ a parte mais interessante de linguagens como rust e go (e programação funcional como um todo) que obrigatoriamente uso em _todos_ os meus projetos
+
+<h4 id="project_technical_requirements_tests">Testes <a href="#top" title="voltar ao topo">🔝</a></h4>
 
 Testes unitários e de integração foram escritos para todos os use cases, repositórios e controllers, além de testes de integração e e2e para a API.
 
@@ -326,6 +343,22 @@ Além disso, os endpoints para documentação, spec OpenAPI, e listagem do diret
 - `GET /openapi.json`
 - `GET /tmp`
 
+<h4 id="project_functional_requirements_internals">Como funcionam internamente <a href="#top" title="voltar ao topo">🔝</a></h4>
+
+**CRUD de Drivers e Passengers:**
+
+Ambas as entidades seguem o padrão CRUD completo com validação de dados via Zod schemas. CPFs são validados e não podem ser duplicados. Drivers devem ter pelo menos 18 anos e passengers pelo menos 15 anos. Todas as operações de listagem são paginadas (10 itens por página) e os dados são persistidos no PostgreSQL via Prisma ORM.
+
+**Criação de Fares:**
+
+O sistema calcula o preço baseado na distância, horário e dia da semana, gerando um `requestId` único. A fare fica armazenada temporariamente no Redis com TTL configurável (padrão 5 minutos).
+
+**Criação de Trips:**
+
+Ao criar uma viagem, o sistema valida se o passageiro e a fare existem, então **seleciona aleatoriamente um motorista disponível** do banco de dados. Se não houver motoristas cadastrados, retorna erro 503. A trip é criada com os dados da fare e o motorista selecionado, **a fare é removida do cache para evitar reutilização**, e um recibo é gerado assincronamente via message broker.
+
+_Nota: a seleção de motorista é completamente aleatória (`ORDER BY RANDOM()`) - não há lógica de proximidade geográfica real implementada._
+
 ---
 
 <h2 id="disclaimers">Disclaimers <a href="#top" title="voltar ao topo">🔝</a></h2>
@@ -340,7 +373,7 @@ A notificação da criação de trips é "fire and forget" deliberadamente. O re
 
 <h3 id="disclaimers_tech">Uso de Tecnologia <a href="#top" title="voltar ao topo">🔝</a></h3>
 
-Como havia informado na conversa técnica, faz anos que uso Express "puro" numa aplicação; NestJS é o que eu domino, mas é bem simples visualizar a coisa usando Express diretamente.
+Faz anos que não uso Express diretamente em aplicações; NestJS tem sido a escolha usual. Porém, a transição foi direta dada a similaridade entre os frameworks.
 
 Mas acontece que há algumas outras tecnologias que eu realmente não uso há muito tempo: Jest sendo a principal. Tenho usado Vitest desde sempre, e como a API de utilização é extremamente igual, vi como um upgrade, assim como muitos outros devs. Então confesso que tive uma certa dificuldade em configurar (não em usar, o uso foi 99% idêntico ao uso de Vitest) o projeto para funcionar com TypeScript e ESM. Mas funcionou, no fim.
 
@@ -354,5 +387,3 @@ Finalmente, acho que devo informar que fiz uso de LLM em dois pontos:
 Como podem ver pelo tamanho dos arquivos em questão, eu decidi acionar os robôs para me ajudarem a completar essas tarefas. TODOS os fixtures e TODA a documentação OpenAPI foram conferidos e ajustados, então não há absolutamente nada no projeto que eu não saiba o motivo ou como foi implementado.
 
 Realmente não sou fã do uso de AI para tarefas de pensamento crítico e criação de lógica - mas negar que é útil para criação de boilerplate repetitivo (como no caso dos fixtures ou do spec OpenAPI) é um erro.
-
-Obrigado!
